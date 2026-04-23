@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spiro Creatives — Strategy. Production. Delivery.</title>
+
+  <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=chillax@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Tokens ─────────────────────────────────────────────────── */
+    :root {
+      --orange:       #f5ac45;
+      --red:          #c03628;
+      --font-display: 'Chillax', system-ui, sans-serif;
+      --font-body:    'General Sans', system-ui, sans-serif;
+      --max-wide:     1200px;
+      --space-side:   80px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary:     #1a1a1a;
+      --bg-secondary:   #242424;
+      --bg-tertiary:    #2e2e2e;
+      --text-primary:   #f5f1ea;
+      --text-secondary: rgba(245, 241, 234, 0.65);
+      --text-muted:     rgba(245, 241, 234, 0.35);
+      --divider:        rgba(245, 241, 234, 0.08);
+      --overlay:        rgba(26, 26, 26, 0.82);
+      --nav-bg:         #1a1a1a;
+      --nav-link:       rgba(245, 241, 234, 0.75);
+      --nav-link-hover: #f5f1ea;
+      --nav-wordmark:   #f5f1ea;
+      --footer-bg:      #000000;
+      --tagline-bg:     #1a1a1a;
+      --tagline-text:   rgba(245, 241, 234, 0.45);
+    }
+
+    [data-theme="light"] {
+      --bg-primary:     #f5f1ea;
+      --bg-secondary:   #ece6dc;
+      --bg-tertiary:    #e0d9ce;
+      --text-primary:   #1a1a1a;
+      --text-secondary: rgba(26, 26, 26, 0.70);
+      --text-muted:     rgba(26, 26, 26, 0.40);
+      --divider:        rgba(26, 26, 26, 0.10);
+      --overlay:        rgba(26, 26, 26, 0.75);
+      --nav-bg:         #f5f1ea;
+      --nav-link:       rgba(26, 26, 26, 0.65);
+      --nav-link-hover: #1a1a1a;
+      --nav-wordmark:   #1a1a1a;
+      --footer-bg:      #1a1a1a;
+      --tagline-bg:     #f5f1ea;
+      --tagline-text:   rgba(26, 26, 26, 0.45);
+    }
+
+    /* ── Reset ──────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: 
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+    }
+
+    .hero-section,
+    .hero-section *,
+    .hero,
+    .hero *,
+    .site-footer,
+    .site-footer *,
+    .footer,
+    .footer * {
+      transition: none !important;
+    }
+
+    .reveal,
+    .line-inner,
+    .theme-toggle .toggle-circle {
+      transition: 
+        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.3s ease !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Animation system ──────────────────────────────────────── */
+
+    /* Line reveal */
+    .line-wrap {
+      display: block;
+      overflow: hidden;
+    }
+    .line-inner {
+      display: block;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: transform 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity   1.0s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .line-inner.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Nav fade */
+    .nav-anim {
+      opacity: 0;
+      transition: opacity 0.6s ease-out;
+    }
+    .nav-anim.is-visible {
+      opacity: 1;
+    }
+
+    /* Scroll reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity   0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Reduced motion: everything instant */
+    @media (prefers-reduced-motion: reduce) {
+      .hero__overlay {
+        background: var(--overlay) !important;
+        transition: none !important;
+      }
+      .line-inner,
+      .hero__subline,
+      .nav-anim,
+      .reveal {
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+    }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* 1. TAGLINE BAR                                              */
+    /* ════════════════════════════════════════════════════════════ */
+    .tagline-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 32px;
+      background: var(--tagline-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .tagline-bar__mark {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      /* Two-tone placeholder: orange left half, red right half */
+      background: conic-gradient(var(--orange) 0deg 180deg, var(--red) 180deg 360deg);
+      flex-shrink: 0;
+    }
+
+    .tagline-bar__text {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: var(--tagline-text);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* 2. NAVIGATION                                               */
+    /* ════════════════════════════════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 99;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    /* Wordmark */
+    .nav__wordmark {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      padding: 8px 0;
+    }
+
+    .nav-logo {
+      height: 120px;
+      width: auto;
+      display: block;
+    }
+
+    [data-theme="dark"]  .nav-logo--light { display: none; }
+    [data-theme="light"] .nav-logo--dark  { display: none; }
+
+    /* Centre links */
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav__links a {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--nav-link);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav__links a:hover {
+      color: var(--nav-link-hover);
+    }
+
+    /* CTA */
+    .nav__cta {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--orange);
+      border: none;
+      padding: 0;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav__cta:hover {
+      opacity: 0.75;
+    }
+
+    /* Hamburger (mobile only) */
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .nav__hamburger span {
+      display: block;
+      width: 100%;
+      height: 1.5px;
+      background: var(--text-primary);
+      border-radius: 1px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+
+    /* Mobile overlay nav */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg-primary);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .nav-overlay.open {
+      display: flex;
+    }
+
+    .nav-overlay a {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-overlay__close {
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      font-size: 28px;
+      color: var(--text-primary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      font-family: var(--font-body);
+    }
+
+    .nav-overlay__cta {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--text-primary);
+      border: 1px solid var(--divider);
+      padding: 12px 32px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* 3. HERO SECTION                                            */
+    /* ════════════════════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 95vh;
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    /* Video layer (placeholder until real video is ready) */
+    .hero__video-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: var(--bg-primary);
+    }
+
+    .hero__video-bg video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* Hero text always white regardless of theme */
+    .hero * { color: #f5f1ea !important; }
+    .hero .hero__subline { color: rgba(245, 241, 234, 0.7) !important; }
+
+    /* Overlay — starts fully opaque dark, fades to theme overlay on load */
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(26, 26, 26, 1);
+      transition: background 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero__overlay.is-revealed {
+      background: var(--overlay);
+    }
+
+    /* Content */
+    .hero__content {
+      position: absolute;
+      bottom: 22vh;
+      left: 80px;
+      right: 80px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .hero__headline {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      max-width: 900px;
+    }
+
+    .hero__subline {
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.6;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity   0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero__subline.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* THEME TOGGLE                                               */
+    /* ════════════════════════════════════════════════════════════ */
+    .theme-toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      border: 1px solid;
+      cursor: pointer;
+      padding: 0;
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .theme-toggle {
+      background: #333333;
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    [data-theme="light"] .theme-toggle {
+      background: #d9d3c8;
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .theme-toggle__circle {
+      position: absolute;
+      top: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+    }
+
+    [data-theme="dark"] .theme-toggle__circle {
+      background: var(--orange);
+      transform: translateX(22px);
+      color: #1a1a1a;
+    }
+
+    [data-theme="light"] .theme-toggle__circle {
+      background: #1a1a1a;
+      transform: translateX(2px);
+      color: #d9d3c8;
+    }
+
+    .theme-toggle__icon-moon,
+    .theme-toggle__icon-sun { display: none; }
+    [data-theme="dark"]  .theme-toggle__icon-moon { display: block; }
+    [data-theme="light"] .theme-toggle__icon-sun  { display: block; }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* RESPONSIVE                                                  */
+    /* ════════════════════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+      /* Tagline bar: hide text, keep mark */
+      .tagline-bar__text {
+        display: none;
+      }
+
+      .tagline-bar {
+        justify-content: flex-start;
+      }
+
+      /* Nav: hide centre links, show hamburger */
+      .nav__links {
+        display: none;
+      }
+
+      .nav__cta {
+        display: none;
+      }
+
+      .nav__hamburger {
+        display: flex;
+      }
+
+      .hero__content {
+        left: 24px;
+        right: 24px;
+        bottom: 20vh;
+      }
+
+      .hero__headline {
+        font-size: clamp(2rem, 7vw, 2.75rem);
+      }
+
+      .hero__subline {
+        font-size: 16px;
+      }
+    }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* FOOTER                                                     */
+    /* ════════════════════════════════════════════════════════════ */
+    .footer,
+    .footer * {
+      --text-primary: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer {
+      background: var(--footer-bg);
+      border-top: 3px solid var(--orange);
+    }
+
+    /* Section 1 — massive wordmark */
+    .footer__wordmark-block {
+      width: 100%;
+      overflow: hidden;
+      padding: 40px 56px 32px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .footer__big-wordmark {
+      font-family: 'Chillax', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 9.5vw, 12rem);
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      line-height: 0.9;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    /* Section 2 — columns */
+    .footer__cols-wrap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      padding: 60px 56px;
+    }
+
+    .footer__col-heading {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 15px;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .footer__city {
+      font-family: 'Chillax', system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .footer__time {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 12px;
+    }
+
+    .footer__email {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 15px;
+      color: #ffffff;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer__email:hover {
+      opacity: 0.7;
+    }
+
+    .footer__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer__links a {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer__links a:hover {
+      color: #ffffff;
+    }
+
+    /* Divider */
+    .footer__divider {
+      display: none;
+    }
+
+    /* Section 3 — bottom bar */
+    .footer__bottom-wrap {
+      padding: 32px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    [data-theme="dark"] .footer__bottom-wrap {
+      background: #000000;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    [data-theme="light"] .footer__bottom-wrap {
+      background: #1a1a1a;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer__social-icons {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .footer__social-icons a {
+      color: #ffffff;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer__social-icons a:hover {
+      opacity: 1;
+    }
+
+    .footer__social-icons svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .footer__right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .footer__copy {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    @media (max-width: 767px) {
+      /* Pause video on mobile, show poster */
+      .hero__video-bg video {
+        display: none;
+      }
+      .hero__video-bg {
+        background: url('assets/img/hero-poster.jpg') center/cover no-repeat;
+      }
+
+      /* Footer mobile */
+      .footer__wordmark-block { padding: 32px 24px 24px; }
+      .footer__cols-wrap { grid-template-columns: 1fr 1fr; gap: 40px; padding: 48px 24px; }
+      .footer__bottom-wrap { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 24px; }
+      .footer__right { align-items: flex-start; gap: 16px; }
+    }
+
+    /* Light Mode Footer Overrides */
+    [data-theme="light"] .footer {
+      background: #f5f1ea !important;
+    }
+
+    [data-theme="light"] .footer .footer__big-wordmark {
+      color: #1a1a1a !important;
+    }
+
+    [data-theme="light"] .footer .footer__cols-wrap,
+    [data-theme="light"] .footer .footer__bottom-wrap {
+      background: #f5f1ea !important;
+    }
+
+    [data-theme="light"] .footer a,
+    [data-theme="light"] .footer p,
+    [data-theme="light"] .footer span,
+    [data-theme="light"] .footer div {
+      color: rgba(26, 26, 26, 0.70) !important;
+    }
+
+    [data-theme="light"] .footer .footer__col-heading {
+      color: #1a1a1a !important;
+    }
+
+    [data-theme="light"] .footer .footer__bottom-wrap {
+      border-top-color: rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* FEATURED WORK                                               */
+    /* ════════════════════════════════════════════════════════════ */
+    .featured-work {
+      background: var(--bg-primary);
+    }
+
+    /* Section header */
+    .featured-work__header {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 120px 56px 60px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .featured-work__header-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-work__label {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: var(--orange);
+    }
+
+    .featured-work__heading {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--text-primary);
+      margin-top: 16px;
+    }
+
+    .featured-work__see-all {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--orange);
+      text-decoration: none;
+      white-space: nowrap;
+      position: relative;
+      padding-bottom: 2px;
+      flex-shrink: 0;
+    }
+
+    .featured-work__see-all::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: var(--orange);
+      transition: width 0.3s ease;
+    }
+
+    .featured-work__see-all:hover::after {
+      width: 100%;
+    }
+
+    /* Grid */
+    .featured-work__grid {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 0 56px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .featured-work__row {
+      display: grid;
+      gap: 24px;
+    }
+
+    .featured-work__row--1 {
+      grid-template-columns: 65fr 35fr;
+    }
+
+    .featured-work__row--2 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Card */
+    .work-card {
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .work-card__media {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .work-card__media img,
+    .work-card__media .work-card__placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .work-card:hover .work-card__media img,
+    .work-card:hover .work-card__media .work-card__placeholder {
+      transform: scale(1.04);
+    }
+
+    .work-card__placeholder {
+      width: 100%;
+    }
+
+    .work-card--large .work-card__media {
+      aspect-ratio: 16 / 9;
+    }
+
+    .work-card--tall .work-card__media {
+      aspect-ratio: 4 / 5;
+    }
+
+    .work-card--square .work-card__media {
+      aspect-ratio: 16 / 9;
+    }
+
+    /* Hover overlay */
+    .work-card__hover {
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 26, 26, 0.75);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .work-card:hover .work-card__hover {
+      opacity: 1;
+    }
+
+    .work-card__hover-label {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: #f5f1ea;
+      letter-spacing: -0.01em;
+    }
+
+    /* Info bar */
+    .work-card__info {
+      padding: 16px 0 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .work-card__info-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .work-card__client {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--orange);
+    }
+
+    .work-card__title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .work-card__pill {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--orange);
+      border: 1px solid var(--orange);
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* Slideshow */
+    .slideshow-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .slideshow-slide--active {
+      opacity: 1;
+    }
+    #assembly-slideshow {
+      position: relative;
+    }
+    #assembly-slideshow::after {
+      content: '';
+      display: block;
+      aspect-ratio: 16 / 9;
+    }
+
+    /* Stagger delays */
+    .work-card:nth-child(1) { transition-delay: 0s; }
+    .work-card:nth-child(2) { transition-delay: 0.1s; }
+
+    @media (max-width: 767px) {
+      .featured-work__header {
+        padding: 80px 24px 48px;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .featured-work__grid {
+        padding: 0 24px 80px;
+      }
+      .featured-work__row--1,
+      .featured-work__row--2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- ── Navigation ─────────────────────────────────────────── -->
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/" class="nav__wordmark nav-anim" aria-label="Spiro Creatives home">
+      <img src="assets/svg/SPIRO BRANGING-18.png" alt="Spiro Creatives" class="nav-logo nav-logo--dark">
+      <img src="assets/svg/SPIRO BRANGING-17.png" alt="Spiro Creatives" class="nav-logo nav-logo--light">
+    </a>
+
+    <ul class="nav__links" role="list">
+      <li class="nav-anim"><a href="work.html">Work</a></li>
+      <li class="nav-anim"><a href="services.html">Services</a></li>
+      <li class="nav-anim"><a href="about.html">About</a></li>
+      <li class="nav-anim"><a href="journal.html">Journal</a></li>
+    </ul>
+
+    <div class="nav__right">
+      <a href="#" class="nav__cta nav-anim" data-panel="contact" role="button">Let&rsquo;s talk</a>
+
+
+      <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Mobile Nav Overlay ─────────────────────────────────── -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="nav-overlay__close" aria-label="Close menu">&times;</button>
+    <a href="work.html">Work</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="journal.html">Journal</a>
+    <a href="#" class="nav-overlay__cta" data-panel="contact">Let&rsquo;s talk</a>
+  </div>
+
+  <!-- ── Hero ───────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Hero">
+
+    <!-- Video background -->
+    <div class="hero__video-bg" aria-hidden="true">
+      <video autoplay muted loop playsinline poster="assets/img/hero-poster.jpg">
+        <source src="assets/video/Spiro%20Creatives%20%E2%80%93%20Video%20content%20production.mov">
+      </video>
+    </div>
+
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <h1 class="hero__headline">
+        <div class="line-wrap"><div class="line-inner">We make the work that</div></div>
+        <div class="line-wrap"><div class="line-inner">makes your brand unforgettable.</div></div>
+      </h1>
+      <p class="hero__subline">
+        A creative production studio for brands ready to be seen.&nbsp;<br>
+        Strategy, production, and delivery&nbsp;&mdash; one team, nothing outsourced.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ── Featured Work ────────────────────────────────────── -->
+  <section class="featured-work" aria-label="Featured work">
+
+    <div class="featured-work__header">
+      <div class="featured-work__header-left">
+        <span class="featured-work__label">Selected work</span>
+        <h2 class="featured-work__heading">Work that speaks<br>for itself.</h2>
+      </div>
+      <a href="work.html" class="featured-work__see-all">See all work &rarr;</a>
+    </div>
+
+    <div class="featured-work__grid">
+
+      <!-- Row 1 -->
+      <div class="featured-work__row featured-work__row--1">
+
+        <!-- Card 1 — large -->
+        <div class="work-card work-card--large reveal" style="transition-delay: 0s">
+          <div class="work-card__media" id="assembly-slideshow">
+            <img src="assets/img/Assembly/DSC05314-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:16/9;">
+            <img src="assets/img/Assembly/DSC05319-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;">
+            <img src="assets/img/Assembly/DSC05334-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;">
+            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__info-left">
+              <span class="work-card__client">Assembly Coffee</span>
+              <span class="work-card__title">The morning ritual</span>
+            </div>
+            <span class="work-card__pill">Social Content</span>
+          </div>
+        </div>
+
+        <!-- Card 2 — tall -->
+        <div class="work-card work-card--tall reveal" style="transition-delay: 0.1s">
+          <div class="work-card__media">
+            <div class="work-card__placeholder" style="background:#1a2e1a; aspect-ratio:4/5;"></div>
+            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__info-left">
+              <span class="work-card__client">Sorrel</span>
+              <span class="work-card__title">A restaurant finds its voice</span>
+            </div>
+            <span class="work-card__pill">Brand Film</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Row 2 -->
+      <div class="featured-work__row featured-work__row--2">
+
+        <!-- Card 3 -->
+        <div class="work-card work-card--square reveal" style="transition-delay: 0.2s">
+          <div class="work-card__media">
+            <div class="work-card__placeholder" style="background:#1a1a2e; aspect-ratio:16/9;"></div>
+            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__info-left">
+              <span class="work-card__client">Cezara Hertanu</span>
+              <span class="work-card__title">A personal brand, built to last</span>
+            </div>
+            <span class="work-card__pill">Photography</span>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="work-card work-card--square reveal" style="transition-delay: 0.3s">
+          <div class="work-card__media">
+            <div class="work-card__placeholder" style="background:#2e1a1a; aspect-ratio:16/9;"></div>
+            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
+          </div>
+          <div class="work-card__info">
+            <div class="work-card__info-left">
+              <span class="work-card__client">Clubhouse PT</span>
+              <span class="work-card__title">Strength looks like this</span>
+            </div>
+            <span class="work-card__pill">Brand Film</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────────── -->
+  <footer class="footer" aria-label="Site footer">
+
+    <!-- Section 1 — massive wordmark -->
+    <div class="footer__wordmark-block">
+      <div class="footer__big-wordmark" aria-label="Spiro Creatives">SPIRO CREATIVES</div>
+    </div>
+
+    <!-- Section 2 — four columns -->
+    <div class="footer__cols-wrap">
+
+      <!-- London -->
+      <div class="footer__col">
+        <div class="footer__city">London</div>
+        <div class="footer__time live-time" aria-live="polite"></div>
+        <a href="mailto:hello@spirocreatives.com" class="footer__email">hello@spirocreatives.com</a>
+      </div>
+
+      <!-- Guildford -->
+      <div class="footer__col">
+        <div class="footer__city">Guildford</div>
+        <div class="footer__time live-time" aria-live="polite"></div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="footer__col">
+        <div class="footer__col-heading">Quick links</div>
+        <ul class="footer__links" role="list">
+          <li><a href="work.html">Work</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="#" data-panel="contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Other links -->
+      <div class="footer__col">
+        <div class="footer__col-heading">Other links</div>
+        <ul class="footer__links" role="list">
+          <li><a href="https://instagram.com/spirocreatives" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://linkedin.com/company/spirocreatives" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://vimeo.com/spirocreatives" target="_blank" rel="noopener">Vimeo</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr class="footer__divider" aria-hidden="true">
+
+    <!-- Section 3 — bottom bar -->
+    <div class="footer__bottom-wrap">
+      <div class="footer__social-icons">
+        <a href="https://instagram.com/spirocreatives" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://linkedin.com/company/spirocreatives" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://vimeo.com/spirocreatives" target="_blank" rel="noopener" aria-label="Vimeo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 7.42c-.09 2.04-1.52 4.83-4.28 8.37C14.88 19.5 12.5 21.27 10.5 21.27c-1.2 0-2.22-1.11-3.04-3.33l-1.66-6.09C5.13 9.63 4.46 8.52 3.74 8.52c-.16 0-.71.33-1.66.98l-1-.3c1.04-1.17 2.1-2.3 3.13-3.4 1.41-1.22 2.47-1.86 3.18-1.9 1.67-.16 2.7.98 3.09 3.42.42 2.62.71 4.25.87 4.9.48 2.18 1.01 3.27 1.59 3.27.45 0 1.12-.71 2.03-2.13.9-1.42 1.38-2.5 1.44-3.25.13-1.23-.35-1.85-1.44-1.85-.51 0-1.04.12-1.59.35.95-3.29 2.77-4.9 5.45-4.82.71.02 1.25.23 1.66.64z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@spirocreatives" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        </a>
+        <a href="https://youtube.com/@spirocreatives" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.6 12 3.6 12 3.6s-7.54 0-9.38.45A3.02 3.02 0 0 0 .5 6.19C.06 8.04 0 12 0 12s.06 3.96.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.46 20.4 12 20.4 12 20.4s7.54 0 9.38-.45a3.02 3.02 0 0 0 2.12-2.14C23.94 15.96 24 12 24 12s-.06-3.96-.5-5.81zM9.75 15.52V8.48L15.82 12l-6.07 3.52z"/></svg>
+        </a>
+      </div>
+      <div class="footer__right">
+        <button class="theme-toggle" aria-label="Toggle colour mode" type="button">
+          <span class="theme-toggle__circle">
+            <svg class="theme-toggle__icon-moon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="theme-toggle__icon-sun" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </span>
+        </button>
+        <span class="footer__copy">&copy; Spiro Creatives 2026</span>
+      </div>
+    </div>
+
+  </footer>
+
+  <script>
+    // ── Theme toggle ─────────────────────────────────────────────
+    (function () {
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        
+        // Get toggle position in the footer
+        const btn = document.querySelector('.theme-toggle');
+        const rect = btn.getBoundingClientRect();
+        const x = Math.round(rect.left + rect.width / 2);
+        const y = Math.round(rect.top + rect.height / 2);
+        
+        // New theme background colour
+        const newBg = next === 'dark' ? '#1a1a1a' : '#f5f1ea';
+        
+        // Create the expanding circle overlay
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+          position: fixed;
+          inset: 0;
+          z-index: 99999;
+          pointer-events: none;
+          background: ${newBg};
+          clip-path: circle(0px at ${x}px ${y}px);
+          will-change: clip-path;
+        `;
+        document.body.appendChild(overlay);
+        
+        // Force reflow so transition registers
+        overlay.getBoundingClientRect();
+        
+        // Start expanding
+        overlay.style.transition = 'clip-path 0.7s cubic-bezier(0.76, 0, 0.24, 1)';
+        overlay.style.clipPath = `circle(200vmax at ${x}px ${y}px)`;
+        
+        // Switch theme at the halfway point
+        setTimeout(() => {
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('spiro-theme', next);
+        }, 350);
+        
+        // Remove overlay after animation completes
+        setTimeout(() => {
+          overlay.remove();
+        }, 720);
+      }
+
+      var btn = document.querySelector('.theme-toggle');
+      if (btn) btn.addEventListener('click', toggleTheme);
+    }());
+
+    // ── Live clock ───────────────────────────────────────────────
+    (function () {
+      function updateClock() {
+        var now = new Date();
+        var time = now.toLocaleString('en-GB', {
+          weekday: 'short',
+          day: '2-digit',
+          month: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Europe/London',
+          hour12: true
+        });
+        document.querySelectorAll('.live-time').forEach(function (el) {
+          el.textContent = time;
+        });
+      }
+      updateClock();
+      setInterval(updateClock, 60000);
+    }());
+
+    // ── Nav scroll state ─────────────────────────────────────────
+    (function () {
+      var nav = document.querySelector('.nav');
+
+      function onScroll() {
+        if (window.scrollY > 40) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll(); // run once on load
+    }());
+
+    // ── Mobile hamburger ─────────────────────────────────────────
+    (function () {
+      var hamburger = document.querySelector('.nav__hamburger');
+      var overlay   = document.getElementById('nav-overlay');
+      var closeBtn  = overlay.querySelector('.nav-overlay__close');
+
+      function openMenu() {
+        overlay.classList.add('open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        overlay.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      hamburger.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
+
+      // Close on overlay link click
+      overlay.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+    }());
+
+    // ── Hero load animations ─────────────────────────────────────
+    (function () {
+      // Step 1 — overlay fade from black (0s)
+      var overlay = document.querySelector('.hero__overlay');
+      if (overlay) {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            overlay.classList.add('is-revealed');
+          });
+        });
+      }
+
+      // Step 4 — nav items (0.2s base, 0.08s stagger)
+      var navItems = document.querySelectorAll('.nav-anim');
+      navItems.forEach(function (el, i) {
+        el.style.transitionDelay = (0.2 + i * 0.08) + 's';
+      });
+
+      // Step 2 — headline lines (0.4s base, 0.12s stagger)
+      var lines = document.querySelectorAll('.line-inner');
+      lines.forEach(function (el, i) {
+        el.style.transitionDelay = (0.4 + i * 0.12) + 's';
+      });
+
+      // Step 3 — subline (0.8s)
+      var subline = document.querySelector('.hero__subline');
+      if (subline) { subline.style.transitionDelay = '0.8s'; }
+
+      // Trigger all in one frame
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          navItems.forEach(function (el) { el.classList.add('is-visible'); });
+          lines.forEach(function (el) { el.classList.add('is-visible'); });
+          if (subline) { subline.classList.add('is-visible'); }
+        });
+      });
+    }());
+
+    // ── Scroll reveals ───────────────────────────────────────────
+    (function () {
+      var reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length || !window.IntersectionObserver) return;
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      reveals.forEach(function (el) { observer.observe(el); });
+    }());
+
+    // ── Pause video on mobile ────────────────────────────────────
+    (function () {
+      var video = document.querySelector('.hero__video-bg video');
+      if (!video) return;
+
+      function handleVideo() {
+        if (window.innerWidth <= 767) {
+          video.pause();
+        } else {
+          var p = video.play();
+          if (p !== undefined) {
+            p.catch(function(e){});
+          }
+        }
+      }
+
+      window.addEventListener('resize', handleVideo, { passive: true });
+      handleVideo();
+    }());
+
+    // Assembly Coffee slideshow
+    (function() {
+      var slides = document.querySelectorAll('#assembly-slideshow .slideshow-slide');
+      if (!slides.length) return;
+      var current = 0;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      setInterval(function() {
+        slides[current].classList.remove('slideshow-slide--active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('slideshow-slide--active');
+      }, 3000);
+    }());
+  </script>
+
+</body>
+</html>
