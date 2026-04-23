@@ -819,6 +819,17 @@
 
     .featured-work__row--1 {
       grid-template-columns: 65fr 35fr;
+      align-items: stretch;
+    }
+
+    .featured-work__row--1 .work-card {
+      height: 100%;
+    }
+
+    .featured-work__row--1 .work-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .featured-work__row--2 {
@@ -898,7 +909,7 @@
 
     /* Info bar */
     .work-card__info {
-      padding: 16px 0 0;
+      padding: 20px 0 0 0;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -981,6 +992,130 @@
       .featured-work__row--1,
       .featured-work__row--2 {
         grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Services Strip (Gusto Layout) ─────────────────────── */
+    .services-strip {
+      background: #f5ac45;
+      padding-bottom: 120px;
+    }
+
+    .services-header {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: rgba(26,26,26,0.5);
+      display: block;
+      max-width: var(--max-wide);
+      margin: 0 auto 80px;
+      padding: 120px 56px 0;
+    }
+
+    .services-inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 0 56px;
+    }
+
+    .services-row {
+      border-top: 6px solid #1a1a1a;
+      padding: 64px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      text-decoration: none;
+    }
+
+    .services-row:last-child {
+      padding-bottom: 0;
+    }
+
+    .services-row__left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .services-row__number {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: rgba(26,26,26,0.5);
+      margin-bottom: 20px;
+    }
+
+    .services-row__name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2.5rem, 4.5vw, 4.25rem);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: #1a1a1a;
+    }
+
+    .services-row__right {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .services-row__desc {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.5;
+      max-width: 480px;
+      color: #1a1a1a;
+      margin-bottom: 32px;
+    }
+
+    .services-row__cta {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 14px;
+      color: #1a1a1a;
+      position: relative;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .services-row__cta::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 1px;
+      background: #1a1a1a;
+      transition: width 0.3s ease;
+    }
+
+    .services-row:hover .services-row__cta::after {
+      width: 100%;
+    }
+
+    @media (max-width: 767px) {
+      .services-strip {
+        padding-bottom: 80px;
+      }
+      .services-header {
+        padding: 80px 24px 0;
+        margin: 0 auto 48px;
+      }
+      .services-inner {
+        padding: 0 24px;
+      }
+      .services-row {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 32px 0;
+      }
+      .services-row__desc {
+        margin-bottom: 24px;
       }
     }
   </style>
@@ -1136,6 +1271,46 @@
 
     </div>
 
+  </section>
+
+  <!-- ── Services Strip ──────────────────────────────────────── -->
+  <section class="services-strip" aria-label="Services">
+    <div class="services-header">OUR SERVICES</div>
+
+    <div class="services-inner">
+      <a href="services.html" class="services-row reveal" style="transition-delay: 0s">
+        <div class="services-row__left">
+          <span class="services-row__number">001</span>
+          <span class="services-row__name">Content Production</span>
+        </div>
+        <div class="services-row__right">
+          <p class="services-row__desc">From brief to final cut, we handle everything in-house. Brand films, campaigns, and social content that actually moves people.</p>
+          <span class="services-row__cta">See the work &rarr;</span>
+        </div>
+      </a>
+
+      <a href="services.html" class="services-row reveal" style="transition-delay: 0.15s">
+        <div class="services-row__left">
+          <span class="services-row__number">002</span>
+          <span class="services-row__name">Social Content System</span>
+        </div>
+        <div class="services-row__right">
+          <p class="services-row__desc">A monthly content engine for your brand. Shoot days, strategy, editing, and delivery &mdash; one retainer, no gaps in the feed.</p>
+          <span class="services-row__cta">See the work &rarr;</span>
+        </div>
+      </a>
+
+      <a href="services.html" class="services-row reveal" style="transition-delay: 0.3s">
+        <div class="services-row__left">
+          <span class="services-row__number">003</span>
+          <span class="services-row__name">Websites &amp; Visibility</span>
+        </div>
+        <div class="services-row__right">
+          <p class="services-row__desc">A digital home built to match the quality of your content. Designed to impress, built to convert.</p>
+          <span class="services-row__cta">See the work &rarr;</span>
+        </div>
+      </a>
+    </div>
   </section>
 
   <!-- ── Footer ────────────────────────────────────────────── -->
