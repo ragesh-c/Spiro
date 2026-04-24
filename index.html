@@ -562,6 +562,9 @@
       line-height: 0.9;
       white-space: nowrap;
       text-align: center;
+      will-change: transform, opacity;
+      transform: translateY(100%);
+      opacity: 0;
     }
 
     /* Section 2 — columns */
@@ -1004,7 +1007,7 @@
     .services-header {
       font-family: var(--font-body);
       font-weight: 600;
-      font-size: 24px;
+      font-size: 26px;
       text-transform: uppercase;
       letter-spacing: 0.10em;
       color: rgba(26,26,26,0.5);
@@ -1028,6 +1031,10 @@
       gap: 64px;
       align-items: start;
       text-decoration: none;
+    }
+
+    .services-row:first-child {
+      border-top: none;
     }
 
     .services-row:last-child {
@@ -1116,6 +1123,53 @@
       }
       .services-row__desc {
         margin-bottom: 24px;
+      }
+    }
+    /* ── Spiro Difference ──────────────────────────────────────── */
+    .spiro-difference {
+      padding: 120px 0;
+    }
+
+    [data-theme="dark"]  .spiro-difference { background: #1a1a1a; }
+    [data-theme="light"] .spiro-difference { background: #f5f1ea; }
+
+    .spiro-difference__inner {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 0 56px;
+      text-align: left;
+    }
+
+    .spiro-difference__label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #f5ac45;
+      display: block;
+      margin-bottom: 32px;
+    }
+
+    .spiro-difference__copy {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 28px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      max-width: 720px;
+      margin: 0;
+    }
+
+    @media (max-width: 767px) {
+      .spiro-difference {
+        padding: 80px 0;
+      }
+      .spiro-difference__inner {
+        padding: 0 24px;
+      }
+      .spiro-difference__copy {
+        font-size: 22px;
       }
     }
   </style>
@@ -1310,6 +1364,14 @@
           <span class="services-row__cta">See the work &rarr;</span>
         </div>
       </a>
+    </div>
+  </section>
+
+  <!-- ── Spiro Difference ────────────────────────────────────── -->
+  <section class="spiro-difference" aria-label="The Spiro Difference">
+    <div class="spiro-difference__inner">
+      <span class="spiro-difference__label">The Spiro Difference</span>
+      <p class="spiro-difference__copy">Most agencies talk about &lsquo;partnership&rsquo; and &lsquo;going the extra mile.&rsquo; We just do the work. No outsourcing. No surprises. No treating your brand like a line item. We&rsquo;re a small team that moves fast, thinks ahead, and builds things worth remembering. If you want a cruise liner, there are bigger names. If you want a jet-ski, you&rsquo;re in the right place.</p>
     </div>
   </section>
 
@@ -1591,6 +1653,42 @@
 
       window.addEventListener('resize', handleVideo, { passive: true });
       handleVideo();
+    }());
+
+    // Footer wordmark scroll-driven fly-in
+    (function () {
+      var wordmark = document.querySelector('.footer__big-wordmark');
+      var block    = document.querySelector('.footer__wordmark-block');
+      if (!wordmark || !block) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        wordmark.style.transform = 'translateY(0)';
+        wordmark.style.opacity   = '1';
+        return;
+      }
+
+      var ticking = false;
+
+      function update() {
+        var rect    = block.getBoundingClientRect();
+        var winH    = window.innerHeight;
+        // progress 0 = block just entered viewport bottom
+        // progress 1 = block top reaches 60% down the viewport
+        var start   = winH;
+        var end     = winH * 0.4;
+        var raw     = (start - rect.top) / (start - end);
+        var p       = Math.max(0, Math.min(1, raw));
+        // ease-out cubic
+        var eased   = 1 - Math.pow(1 - p, 3);
+        wordmark.style.transform = 'translateY(' + (100 - eased * 100) + '%)';
+        wordmark.style.opacity   = eased;
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+
+      update();
     }());
 
     // Assembly Coffee slideshow
