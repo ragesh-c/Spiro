@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spiro Creatives — Strategy. Production. Delivery.</title>
+  <title>Services — Spiro Creatives</title>
 
   <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=chillax@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/services.css">
 
   <style>
     /* ── Tokens ─────────────────────────────────────────────────── */
@@ -651,12 +652,11 @@
       font-size: 15px;
       color: rgba(255, 255, 255, 0.6);
       text-decoration: none;
-      transition: color 0.2s ease, translate 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: color 0.2s ease;
     }
 
     .footer__links a:hover {
       color: #ffffff;
-      translate: 4px 0;
     }
 
     /* Divider */
@@ -873,11 +873,6 @@
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      transition: translate 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .work-card:hover {
-      translate: 0 -6px;
     }
 
     .work-card__media {
@@ -899,7 +894,7 @@
 
     .work-card:hover .work-card__media img,
     .work-card:hover .work-card__media .work-card__placeholder {
-      transform: scale(1.06);
+      transform: scale(1.04);
     }
 
     .work-card__placeholder {
@@ -989,539 +984,6 @@
       margin-top: 4px;
     }
 
-    /* Slideshow */
-    .slideshow-slide {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-    .slideshow-slide--active {
-      opacity: 1;
-    }
-    #assembly-slideshow {
-      position: relative;
-    }
-    #assembly-slideshow::after {
-      content: '';
-      display: block;
-      aspect-ratio: 16 / 9;
-    }
-
-    /* Stagger delays */
-    .work-card:nth-child(1) { transition-delay: 0s; }
-    .work-card:nth-child(2) { transition-delay: 0.1s; }
-
-    @media (max-width: 767px) {
-      .featured-work__header {
-        padding: 80px 24px 48px;
-        flex-direction: column;
-        gap: 24px;
-      }
-      .featured-work__grid {
-        padding: 0 24px 80px;
-      }
-      .featured-work__row--1,
-      .featured-work__row--2 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ── Services Strip (Gusto Layout) ─────────────────────── */
-    .services-strip {
-      background: #f5ac45;
-      padding-bottom: 120px;
-    }
-
-    .services-header {
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 26px;
-      text-transform: uppercase;
-      letter-spacing: 0.10em;
-      color: rgba(26,26,26,0.5);
-      display: block;
-      max-width: var(--max-wide);
-      margin: 0 auto 80px;
-      padding: 120px 56px 0;
-    }
-
-    .services-inner {
-      max-width: var(--max-wide);
-      margin: 0 auto;
-      padding: 0 56px;
-    }
-
-    .services-row {
-      border-top: 6px solid #1a1a1a;
-      padding: 64px 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: start;
-      text-decoration: none;
-    }
-
-    .services-row:first-child {
-      border-top: none;
-    }
-
-    .services-row:last-child {
-      padding-bottom: 0;
-    }
-
-    .services-row__left {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .services-row__number {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.10em;
-      color: rgba(26,26,26,0.5);
-      margin-bottom: 20px;
-    }
-
-    .services-row__name {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(2.5rem, 4.5vw, 4.25rem);
-      line-height: 0.9;
-      letter-spacing: -0.02em;
-      color: #1a1a1a;
-      display: block;
-      transition: translate 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .services-row:hover .services-row__name {
-      translate: 0 -4px;
-    }
-
-    .services-row__right {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .services-row__desc {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 20px;
-      line-height: 1.5;
-      max-width: 480px;
-      color: #1a1a1a;
-      margin-bottom: 32px;
-    }
-
-    .services-row__cta {
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 14px;
-      color: #1a1a1a;
-      position: relative;
-      display: inline-block;
-      width: fit-content;
-    }
-
-    .services-row__cta::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -2px;
-      width: 0;
-      height: 1px;
-      background: #1a1a1a;
-      transition: width 0.3s ease;
-    }
-
-    .services-row:hover .services-row__cta::after {
-      width: 100%;
-    }
-
-    @media (max-width: 767px) {
-      .services-strip {
-        padding-bottom: 80px;
-      }
-      .services-header {
-        padding: 80px 24px 0;
-        margin: 0 auto 48px;
-      }
-      .services-inner {
-        padding: 0 24px;
-      }
-      .services-row {
-        grid-template-columns: 1fr;
-        gap: 32px;
-        padding: 32px 0;
-      }
-      .services-row__desc {
-        margin-bottom: 24px;
-      }
-    }
-    /* ── Spiro Difference ──────────────────────────────────────── */
-    .spiro-difference {
-      padding: 120px 0;
-    }
-
-    [data-theme="dark"]  .spiro-difference { background: #1a1a1a; }
-    [data-theme="light"] .spiro-difference { background: #f5f1ea; }
-
-    .spiro-difference__inner {
-      max-width: var(--max-wide);
-      margin: 0 auto;
-      padding: 0 56px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .spiro-difference__text {
-      text-align: left;
-    }
-
-    .spiro-difference__label {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #f5ac45;
-      display: block;
-      margin-bottom: 32px;
-    }
-
-    .spiro-difference__copy {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 28px;
-      line-height: 1.6;
-      color: var(--text-primary);
-      margin: 0;
-    }
-
-    .spiro-difference__image {
-      position: relative;
-      min-height: 420px;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      perspective: 1000px;
-    }
-
-    .bts-card {
-      position: absolute;
-      width: 52%;
-      aspect-ratio: 3 / 4;
-      border-radius: 12px;
-      top: 50%;
-      cursor: pointer;
-      transform-style: preserve-3d;
-      will-change: transform, opacity;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    .bts-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      transform: rotateY(180deg);
-      backface-visibility: hidden;
-    }
-
-    [data-theme="dark"]  .bts-card::after { background: #3c3c3c; }
-    [data-theme="light"] .bts-card::after { background: #ede7dc; }
-
-    [data-theme="dark"] .bts-card {
-      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-    }
-    [data-theme="light"] .bts-card {
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    }
-
-    .bts-card--1 {
-      left: 0%;
-      transform: translateY(-50%) rotate(-11deg);
-      z-index: 1;
-    }
-    .bts-card--2 {
-      left: 16%;
-      transform: translateY(-53%) rotate(-4deg);
-      z-index: 2;
-    }
-    .bts-card--3 {
-      left: 32%;
-      transform: translateY(-49%) rotate(4deg);
-      z-index: 3;
-    }
-    .bts-card--4 {
-      left: 48%;
-      transform: translateY(-46%) rotate(11deg);
-      z-index: 4;
-    }
-
-    [data-theme="dark"] .bts-card--1 { background: #2a2a2a; }
-    [data-theme="dark"] .bts-card--2 { background: #303030; }
-    [data-theme="dark"] .bts-card--3 { background: #282828; }
-    [data-theme="dark"] .bts-card--4 { background: #2c2c2c; }
-
-    [data-theme="light"] .bts-card--1 { background: #ddd6ca; }
-    [data-theme="light"] .bts-card--2 { background: #e5dfd5; }
-    [data-theme="light"] .bts-card--3 { background: #d8d0c4; }
-    [data-theme="light"] .bts-card--4 { background: #e0d9ce; }
-
-    @media (max-width: 767px) {
-      .spiro-difference {
-        padding: 80px 0;
-      }
-      .spiro-difference__inner {
-        padding: 0 24px;
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
-      .spiro-difference__copy {
-        font-size: 22px;
-      }
-      .spiro-difference__image {
-        min-height: 280px;
-      }
-    }
-
-    /* ── Client List Section ───────────────────────────────────── */
-    .client-list-section {
-      background: var(--bg-primary);
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      position: relative;
-      border-top: 1px solid var(--divider);
-    }
-
-    /* Column 1 — Sticky Heading */
-    .client-list__col-1 {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding: 56px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border-right: 0.5px solid var(--divider);
-    }
-
-    .client-list__eyebrow {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.10em;
-      color: var(--orange);
-      margin-bottom: 24px;
-    }
-
-    .client-list__heading {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(2rem, 3vw, 2.5rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    .client-list__subline {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 1.5;
-      color: var(--text-secondary);
-    }
-
-    /* Column 2 — Client List */
-    .client-list__col-2 {
-      display: flex;
-      flex-direction: column;
-      border-right: 0.5px solid var(--divider);
-    }
-
-    .client-row {
-      padding: 32px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 0.5px solid var(--divider);
-      position: relative;
-      cursor: pointer;
-      min-height: 140px;
-    }
-
-    .client-row:last-child {
-      border-bottom: none;
-    }
-
-    .client-row .logo-name {
-      opacity: 0.25;
-      transition: opacity 0.3s ease;
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 24px;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .client-row.active .logo-name {
-      opacity: 1;
-    }
-
-    .client-row__indicator {
-      position: absolute;
-      left: 24px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--orange);
-      opacity: 0;
-      transform: scale(0);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .client-row.active .client-row__indicator {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    /* Column 3 — Description */
-    .client-list__col-3 {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 56px;
-      overflow: hidden;
-    }
-
-    .client-list__desc-wrap {
-      position: relative;
-      width: 100%;
-      max-width: 400px;
-      height: 200px;
-    }
-
-    .client-description {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      pointer-events: none;
-    }
-
-    .client-description.active {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-      z-index: 2;
-    }
-
-    .client-description.exiting {
-      transform: translateY(-10px);
-    }
-
-    .client-desc__label {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.10em;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      display: block;
-    }
-
-    .client-desc__text {
-      font-family: var(--font-display);
-      font-weight: 400;
-      font-size: 22px;
-      line-height: 1.4;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-    }
-
-    .client-desc__pill {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--orange);
-      border: 1px solid var(--orange);
-      padding: 4px 12px;
-      border-radius: 20px;
-      display: inline-block;
-    }
-    
-    .client-list__counter {
-      position: absolute;
-      bottom: 56px;
-      right: 56px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    @media (max-width: 991px) {
-      .client-list-section {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-
-      .client-list__col-1 {
-        position: relative;
-        height: auto;
-        padding: 80px 24px 40px;
-        border-right: none;
-        border-bottom: 0.5px solid var(--divider);
-      }
-
-      .client-list__col-2 {
-        border-right: none;
-      }
-      
-      .client-row {
-        min-height: 120px;
-      }
-
-      .client-list__col-3 {
-        position: relative;
-        height: auto;
-        padding: 40px 24px 80px;
-      }
-      
-      .client-list__desc-wrap {
-        height: auto;
-        min-height: 180px;
-      }
-      
-      .client-list__counter {
-        bottom: 24px;
-        right: 24px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -1564,242 +1026,125 @@
     <a href="#" class="nav-overlay__cta" data-panel="contact">Let&rsquo;s talk</a>
   </div>
 
-  <!-- ── Hero ───────────────────────────────────────────────── -->
-  <section class="hero" aria-label="Hero">
-
-    <!-- Video background -->
-    <div class="hero__video-bg" aria-hidden="true">
-      <video autoplay muted loop playsinline poster="assets/img/hero-poster.jpg">
-        <source src="assets/video/Spiro%20Creatives%20%E2%80%93%20Video%20content%20production.mov">
-      </video>
-    </div>
-
-    <div class="hero__overlay" aria-hidden="true"></div>
-
-    <div class="hero__content">
-      <h1 class="hero__headline">
-        <div class="line-wrap"><div class="line-inner">We make the work that</div></div>
-        <div class="line-wrap"><div class="line-inner">makes your brand unforgettable.</div></div>
-      </h1>
-      <p class="hero__subline">
-        A creative production studio for brands ready to be seen.&nbsp;<br>
-        Strategy, production, and delivery&nbsp;&mdash; one team, nothing outsourced.
-      </p>
-    </div>
-
-  </section>
-
-  <!-- ── Featured Work ────────────────────────────────────── -->
-  <section class="featured-work" aria-label="Featured work">
-
-    <div class="featured-work__header">
-      <div class="featured-work__header-left">
-        <span class="featured-work__label reveal">Selected work</span>
-        <h2 class="featured-work__heading reveal" style="transition-delay: 0.1s">Work that speaks<br>for itself.</h2>
-      </div>
-      <a href="work.html" class="featured-work__see-all reveal" style="transition-delay: 0.15s">See all work &rarr;</a>
-    </div>
-
-    <div class="featured-work__grid">
-
-      <!-- Row 1 -->
-      <div class="featured-work__row featured-work__row--1">
-
-        <!-- Card 1 — large -->
-        <div class="work-card work-card--large reveal" style="transition-delay: 0s">
-          <div class="work-card__media" id="assembly-slideshow">
-            <img src="assets/img/Assembly/DSC05314-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:16/9;">
-            <img src="assets/img/Assembly/DSC05319-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;">
-            <img src="assets/img/Assembly/DSC05334-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;">
-            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__info-left">
-              <span class="work-card__client">Assembly Coffee</span>
-              <span class="work-card__title">The morning ritual</span>
-            </div>
-            <span class="work-card__pill">Social Content</span>
-          </div>
+  <!-- ── Services Hero ────────────────────────────────────── -->
+  <section class="services-hero" aria-label="Services">
+    <div class="services-hero__inner">
+      <h1 class="services-hero__title reveal">Services</h1>
+      <div class="services-hero__right reveal" style="transition-delay:0.15s">
+        <span class="services-hero__label">What we offer</span>
+        <div class="services-hero__copy">
+          <p>We offer a complete creative production service, supporting projects from early thinking through to delivery and distribution.</p>
+          <p>Whether we&rsquo;re shaping ideas, building production plans or finishing work for multiple channels, we handle the details so our partners can focus on the bigger picture.</p>
         </div>
-
-        <!-- Card 2 — tall -->
-        <div class="work-card work-card--tall reveal" style="transition-delay: 0.1s">
-          <div class="work-card__media">
-            <div class="work-card__placeholder" style="background:#1a2e1a; aspect-ratio:4/5;"></div>
-            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__info-left">
-              <span class="work-card__client">Sorrel</span>
-              <span class="work-card__title">A restaurant finds its voice</span>
-            </div>
-            <span class="work-card__pill">Brand Film</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Row 2 -->
-      <div class="featured-work__row featured-work__row--2">
-
-        <!-- Card 3 -->
-        <div class="work-card work-card--square reveal" style="transition-delay: 0.2s">
-          <div class="work-card__media">
-            <div class="work-card__placeholder" style="background:#1a1a2e; aspect-ratio:16/9;"></div>
-            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__info-left">
-              <span class="work-card__client">Cezara Hertanu</span>
-              <span class="work-card__title">A personal brand, built to last</span>
-            </div>
-            <span class="work-card__pill">Photography</span>
-          </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="work-card work-card--square reveal" style="transition-delay: 0.3s">
-          <div class="work-card__media">
-            <div class="work-card__placeholder" style="background:#2e1a1a; aspect-ratio:16/9;"></div>
-            <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
-          </div>
-          <div class="work-card__info">
-            <div class="work-card__info-left">
-              <span class="work-card__client">Clubhouse PT</span>
-              <span class="work-card__title">Strength looks like this</span>
-            </div>
-            <span class="work-card__pill">Brand Film</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- ── Services Strip ──────────────────────────────────────── -->
-  <section class="services-strip" aria-label="Services">
-    <div class="services-header reveal">OUR SERVICES</div>
-
-    <div class="services-inner">
-      <a href="services.html" class="services-row reveal" style="transition-delay: 0s">
-        <div class="services-row__left">
-          <span class="services-row__number">001</span>
-          <span class="services-row__name">Content Production</span>
-        </div>
-        <div class="services-row__right">
-          <p class="services-row__desc">From brief to final cut, we handle everything in-house. Brand films, campaigns, and social content that actually moves people.</p>
-          <span class="services-row__cta">See the work &rarr;</span>
-        </div>
-      </a>
-
-      <a href="services.html" class="services-row reveal" style="transition-delay: 0.15s">
-        <div class="services-row__left">
-          <span class="services-row__number">002</span>
-          <span class="services-row__name">Social Content System</span>
-        </div>
-        <div class="services-row__right">
-          <p class="services-row__desc">A monthly content engine for your brand. Shoot days, strategy, editing, and delivery &mdash; one retainer, no gaps in the feed.</p>
-          <span class="services-row__cta">See the work &rarr;</span>
-        </div>
-      </a>
-
-      <a href="services.html" class="services-row reveal" style="transition-delay: 0.3s">
-        <div class="services-row__left">
-          <span class="services-row__number">003</span>
-          <span class="services-row__name">Websites &amp; Visibility</span>
-        </div>
-        <div class="services-row__right">
-          <p class="services-row__desc">A digital home built to match the quality of your content. Designed to impress, built to convert.</p>
-          <span class="services-row__cta">See the work &rarr;</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ── Spiro Difference ────────────────────────────────────── -->
-  <section class="spiro-difference" aria-label="The Spiro Difference">
-    <div class="spiro-difference__inner">
-      <div class="spiro-difference__text">
-        <span class="spiro-difference__label reveal">The Spiro Difference</span>
-        <p class="spiro-difference__copy reveal" style="transition-delay: 0.12s">Most agencies talk about &lsquo;partnership&rsquo; and &lsquo;going the extra mile.&rsquo; We just do the work. No outsourcing. No surprises. No treating your brand like a line item. We&rsquo;re a small team that moves fast, thinks ahead, and builds things worth remembering. If you want a cruise liner, there are bigger names. If you want a jet-ski, you&rsquo;re in the right place.</p>
-      </div>
-      <div class="spiro-difference__image reveal" style="transition-delay: 0.22s" aria-hidden="true">
-        <div class="bts-card bts-card--1"></div>
-        <div class="bts-card bts-card--2"></div>
-        <div class="bts-card bts-card--3"></div>
-        <div class="bts-card bts-card--4"></div>
       </div>
     </div>
   </section>
 
-  <!-- ── People We've Worked With ────────────────────────────── -->
-  <section class="client-list-section" aria-label="People We've Worked With">
-    
-    <!-- Column 1 -->
-    <div class="client-list__col-1">
-      <span class="client-list__eyebrow">People we've worked with</span>
-      <h2 class="client-list__heading">Partners in production.</h2>
-      <p class="client-list__subline">Brands, agencies, and individuals we're proud to create alongside.</p>
+  <!-- ── Capabilities ────────────────────────────────────── -->
+  <section id="capabilities">
+    <div class="capabilities-header">
+      <h2 class="capabilities-heading reveal">Our Expertise</h2>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-left reveal" style="transition-delay: 0s">
+        <div class="pillar-top">
+          <p class="pillar-num">01</p>
+          <h2 class="pillar-title">Content<br><em>Production</em></h2>
+          <p class="pillar-body">
+            From the first idea to the final edit — we handle the whole thing.
+            Strategy, scripting, shooting, and delivery. You stay focused on your business.
+          </p>
+        </div>
+        <div class="tags">
+          <span class="tag">Content strategy</span>
+          <span class="tag">Brand storytelling</span>
+          <span class="tag">Script writing</span>
+          <span class="tag">Video production</span>
+          <span class="tag">Photography</span>
+          <span class="tag">Editing & post</span>
+          <span class="tag">Multi-channel formatting</span>
+        </div>
+      </div>
+
+      <div class="pillar-right reveal" style="transition-delay: 0.15s">
+        <div class="pillar-top">
+          <p class="pillar-num">02</p>
+          <h2 class="pillar-title">Social Media<br><em>Management</em></h2>
+          <p class="pillar-body">
+            Your social presence, fully managed. Strategy, content, scheduling,
+            replies — everything running consistently while you do the work that matters.
+          </p>
+        </div>
+        <div class="tags">
+          <span class="tag">Platform strategy</span>
+          <span class="tag">Content planning</span>
+          <span class="tag">Copywriting & captions</span>
+          <span class="tag">Scheduling & publishing</span>
+          <span class="tag">Community management</span>
+          <span class="tag">Monthly reporting</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Column 2 -->
-    <div class="client-list__col-2">
-      <div class="client-row active" data-index="1">
-        <div class="client-row__indicator"></div>
-        <div class="logo-name">[Client 1]</div>
-      </div>
-      <div class="client-row" data-index="2">
-        <div class="client-row__indicator"></div>
-        <div class="logo-name">[Client 2]</div>
-      </div>
-      <div class="client-row" data-index="3">
-        <div class="client-row__indicator"></div>
-        <div class="logo-name">[Client 3]</div>
-      </div>
-      <div class="client-row" data-index="4">
-        <div class="client-row__indicator"></div>
-        <div class="logo-name">[Client 4]</div>
-      </div>
-      <div class="client-row" data-index="5">
-        <div class="client-row__indicator"></div>
-        <div class="logo-name">[Client 5]</div>
+    <!-- ── Process Grid ──────────────────────────────────────── -->
+    <div class="process-section">
+      <h2 class="process-section__heading reveal">How We Work</h2>
+      <div class="process-grid">
+
+        <div class="process-card reveal" style="transition-delay:0s">
+          <div class="process-card__visual">
+            <span class="process-card__big-num">01</span>
+          </div>
+          <div class="process-card__info">
+            <div class="process-card__meta">
+              <span class="process-card__name">Discovery</span>
+              <span class="process-card__tag">Step</span>
+            </div>
+            <p class="process-card__desc">We listen before we make anything.</p>
+          </div>
+        </div>
+
+        <div class="process-card reveal" style="transition-delay:0.1s">
+          <div class="process-card__visual">
+            <span class="process-card__big-num">02</span>
+          </div>
+          <div class="process-card__info">
+            <div class="process-card__meta">
+              <span class="process-card__name">Strategy &amp; Brief</span>
+              <span class="process-card__tag">Step</span>
+            </div>
+            <p class="process-card__desc">A clear plan before a single pixel moves.</p>
+          </div>
+        </div>
+
+        <div class="process-card reveal" style="transition-delay:0.2s">
+          <div class="process-card__visual">
+            <span class="process-card__big-num">03</span>
+          </div>
+          <div class="process-card__info">
+            <div class="process-card__meta">
+              <span class="process-card__name">Create</span>
+              <span class="process-card__tag">Step</span>
+            </div>
+            <p class="process-card__desc">We make the work. You stay informed.</p>
+          </div>
+        </div>
+
+        <div class="process-card reveal" style="transition-delay:0.3s">
+          <div class="process-card__visual">
+            <span class="process-card__big-num">04</span>
+          </div>
+          <div class="process-card__info">
+            <div class="process-card__meta">
+              <span class="process-card__name">Deliver</span>
+              <span class="process-card__tag">Step</span>
+            </div>
+            <p class="process-card__desc">On time, on brief, ready to go.</p>
+          </div>
+        </div>
+
       </div>
     </div>
-
-    <!-- Column 3 -->
-    <div class="client-list__col-3">
-      <div class="client-list__desc-wrap">
-        <div class="client-description active" data-index="1">
-          <span class="client-desc__label">Client 1</span>
-          <p class="client-desc__text">[What you made together &mdash; 2 lines]</p>
-          <span class="client-desc__pill">Service &middot; Service</span>
-        </div>
-        <div class="client-description" data-index="2">
-          <span class="client-desc__label">Client 2</span>
-          <p class="client-desc__text">[What you made together &mdash; 2 lines]</p>
-          <span class="client-desc__pill">Service &middot; Service</span>
-        </div>
-        <div class="client-description" data-index="3">
-          <span class="client-desc__label">Client 3</span>
-          <p class="client-desc__text">[What you made together &mdash; 2 lines]</p>
-          <span class="client-desc__pill">Service &middot; Service</span>
-        </div>
-        <div class="client-description" data-index="4">
-          <span class="client-desc__label">Client 4</span>
-          <p class="client-desc__text">[What you made together &mdash; 2 lines]</p>
-          <span class="client-desc__pill">Service &middot; Service</span>
-        </div>
-        <div class="client-description" data-index="5">
-          <span class="client-desc__label">Client 5</span>
-          <p class="client-desc__text">[What you made together &mdash; 2 lines]</p>
-          <span class="client-desc__pill">Service &middot; Service</span>
-        </div>
-      </div>
-      <div class="client-list__counter">01 / 05</div>
-    </div>
-
   </section>
 
   <!-- ── Footer ────────────────────────────────────────────── -->
@@ -2007,40 +1352,15 @@
       });
     }());
 
-    // ── Hero load animations ─────────────────────────────────────
+    // ── Nav load animations ──────────────────────────────────────
     (function () {
-      // Step 1 — overlay fade from black (0s)
-      var overlay = document.querySelector('.hero__overlay');
-      if (overlay) {
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            overlay.classList.add('is-revealed');
-          });
-        });
-      }
-
-      // Step 4 — nav items (0.2s base, 0.08s stagger)
       var navItems = document.querySelectorAll('.nav-anim');
       navItems.forEach(function (el, i) {
-        el.style.transitionDelay = (0.2 + i * 0.08) + 's';
+        el.style.transitionDelay = (0.1 + i * 0.08) + 's';
       });
-
-      // Step 2 — headline lines (0.4s base, 0.12s stagger)
-      var lines = document.querySelectorAll('.line-inner');
-      lines.forEach(function (el, i) {
-        el.style.transitionDelay = (0.4 + i * 0.12) + 's';
-      });
-
-      // Step 3 — subline (0.8s)
-      var subline = document.querySelector('.hero__subline');
-      if (subline) { subline.style.transitionDelay = '0.8s'; }
-
-      // Trigger all in one frame
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           navItems.forEach(function (el) { el.classList.add('is-visible'); });
-          lines.forEach(function (el) { el.classList.add('is-visible'); });
-          if (subline) { subline.classList.add('is-visible'); }
         });
       });
     }());
@@ -2060,26 +1380,6 @@
       }, { threshold: 0.15 });
 
       reveals.forEach(function (el) { observer.observe(el); });
-    }());
-
-    // ── Pause video on mobile ────────────────────────────────────
-    (function () {
-      var video = document.querySelector('.hero__video-bg video');
-      if (!video) return;
-
-      function handleVideo() {
-        if (window.innerWidth <= 767) {
-          video.pause();
-        } else {
-          var p = video.play();
-          if (p !== undefined) {
-            p.catch(function(e){});
-          }
-        }
-      }
-
-      window.addEventListener('resize', handleVideo, { passive: true });
-      handleVideo();
     }());
 
     // Footer wordmark scroll-driven fly-in
@@ -2118,114 +1418,6 @@
       update();
     }());
 
-    // Assembly Coffee slideshow
-    (function() {
-      var slides = document.querySelectorAll('#assembly-slideshow .slideshow-slide');
-      if (!slides.length) return;
-      var current = 0;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      setInterval(function() {
-        slides[current].classList.remove('slideshow-slide--active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('slideshow-slide--active');
-      }, 3000);
-    }());
-
-    // BTS card fan — pop up & flip on hover
-    (function () {
-      var container = document.querySelector('.spiro-difference__image');
-      var cards     = Array.prototype.slice.call(document.querySelectorAll('.bts-card'));
-      if (!container || !cards.length) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      // left% values matching the CSS positions
-      var leftPcts = [0, 0.16, 0.32, 0.48];
-
-      cards.forEach(function (card, i) {
-        card.addEventListener('mouseenter', function () {
-          var cw     = container.offsetWidth;
-          var ch     = container.offsetHeight || 420;
-          var cardW  = card.offsetWidth;
-          var cardH  = card.offsetHeight;
-
-          // translate from layout centre to container centre
-          // layout centre X = left% * cw + cardW/2
-          // layout centre Y = ch*0.5 + cardH/2  (top:50%, no translateY yet)
-          var tx = cw * (0.5 - leftPcts[i]) - cardW / 2;
-          var ty = -(cardH / 2);
-
-          // scale to fill 85% width or 90% height — whichever fits
-          var scale = Math.min(cw * 0.85 / cardW, ch * 0.9 / cardH);
-
-          card.style.transform  = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) scale(' + scale.toFixed(3) + ')';
-          card.style.zIndex     = '10';
-
-          cards.forEach(function (other, j) {
-            if (j !== i) { other.style.opacity = '0.1'; }
-          });
-        });
-
-        card.addEventListener('mouseleave', function () {
-          card.style.transform = '';
-          card.style.zIndex    = '';
-          cards.forEach(function (other) { other.style.opacity = ''; });
-        });
-      });
-    }());
-
-    // ── Client List Interaction ──────────────────────────────────
-    (function() {
-      var rows = document.querySelectorAll('.client-row');
-      var descs = document.querySelectorAll('.client-description');
-      var counter = document.querySelector('.client-list__counter');
-      if (!rows.length || !descs.length) return;
-
-      var currentIndex = '1';
-
-      function activate(index) {
-        if (index === currentIndex) return;
-        
-        descs.forEach(function(desc) {
-          if (desc.classList.contains('active')) {
-             desc.classList.remove('active');
-             desc.classList.add('exiting');
-             setTimeout(function() { desc.classList.remove('exiting'); }, 350);
-          }
-        });
-        rows.forEach(function(r) { r.classList.remove('active'); });
-
-        var targetRow = document.querySelector('.client-row[data-index="' + index + '"]');
-        var targetDesc = document.querySelector('.client-description[data-index="' + index + '"]');
-        
-        if (targetRow) targetRow.classList.add('active');
-        if (targetDesc) {
-           targetDesc.classList.remove('exiting');
-           targetDesc.classList.add('active');
-        }
-        
-        if (counter) {
-           counter.textContent = '0' + index + ' / 0' + rows.length;
-        }
-        currentIndex = index;
-      }
-
-      // Desktop: hover
-      rows.forEach(function(row) {
-        row.addEventListener('mouseenter', function() { activate(row.dataset.index); });
-      });
-
-      // Mobile: scroll-triggered
-      if (window.IntersectionObserver) {
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (e.isIntersecting && window.innerWidth <= 991) {
-              activate(e.target.dataset.index);
-            }
-          });
-        }, { threshold: 0.6 });
-        rows.forEach(function(row) { observer.observe(row); });
-      }
-    })();
   </script>
 
 </body>
