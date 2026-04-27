@@ -118,24 +118,15 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--text-primary); /* Solid color */
-  
-  /* GPU-accelerated inset instead of layout-thrashing width changes */
-  clip-path: inset(0px 32px 0px 32px round 40px 40px 0px 0px);
-  -webkit-clip-path: inset(0px 32px 0px 32px round 40px 40px 0px 0px);
-  
+  background-color: #034f46;
+  border-radius: 40px 40px 0 0;
   overflow: hidden;
-  transition: clip-path 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-              -webkit-clip-path 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-              background-color 0.25s ease-out; /* Smooth but fast enough to avoid muddy crossfade */
   will-change: transform, opacity;
   transform-origin: top center;
 }
 
 .expertise-card.is-stuck .expertise-card__inner {
-  clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
-  -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
-  background-color: var(--bg-primary); /* Opaque background to prevent text overlap */
+  background-color: #034f46;
 }
 
 .expertise-card__header {
@@ -150,30 +141,25 @@
 .expertise-card__title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2.5rem, 6vw, 80px); /* Restored to balanced scale */
+  font-size: clamp(2.5rem, 6vw, 80px);
   line-height: 1;
   letter-spacing: -0.03em;
-  color: var(--bg-primary); /* Inverted text color initially */
+  color: #ffffeb;
   margin: 0;
-  transition: color 0.25s ease-out;
 }
 
 .expertise-card.is-stuck .expertise-card__title {
-  color: var(--text-primary); /* Switch to light text when background turns dark */
+  color: #ffffeb;
 }
 
 .expertise-card__image-wrap {
   flex: 1;
   width: auto;
-  margin: 0 32px 32px; /* Match parent's 32px visual inset */
+  margin: 0;
   position: relative;
   overflow: hidden;
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  border-radius: 0;
   background: #000;
-  transition: margin 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-              border-radius 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: margin, border-radius;
 }
 
 .expertise-card.is-stuck .expertise-card__image-wrap {
@@ -186,11 +172,11 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.6; /* Dim image slightly so tags are readable */
-  transition: transform 0.6s ease;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .expertise-card:hover .expertise-card__image {
-  transform: scale(1.02);
+  transform: scale(1.05);
 }
 
 .expertise-card__overlay {
@@ -220,7 +206,10 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 40px;
   cursor: default;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  transition: background 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -229,7 +218,7 @@
   background: #fff;
   color: #0a1b2c;
   border-color: #fff;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 @media (max-width: 991px) {
