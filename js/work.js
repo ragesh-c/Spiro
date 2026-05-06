@@ -21,4 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  const viewBtns = document.querySelectorAll('.view-btn');
+  const workGridInner = document.querySelector('.work-grid-inner');
+
+  viewBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      viewBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (btn.dataset.view === 'grid') {
+        workGridInner.classList.add('is-grid');
+      } else {
+        workGridInner.classList.remove('is-grid');
+      }
+    });
+  });
 });

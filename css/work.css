@@ -65,7 +65,41 @@ section#work-filters {
   margin: 0 auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.filters-left {
+  display: flex;
+  align-items: center;
   gap: 32px;
+}
+
+.view-toggles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s;
+}
+
+.view-btn:hover {
+  color: var(--text-primary);
+  background: var(--divider);
+}
+
+.view-btn.active {
+  color: var(--text-primary);
 }
 
 .filter-label {
@@ -122,7 +156,7 @@ section#work-grid {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0; /* Removing gap so they stack cleanly if full bleed, or keep a small gap? Let's use 2px gap or no gap */
+  gap: 0;
   align-items: center;
 }
 
@@ -133,15 +167,38 @@ section#work-grid {
   border-radius: 0;
   display: flex;
   flex-direction: row;
-  overflow: hidden;
   text-decoration: none;
   position: relative;
-  background: #111111;
+  background: var(--bg-primary);
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.work-card:hover {
+  background-color: var(--bg-secondary);
+}
+
+.work-card:not(.hidden) ~ .work-card:not(.hidden) {
+  margin-top: 64px;
+}
+
+.work-card:not(.hidden) ~ .work-card:not(.hidden)::before {
+  content: '';
+  position: absolute;
+  top: -32px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--divider);
+}
+
+
 
 .kettle-card__content {
   flex: 0 0 40%;
-  padding: 100px 8vw;
+  padding: 100px 6vw 100px 10vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -151,25 +208,26 @@ section#work-grid {
 
 .kettle-card__client {
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 24px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 14px;
 }
 
 .kettle-card__title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(3rem, 5vw, 5.5rem);
-  line-height: 1.1;
+  font-size: clamp(1.6rem, 2.4vw, 2.6rem);
+  line-height: 1.15;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .kettle-card__title span {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
 }
 
 .kettle-card__media {
@@ -240,12 +298,143 @@ section#work-grid {
   display: none;
 }
 
+/* ── Grid View Mode ─────────────────────────────────────────── */
+.work-grid-inner.is-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px 32px;
+  align-items: stretch;
+  padding: 0 24px;
+}
+
+.work-grid-inner.is-grid .work-card {
+  min-height: auto;
+  flex-direction: column;
+  margin-top: 0 !important;
+}
+
+.work-grid-inner.is-grid .work-card:hover {
+  background-color: transparent;
+}
+
+.work-grid-inner.is-grid .work-card::before {
+  display: none !important;
+}
+
+.work-grid-inner.is-grid .kettle-card__media {
+  flex: none;
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.work-grid-inner.is-grid .kettle-card__content {
+  flex: none;
+  padding: 16px 0 0 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.work-grid-inner.is-grid .kettle-card__content::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: var(--divider);
+  order: 2;
+}
+
+.work-grid-inner.is-grid .kettle-card__client {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-primary);
+  margin-bottom: 0;
+  order: 1;
+  white-space: nowrap;
+}
+
+.work-grid-inner.is-grid .kettle-card__title {
+  font-family: monospace;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--text-secondary);
+  order: 3;
+  white-space: nowrap;
+}
+
+.work-grid-inner.is-grid .kettle-card__title span {
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+.work-grid-inner.is-grid .kettle-card__pill {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .work-grid-inner.is-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+/* ── Custom Cursor ───────────────────────────────────────────── */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  padding: 12px 24px;
+  background: #a9b5df;
+  color: #111;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 30px;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.custom-cursor.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.work-grid-inner.is-grid .work-card {
+  cursor: none;
+}
+
+@media (max-width: 1024px) {
+  .custom-cursor {
+    display: none !important;
+  }
+  .work-grid-inner.is-grid .work-card {
+    cursor: pointer;
+  }
+}
+
 @media (max-width: 768px) {
   section#work-grid {
-    padding: 48px 24px 80px;
+    padding: 48px 0 80px;
   }
   .work-grid-inner {
-    gap: 40px;
+    gap: 0;
+  }
+  .work-card:not(.hidden) ~ .work-card:not(.hidden) {
+    margin-top: 48px;
+  }
+  .work-card:not(.hidden) ~ .work-card:not(.hidden)::before {
+    top: -24px;
   }
   .work-card {
     flex-direction: column-reverse;
@@ -254,10 +443,14 @@ section#work-grid {
   .kettle-card__content {
     flex: none;
     padding: 40px 24px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
   }
   .kettle-card__media {
     flex: none;
     aspect-ratio: 4/3;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
   }
   .kettle-card__pill {
     display: none;
