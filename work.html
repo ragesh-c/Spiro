@@ -6,14 +6,7 @@
   <title>Work — Spiro Creatives</title>
 
   <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
-  <script type="importmap">
-  {
-    "imports": {
-      "@sanity/client": "https://esm.sh/@sanity/client"
-    }
-  }
-  </script>
-  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/work.css">
 
@@ -657,7 +650,7 @@
     <div class="work-grid-inner">
 
       <!-- Assembly Coffee -->
-      <a href="work/assembly-coffee.html" class="work-card reveal" data-pillar="social-media">
+      <a href="work/case-study.html?slug=the-morning-ritual" class="work-card reveal" data-pillar="social-media">
       <div class="kettle-card__content">
         <span class="kettle-card__client">Assembly Coffee</span>
         <h2 class="kettle-card__title">The <span>morning ritual</span></h2>
@@ -671,7 +664,7 @@
     </a>
 
       <!-- Sorrel -->
-      <a href="work/sorrel.html" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.08s">
+      <a href="/work/case-study.html?slug=Sorrel-restaurant" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.08s">
       <div class="kettle-card__content">
         <span class="kettle-card__client">Sorrel</span>
         <h2 class="kettle-card__title">A <span>restaurant finds its voice</span></h2>
@@ -688,7 +681,7 @@
     </a>
 
       <!-- Cezara Hertanu -->
-      <a href="work/cezara-hertanu.html" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.12s">
+      <a href="work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.12s">
       <div class="kettle-card__content">
         <span class="kettle-card__client">Cezara Hertanu</span>
         <h2 class="kettle-card__title">A <span>personal brand, built to last</span></h2>
@@ -699,7 +692,7 @@
     </a>
 
       <!-- Clubhouse PT -->
-      <a href="work/clubhouse-pt.html" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.16s">
+      <a href="work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.16s">
       <div class="kettle-card__content">
         <span class="kettle-card__client">Clubhouse PT</span>
         <h2 class="kettle-card__title">Strength <span>looks like this</span></h2>
@@ -1035,58 +1028,6 @@
     }());
   </script>
 
-  <!-- ── Sanity CMS ────────────────────────────────────────────── -->
-  <script type="module">
-    import { client } from './js/sanity.js';
-
-    const QUERY = `*[_type == "work"] | order(publishedAt desc) {
-      title,
-      client,
-      "slug": slug.current,
-      servicePillar,
-      "coverImage": coverImage.asset->url,
-      summary,
-      featured,
-      publishedAt
-    }`;
-
-    function buildCard(doc, index) {
-      const pillar   = doc.servicePillar || 'content-production';
-      const slug     = doc.slug || '';
-      const href     = `/work/case-study.html?slug=${slug}`;
-      const delay    = index * 0.08;
-      const imgHtml  = doc.coverImage
-        ? `<img src="${doc.coverImage}" alt="${doc.client || doc.title}" class="slideshow-slide slideshow-slide--active">`
-        : '';
-      const bgStyle  = doc.coverImage ? '' : 'style="background: var(--bg-tertiary);"';
-
-      return `
-        <a href="${href}" class="work-card reveal is-visible" data-pillar="${pillar}" style="transition-delay:${delay}s">
-          <div class="kettle-card__content">
-            <span class="kettle-card__client">${doc.client || ''}</span>
-            <h2 class="kettle-card__title">${doc.title || ''}</h2>
-          </div>
-          <div class="kettle-card__media" ${bgStyle}>
-            ${imgHtml}
-            <div class="kettle-card__pill">View case study &rarr;</div>
-          </div>
-        </a>`;
-    }
-
-    try {
-      const docs = await client.fetch(QUERY);
-      if (docs && docs.length > 0) {
-        const grid = document.querySelector('.work-grid-inner');
-        if (grid) {
-          grid.innerHTML = docs.map(buildCard).join('');
-          initFilter();
-        }
-      }
-    } catch (err) {
-      // Sanity unavailable — hardcoded cards remain, page stays intact
-      console.warn('Sanity fetch failed, using hardcoded cards:', err.message);
-    }
-  </script>
 
 </body>
 </html>

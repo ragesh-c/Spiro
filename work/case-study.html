@@ -426,19 +426,26 @@
     }
 
     const slug = new URLSearchParams(window.location.search).get('slug');
+    console.log('[Sanity] slug from URL:', slug);
 
-    if (!slug) {
+    if (!slug || slug === 'coming-soon') {
+      console.warn('[Sanity] No slug or coming-soon slug — showing coming soon');
       renderComingSoon();
     } else {
+      console.log('[Sanity] Sending GROQ query:', QUERY);
+      console.log('[Sanity] Query params:', { slug });
       try {
         const doc = await client.fetch(QUERY, { slug });
+        console.log('[Sanity] Response:', doc);
         if (doc) {
+          console.log('[Sanity] Document found — rendering:', doc.title);
           renderDoc(doc);
         } else {
+          console.warn('[Sanity] Query returned null — no document with slug:', slug);
           renderComingSoon();
         }
       } catch (err) {
-        console.warn('Sanity fetch failed:', err.message);
+        console.error('[Sanity] Fetch error:', err);
         renderComingSoon();
       }
     }
