@@ -33,6 +33,7 @@
       --nav-link:       rgba(245, 241, 234, 0.75);
       --nav-link-hover: #f5f1ea;
       --nav-wordmark:   #f5f1ea;
+      --nav-pill-bg:    transparent;
       --footer-bg:      #000000;
       --tagline-bg:     #1a1a1a;
       --tagline-text:   rgba(245, 241, 234, 0.45);
@@ -51,6 +52,7 @@
       --nav-link:       rgba(26, 26, 26, 0.65);
       --nav-link-hover: #1a1a1a;
       --nav-wordmark:   #1a1a1a;
+      --nav-pill-bg:    transparent;
       --footer-bg:      #1a1a1a;
       --tagline-bg:     #ffffeb;
       --tagline-text:   rgba(26, 26, 26, 0.45);
@@ -208,6 +210,17 @@
       justify-content: space-between;
       padding: 0 28px;
       z-index: 99;
+      background: transparent;
+      transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav.scrolled {
+      background: transparent;
+      border-bottom: none;
+    }
+
+    [data-theme="light"] .nav {
       background: var(--nav-bg);
     }
 
@@ -233,7 +246,8 @@
     .nav__pill {
       display: flex;
       align-items: center;
-      border: 1px solid var(--divider);
+      background: transparent !important;
+      border: none !important;
       border-radius: 10px;
       padding: 0 6px 0 20px;
       height: 40px;
@@ -999,6 +1013,30 @@
       margin-top: 4px;
     }
 
+    .view-all-link {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(10, 27, 44, 0.5);
+      text-decoration: none;
+      display: block;
+      margin-top: 48px;
+      text-align: center;
+      transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .view-all-link:hover {
+      color: #0a1b2c;
+    }
+
+    [data-theme="dark"] .view-all-link {
+      color: rgba(245, 241, 234, 0.5);
+    }
+    
+    [data-theme="dark"] .view-all-link:hover {
+      color: #f5f1ea;
+    }
+
     /* Slideshow */
     .slideshow-slide {
       position: absolute;
@@ -1630,7 +1668,7 @@
       <div class="featured-work__row featured-work__row--1">
 
         <!-- Card 1 — large -->
-        <div class="work-card work-card--large reveal" style="transition-delay: 0s">
+        <a href="/work/project-slug.html" class="work-card work-card--large reveal" style="transition-delay: 0s">
           <div class="work-card__media" id="assembly-slideshow">
             <img src="assets/img/Assembly/DSC05314-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:16/9;">
             <img src="assets/img/Assembly/DSC05319-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;">
@@ -1644,10 +1682,10 @@
             </div>
             <span class="work-card__pill">Social Content</span>
           </div>
-        </div>
+        </a>
 
         <!-- Card 2 — tall -->
-        <div class="work-card work-card--tall reveal" style="transition-delay: 0.1s">
+        <a href="/work/project-slug.html" class="work-card work-card--tall reveal" style="transition-delay: 0.1s">
           <div class="work-card__media">
             <div class="work-card__placeholder" style="background:#1a2e1a; aspect-ratio:4/5;"></div>
             <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
@@ -1659,7 +1697,7 @@
             </div>
             <span class="work-card__pill">Brand Film</span>
           </div>
-        </div>
+        </a>
 
       </div>
 
@@ -1667,7 +1705,7 @@
       <div class="featured-work__row featured-work__row--2">
 
         <!-- Card 3 -->
-        <div class="work-card work-card--square reveal" style="transition-delay: 0.2s">
+        <a href="/work/project-slug.html" class="work-card work-card--square reveal" style="transition-delay: 0.2s">
           <div class="work-card__media">
             <div class="work-card__placeholder" style="background:#1a1a2e; aspect-ratio:16/9;"></div>
             <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
@@ -1679,10 +1717,10 @@
             </div>
             <span class="work-card__pill">Photography</span>
           </div>
-        </div>
+        </a>
 
         <!-- Card 4 -->
-        <div class="work-card work-card--square reveal" style="transition-delay: 0.3s">
+        <a href="/work/project-slug.html" class="work-card work-card--square reveal" style="transition-delay: 0.3s">
           <div class="work-card__media">
             <div class="work-card__placeholder" style="background:#2e1a1a; aspect-ratio:16/9;"></div>
             <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
@@ -1694,9 +1732,11 @@
             </div>
             <span class="work-card__pill">Brand Film</span>
           </div>
-        </div>
+        </a>
 
       </div>
+
+      <a href="/work.html" class="view-all-link">View all work &rarr;</a>
 
     </div>
 
