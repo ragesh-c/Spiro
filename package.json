@@ -1,0 +1,24 @@
+{
+  "name": "spiro-creatives",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ragesh-c/Spiro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ragesh-c/Spiro/issues"
+  },
+  "homepage": "https://github.com/ragesh-c/Spiro#readme",
+  "dependencies": {
+    "@sanity/client": "^7.22.0"
+  }
+}

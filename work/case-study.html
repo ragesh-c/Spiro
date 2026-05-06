@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study — Spiro Creatives</title>
+
+  <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <script type="importmap">
+  {
+    "imports": {
+      "@sanity/client": "https://esm.sh/@sanity/client"
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/case-study.css">
+
+  <style>
+    /* ── Tokens ─────────────────────────────────────────────────── */
+    :root {
+      --orange:       #f5ac45;
+      --red:          #c03628;
+      --font-display: 'Chillax', system-ui, sans-serif;
+      --font-body:    'General Sans', system-ui, sans-serif;
+      --max-wide:     1200px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary:     #1a1a1a;
+      --bg-secondary:   #242424;
+      --bg-tertiary:    #2e2e2e;
+      --text-primary:   #f5f1ea;
+      --text-secondary: rgba(245, 241, 234, 0.65);
+      --text-muted:     rgba(245, 241, 234, 0.35);
+      --divider:        rgba(245, 241, 234, 0.08);
+      --nav-bg:         rgba(26, 26, 26, 0.92);
+      --nav-link:       rgba(245, 241, 234, 0.75);
+      --nav-link-hover: #f5f1ea;
+      --footer-bg:      #000000;
+    }
+
+    [data-theme="light"] {
+      --bg-primary:     #ffffeb;
+      --bg-secondary:   #f0f0de;
+      --bg-tertiary:    #e4e4d0;
+      --text-primary:   #1a1a1a;
+      --text-secondary: rgba(26, 26, 26, 0.70);
+      --text-muted:     rgba(26, 26, 26, 0.40);
+      --divider:        rgba(26, 26, 26, 0.10);
+      --nav-bg:         rgba(255, 255, 235, 0.92);
+      --nav-link:       rgba(26, 26, 26, 0.65);
+      --nav-link-hover: #1a1a1a;
+      --footer-bg:      #1a1a1a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; z-index: 99;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--divider);
+    }
+    .nav__wordmark { text-decoration: none; display: flex; align-items: center; padding: 8px 0; }
+    .nav-logo { height: 120px; width: auto; display: block; }
+    [data-theme="dark"]  .nav-logo--light { display: none; }
+    [data-theme="light"] .nav-logo--dark  { display: none; }
+    .nav__pill { display: flex; align-items: center; background: transparent !important; border: none !important; border-radius: 10px; padding: 0 6px 0 20px; height: 40px; }
+    .nav__links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav__links a { font-family: var(--font-body); font-size: 14px; color: var(--nav-link); text-decoration: none; transition: color 0.3s; }
+    .nav__links a:hover { color: var(--nav-link-hover); }
+    .nav__pill-divider { width: 1px; height: 16px; background: var(--divider); margin: 0 16px; }
+    .nav__cta { font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--orange); text-decoration: none; background: transparent; border: none; cursor: pointer; padding: 8px 12px; }
+    .nav__hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 28px; height: 28px; cursor: pointer; background: none; border: none; padding: 0; }
+    .nav__hamburger span { display: block; width: 100%; height: 1.5px; background: var(--text-primary); border-radius: 1px; }
+    .nav-overlay { display: none; position: fixed; inset: 0; background: var(--bg-primary); z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
+    .nav-overlay.open { display: flex; }
+    .nav-overlay a { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 6vw, 3.5rem); color: var(--text-primary); text-decoration: none; }
+    .nav-overlay__close { position: absolute; top: 16px; right: 24px; font-size: 28px; color: var(--text-primary); background: none; border: none; cursor: pointer; font-family: var(--font-body); }
+    .nav-overlay__cta { font-family: var(--font-body); font-size: 16px; color: var(--text-primary); border: 1px solid var(--divider); padding: 12px 32px; border-radius: 4px; text-decoration: none; margin-top: 8px; }
+    @media (max-width: 767px) { .nav__pill { display: none; } .nav__hamburger { display: flex; } }
+
+    /* ── Theme toggle ────────────────────────────────────────────── */
+    .theme-toggle { width: 44px; height: 24px; border-radius: 12px; border: 1px solid; cursor: pointer; padding: 0; position: relative; }
+    [data-theme="dark"] .theme-toggle { background: #333333; border-color: rgba(255,255,255,0.15); }
+    [data-theme="light"] .theme-toggle { background: #d9d3c8; border-color: rgba(0,0,0,0.15); }
+    .theme-toggle__circle { position: absolute; top: 2px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    [data-theme="dark"] .theme-toggle__circle { background: var(--orange); transform: translateX(22px); color: #1a1a1a; }
+    [data-theme="light"] .theme-toggle__circle { background: #1a1a1a; transform: translateX(2px); color: #d9d3c8; }
+    .theme-toggle__icon-moon, .theme-toggle__icon-sun { display: none; }
+    [data-theme="dark"]  .theme-toggle__icon-moon { display: block; }
+    [data-theme="light"] .theme-toggle__icon-sun  { display: block; }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    .footer, .footer * { --text-primary: #ffffff; }
+    .footer { background: var(--footer-bg); border-top: 3px solid var(--orange); }
+    .footer__wordmark-block { overflow: hidden; padding: 40px 56px 32px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .footer__big-wordmark { font-family: 'Chillax', system-ui, sans-serif; font-weight: 700; font-size: clamp(3rem, 9.5vw, 12rem); color: #fff; letter-spacing: -0.03em; line-height: 0.9; white-space: nowrap; text-align: center; transform: translateY(100%); opacity: 0; }
+    .footer__cols-wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; padding: 60px 56px; }
+    .footer__col-heading { font-family: var(--font-body); font-weight: 700; font-size: 15px; color: #fff; margin-bottom: 16px; }
+    .footer__city { font-family: 'Chillax', system-ui, sans-serif; font-weight: 600; font-size: 16px; color: #fff; margin-bottom: 12px; }
+    .footer__time { font-family: var(--font-body); font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+    .footer__email { font-family: var(--font-body); font-size: 15px; color: #fff; text-decoration: none; }
+    .footer__links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer__links a { font-family: var(--font-body); font-size: 15px; color: rgba(255,255,255,0.6); text-decoration: none; }
+    .footer__links a:hover { color: #fff; }
+    .footer__divider { display: none; }
+    .footer__bottom-wrap { padding: 32px 56px; display: flex; align-items: center; justify-content: space-between; background: #000; border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer__social-icons { display: flex; align-items: center; gap: 24px; }
+    .footer__social-icons a { color: #fff; opacity: 0.7; display: flex; align-items: center; }
+    .footer__social-icons a:hover { opacity: 1; }
+    .footer__social-icons svg { width: 26px; height: 26px; }
+    .footer__right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+    .footer__copy { font-family: var(--font-body); font-size: 13px; color: rgba(255,255,255,0.4); }
+    @media (max-width: 767px) {
+      .footer__wordmark-block { padding: 32px 24px 24px; }
+      .footer__cols-wrap { grid-template-columns: 1fr 1fr; padding: 48px 24px; }
+      .footer__bottom-wrap { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 24px; }
+      .footer__right { align-items: flex-start; }
+    }
+
+    /* ── Coming soon / loading states ───────────────────────────── */
+    .cs-loading {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--text-muted);
+      padding: 80px 64px;
+    }
+
+    /* ── Page transition ─────────────────────────────────────────── */
+    #page-transition { position: fixed; inset: 0; z-index: 100000; background: var(--bg-primary); pointer-events: none; opacity: 1; transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+    #page-transition.is-out { opacity: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ────────────────────────────────────────────── -->
+  <nav class="nav" aria-label="Main navigation">
+    <a href="../" class="nav__wordmark" aria-label="Spiro Creatives home">
+      <img src="../assets/svg/SPIRO BRANGING-18.png" alt="Spiro Creatives" class="nav-logo nav-logo--dark">
+      <img src="../assets/svg/SPIRO BRANGING-17.png" alt="Spiro Creatives" class="nav-logo nav-logo--light">
+    </a>
+    <div style="display:flex;align-items:center;">
+      <div class="nav__pill">
+        <ul class="nav__links" role="list">
+          <li><a href="../work.html">Work</a></li>
+          <li><a href="../services.html">Services</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../journal.html">Journal</a></li>
+        </ul>
+        <span class="nav__pill-divider" aria-hidden="true"></span>
+        <a href="../services.html#start-a-project" class="nav__cta">Let&rsquo;s talk</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true">
+    <button class="nav-overlay__close" aria-label="Close menu">&times;</button>
+    <a href="../work.html">Work</a>
+    <a href="../services.html">Services</a>
+    <a href="../about.html">About</a>
+    <a href="../journal.html">Journal</a>
+    <a href="../services.html#start-a-project" class="nav-overlay__cta">Let&rsquo;s talk</a>
+  </div>
+
+  <!-- ── Case Study Content (populated by JS) ──────────────────── -->
+  <main id="cs-main">
+    <div class="cs-loading" id="cs-loading">Loading&hellip;</div>
+  </main>
+
+  <!-- ── Footer ────────────────────────────────────────────────── -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="footer__wordmark-block">
+      <div class="footer__big-wordmark" aria-label="Spiro Creatives">SPIRO CREATIVES</div>
+    </div>
+    <div class="footer__cols-wrap">
+      <div class="footer__col">
+        <div class="footer__city">London</div>
+        <div class="footer__time live-time" aria-live="polite"></div>
+        <a href="mailto:hello@spirocreatives.com" class="footer__email">hello@spirocreatives.com</a>
+      </div>
+      <div class="footer__col">
+        <div class="footer__city">Guildford</div>
+        <div class="footer__time live-time" aria-live="polite"></div>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-heading">Quick links</div>
+        <ul class="footer__links" role="list">
+          <li><a href="../work.html">Work</a></li>
+          <li><a href="../services.html">Services</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../services.html#start-a-project">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-heading">Other links</div>
+        <ul class="footer__links" role="list">
+          <li><a href="https://instagram.com/spirocreatives" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://linkedin.com/company/spirocreatives" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://vimeo.com/spirocreatives" target="_blank" rel="noopener">Vimeo</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer__divider" aria-hidden="true">
+    <div class="footer__bottom-wrap">
+      <div class="footer__social-icons">
+        <a href="https://instagram.com/spirocreatives" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://linkedin.com/company/spirocreatives" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://vimeo.com/spirocreatives" target="_blank" rel="noopener" aria-label="Vimeo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7.42c-.09 2.04-1.52 4.83-4.28 8.37C14.88 19.5 12.5 21.27 10.5 21.27c-1.2 0-2.22-1.11-3.04-3.33l-1.66-6.09C5.13 9.63 4.46 8.52 3.74 8.52c-.16 0-.71.33-1.66.98l-1-.3c1.04-1.17 2.1-2.3 3.13-3.4 1.41-1.22 2.47-1.86 3.18-1.9 1.67-.16 2.7.98 3.09 3.42.42 2.62.71 4.25.87 4.9.48 2.18 1.01 3.27 1.59 3.27.45 0 1.12-.71 2.03-2.13.9-1.42 1.38-2.5 1.44-3.25.13-1.23-.35-1.85-1.44-1.85-.51 0-1.04.12-1.59.35.95-3.29 2.77-4.9 5.45-4.82.71.02 1.25.23 1.66.64z"/></svg>
+        </a>
+      </div>
+      <div class="footer__right">
+        <button class="theme-toggle" aria-label="Toggle colour mode" type="button">
+          <span class="theme-toggle__circle">
+            <svg class="theme-toggle__icon-moon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="theme-toggle__icon-sun" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </span>
+        </button>
+        <span class="footer__copy">&copy; Spiro Creatives 2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="page-transition"></div>
+
+  <script>
+    // Theme toggle
+    (function () {
+      function toggleTheme() {
+        var current = document.documentElement.getAttribute('data-theme');
+        var next = current === 'dark' ? 'light' : 'dark';
+        var btn = document.querySelector('.theme-toggle');
+        var rect = btn.getBoundingClientRect();
+        var x = Math.round(rect.left + rect.width / 2);
+        var y = Math.round(rect.top + rect.height / 2);
+        var newBg = next === 'dark' ? '#1a1a1a' : '#ffffeb';
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;pointer-events:none;background:' + newBg + ';clip-path:circle(0px at ' + x + 'px ' + y + 'px);will-change:clip-path;';
+        document.body.appendChild(overlay);
+        overlay.getBoundingClientRect();
+        overlay.style.transition = 'clip-path 0.7s cubic-bezier(0.76, 0, 0.24, 1)';
+        overlay.style.clipPath = 'circle(200vmax at ' + x + 'px ' + y + 'px)';
+        setTimeout(function () { document.documentElement.setAttribute('data-theme', next); localStorage.setItem('spiro-theme', next); }, 350);
+        setTimeout(function () { overlay.remove(); }, 720);
+      }
+      var btn = document.querySelector('.theme-toggle');
+      if (btn) btn.addEventListener('click', toggleTheme);
+    }());
+
+    // Live clock
+    (function () {
+      function updateClock() {
+        var time = new Date().toLocaleString('en-GB', { weekday:'short', day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit', timeZone:'Europe/London', hour12:true });
+        document.querySelectorAll('.live-time').forEach(function(el) { el.textContent = time; });
+      }
+      updateClock();
+      setInterval(updateClock, 60000);
+    }());
+
+    // Mobile hamburger
+    (function () {
+      var hamburger = document.querySelector('.nav__hamburger');
+      var overlay   = document.getElementById('nav-overlay');
+      var closeBtn  = overlay.querySelector('.nav-overlay__close');
+      function openMenu() { overlay.classList.add('open'); hamburger.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+      function closeMenu() { overlay.classList.remove('open'); hamburger.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+      hamburger.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
+      overlay.querySelectorAll('a').forEach(function(l) { l.addEventListener('click', closeMenu); });
+      document.addEventListener('keydown', function(e) { if (e.key==='Escape' && overlay.classList.contains('open')) closeMenu(); });
+    }());
+
+    // Footer wordmark fly-in
+    (function () {
+      var wordmark = document.querySelector('.footer__big-wordmark');
+      var block    = document.querySelector('.footer__wordmark-block');
+      if (!wordmark || !block) return;
+      var ticking = false;
+      function update() {
+        var rect = block.getBoundingClientRect();
+        var winH = window.innerHeight;
+        var p = Math.max(0, Math.min(1, (winH - rect.top) / (winH * 0.6)));
+        var eased = 1 - Math.pow(1 - p, 3);
+        wordmark.style.transform = 'translateY(' + (100 - eased * 100) + '%)';
+        wordmark.style.opacity = eased;
+        ticking = false;
+      }
+      window.addEventListener('scroll', function() { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true });
+      update();
+    }());
+
+    // Page transitions
+    (function () {
+      var overlay = document.getElementById('page-transition');
+      if (!overlay) return;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { overlay.classList.add('is-out'); }); });
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href]');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href || href.charAt(0) === '#' || href.indexOf('mailto') === 0 || href.indexOf('tel') === 0 || link.target) return;
+        e.preventDefault();
+        overlay.style.transition = 'opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1)';
+        overlay.classList.remove('is-out');
+        setTimeout(function () { window.location.href = href; }, 420);
+      });
+    }());
+  </script>
+
+  <!-- ── Sanity fetch ───────────────────────────────────────────── -->
+  <script type="module">
+    import { client } from '../js/sanity.js';
+
+    const QUERY = `*[_type == "work" && slug.current == $slug][0] {
+      title,
+      client,
+      "slug": slug.current,
+      servicePillar,
+      "coverImage": coverImage.asset->url,
+      videoUrl,
+      summary,
+      body,
+      results,
+      publishedAt
+    }`;
+
+    function renderBody(body) {
+      if (!body || !Array.isArray(body)) return '';
+      return body.map(function(block) {
+        if (block._type !== 'block') return '';
+        const text = (block.children || []).map(function(c) { return c.text || ''; }).join('');
+        const style = block.style || 'normal';
+        if (style === 'h2') return `<h2 style="font-family:var(--font-display);font-size:1.6rem;font-weight:600;letter-spacing:-0.02em;margin:40px 0 16px;">${text}</h2>`;
+        if (style === 'h3') return `<h3 style="font-family:var(--font-display);font-size:1.2rem;font-weight:600;margin:32px 0 12px;">${text}</h3>`;
+        if (!text.trim()) return '';
+        return `<p>${text}</p>`;
+      }).join('');
+    }
+
+    function renderResults(results) {
+      if (!results || !results.length) return '';
+      const items = results.map(function(r) {
+        const label = typeof r === 'string' ? r : (r.label || r.value || JSON.stringify(r));
+        return `<div class="cs-result-item">${label}</div>`;
+      }).join('');
+      return `
+        <p class="cs-results-label">Results</p>
+        <div class="cs-results-grid">${items}</div>`;
+    }
+
+    function renderComingSoon() {
+      document.getElementById('cs-loading').remove();
+      document.getElementById('cs-main').innerHTML = `
+        <div class="cs-body" style="min-height:60vh;display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;">
+            <p style="font-family:var(--font-body);font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px;">Coming soon</p>
+            <a href="../work.html" style="font-family:var(--font-body);font-size:14px;color:var(--text-muted);text-decoration:none;">&larr; Back to all work</a>
+          </div>
+        </div>`;
+    }
+
+    function renderDoc(doc) {
+      const year = doc.publishedAt ? new Date(doc.publishedAt).getFullYear() : '';
+      const heroHtml = doc.coverImage
+        ? `<div class="cs-hero"><img src="${doc.coverImage}" alt="${doc.client || doc.title}" class="cs-hero-img"></div>`
+        : '';
+      const videoHtml = doc.videoUrl
+        ? `<div style="margin-bottom:48px;"><iframe src="${doc.videoUrl}" style="width:100%;aspect-ratio:16/9;border:none;" allowfullscreen></iframe></div>`
+        : '';
+
+      document.title = `${doc.title} — Spiro Creatives`;
+      document.getElementById('cs-main').innerHTML = `
+        <article>
+          ${heroHtml}
+          <div class="cs-meta-bar">
+            <div class="cs-meta-inner">
+              <div class="cs-meta-item">
+                <span class="cs-meta-label">Client</span>
+                <span class="cs-meta-value">${doc.client || ''}</span>
+              </div>
+              <div class="cs-meta-item">
+                <span class="cs-meta-label">Service</span>
+                <span class="cs-meta-value">${doc.servicePillar || ''}</span>
+              </div>
+              ${year ? `<div class="cs-meta-item"><span class="cs-meta-label">Year</span><span class="cs-meta-value">${year}</span></div>` : ''}
+            </div>
+          </div>
+          <div class="cs-body">
+            <div class="cs-body-inner">
+              <h1 class="cs-title">${doc.title || ''}</h1>
+              ${doc.summary ? `<p class="cs-summary">${doc.summary}</p>` : ''}
+              ${videoHtml}
+              <div class="cs-content">${renderBody(doc.body)}</div>
+              ${renderResults(doc.results)}
+            </div>
+          </div>
+          <div class="cs-back">
+            <a href="../work.html" class="cs-back-link">&larr; Back to all work</a>
+          </div>
+        </article>`;
+    }
+
+    const slug = new URLSearchParams(window.location.search).get('slug');
+
+    if (!slug) {
+      renderComingSoon();
+    } else {
+      try {
+        const doc = await client.fetch(QUERY, { slug });
+        if (doc) {
+          renderDoc(doc);
+        } else {
+          renderComingSoon();
+        }
+      } catch (err) {
+        console.warn('Sanity fetch failed:', err.message);
+        renderComingSoon();
+      }
+    }
+  </script>
+
+</body>
+</html>

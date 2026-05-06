@@ -6,6 +6,13 @@
   <title>Work — Spiro Creatives</title>
 
   <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <script type="importmap">
+  {
+    "imports": {
+      "@sanity/client": "https://esm.sh/@sanity/client"
+    }
+  }
+  </script>
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/work.css">
@@ -669,7 +676,13 @@
         <span class="kettle-card__client">Sorrel</span>
         <h2 class="kettle-card__title">A <span>restaurant finds its voice</span></h2>
       </div>
-      <div class="kettle-card__media" style="background: #1a2e1a;">
+      <div class="kettle-card__media" id="sorrel-slideshow">
+        <img src="assets/img/Sorrel/DSC01196-Edit.jpg" alt="Sorrel" class="slideshow-slide slideshow-slide--active">
+        <img src="assets/img/Sorrel/DSC01211-Edit.jpg" alt="Sorrel" class="slideshow-slide">
+        <img src="assets/img/Sorrel/DSC01490-Edit.jpg" alt="Sorrel" class="slideshow-slide">
+        <img src="assets/img/Sorrel/DSC01529.jpg" alt="Sorrel" class="slideshow-slide">
+        <img src="assets/img/Sorrel/DSC01570-Edit.jpg" alt="Sorrel" class="slideshow-slide">
+        <img src="assets/img/Sorrel/DSC01588-final.jpg" alt="Sorrel" class="slideshow-slide">
         <div class="kettle-card__pill">View case study &rarr;</div>
       </div>
     </a>
@@ -922,27 +935,27 @@
     }());
 
     // ── Work filter ──────────────────────────────────────────────
-    (function () {
-      var btns  = document.querySelectorAll('.filter-btn');
-      var cards = document.querySelectorAll('.work-card');
-
+    function initFilter() {
+      var btns = document.querySelectorAll('.filter-btn');
+      btns.forEach(function (btn) {
+        btn.replaceWith(btn.cloneNode(true)); // strip old listeners
+      });
+      btns = document.querySelectorAll('.filter-btn');
       btns.forEach(function (btn) {
         btn.addEventListener('click', function () {
           var filter = btn.getAttribute('data-filter');
-
           btns.forEach(function (b) { b.classList.remove('active'); });
           btn.classList.add('active');
-
-          cards.forEach(function (card) {
+          document.querySelectorAll('.work-card').forEach(function (card) {
             var pillar = card.getAttribute('data-pillar');
-            if (filter === 'all' || pillar === filter) {
-              card.classList.remove('hidden');
-            } else {
-              card.classList.add('hidden');
-            }
+            card.classList.toggle('hidden', filter !== 'all' && pillar !== filter);
           });
         });
       });
+    }
+    initFilter();
+
+    (function () {
 
       // ── View toggles ─────────────────────────────────────────────
       var viewBtns = document.querySelectorAll('.view-btn');
@@ -986,18 +999,20 @@
   <div id="page-transition"></div>
 
   <script>
-    // ── Assembly Slideshow ───────────────────────────────────────
-    (function() {
-      var slides = document.querySelectorAll('#assembly-slideshow .slideshow-slide');
+    // ── Slideshow helper ─────────────────────────────────────────
+    function initSlideshow(id, interval) {
+      var slides = document.querySelectorAll('#' + id + ' .slideshow-slide');
       if (!slides.length) return;
-      var current = 0;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var current = 0;
       setInterval(function() {
         slides[current].classList.remove('slideshow-slide--active');
         current = (current + 1) % slides.length;
         slides[current].classList.add('slideshow-slide--active');
-      }, 3000);
-    }());
+      }, interval);
+    }
+    initSlideshow('assembly-slideshow', 3000);
+    initSlideshow('sorrel-slideshow', 3500);
 
     // ── Page transitions ─────────────────────────────────────────
     (function () {
@@ -1018,6 +1033,59 @@
         setTimeout(function () { window.location.href = href; }, 420);
       });
     }());
+  </script>
+
+  <!-- ── Sanity CMS ────────────────────────────────────────────── -->
+  <script type="module">
+    import { client } from './js/sanity.js';
+
+    const QUERY = `*[_type == "work"] | order(publishedAt desc) {
+      title,
+      client,
+      "slug": slug.current,
+      servicePillar,
+      "coverImage": coverImage.asset->url,
+      summary,
+      featured,
+      publishedAt
+    }`;
+
+    function buildCard(doc, index) {
+      const pillar   = doc.servicePillar || 'content-production';
+      const slug     = doc.slug || '';
+      const href     = `/work/case-study.html?slug=${slug}`;
+      const delay    = index * 0.08;
+      const imgHtml  = doc.coverImage
+        ? `<img src="${doc.coverImage}" alt="${doc.client || doc.title}" class="slideshow-slide slideshow-slide--active">`
+        : '';
+      const bgStyle  = doc.coverImage ? '' : 'style="background: var(--bg-tertiary);"';
+
+      return `
+        <a href="${href}" class="work-card reveal is-visible" data-pillar="${pillar}" style="transition-delay:${delay}s">
+          <div class="kettle-card__content">
+            <span class="kettle-card__client">${doc.client || ''}</span>
+            <h2 class="kettle-card__title">${doc.title || ''}</h2>
+          </div>
+          <div class="kettle-card__media" ${bgStyle}>
+            ${imgHtml}
+            <div class="kettle-card__pill">View case study &rarr;</div>
+          </div>
+        </a>`;
+    }
+
+    try {
+      const docs = await client.fetch(QUERY);
+      if (docs && docs.length > 0) {
+        const grid = document.querySelector('.work-grid-inner');
+        if (grid) {
+          grid.innerHTML = docs.map(buildCard).join('');
+          initFilter();
+        }
+      }
+    } catch (err) {
+      // Sanity unavailable — hardcoded cards remain, page stays intact
+      console.warn('Sanity fetch failed, using hardcoded cards:', err.message);
+    }
   </script>
 
 </body>

@@ -894,6 +894,8 @@
       cursor: pointer;
       display: flex;
       flex-direction: column;
+      text-decoration: none;
+      color: inherit;
       transition: translate 0.7s cubic-bezier(0.16, 1, 0.3, 1),
                   box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -1686,8 +1688,13 @@
 
         <!-- Card 2 — tall -->
         <a href="/work/project-slug.html" class="work-card work-card--tall reveal" style="transition-delay: 0.1s">
-          <div class="work-card__media">
-            <div class="work-card__placeholder" style="background:#1a2e1a; aspect-ratio:4/5;"></div>
+          <div class="work-card__media" id="sorrel-home-slideshow">
+            <img src="assets/img/Sorrel/DSC01196-Edit.jpg" alt="Sorrel" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:4/5;">
+            <img src="assets/img/Sorrel/DSC01211-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
+            <img src="assets/img/Sorrel/DSC01490-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
+            <img src="assets/img/Sorrel/DSC01529.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
+            <img src="assets/img/Sorrel/DSC01570-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
+            <img src="assets/img/Sorrel/DSC01588-final.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
             <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
           </div>
           <div class="work-card__info">
@@ -2182,18 +2189,20 @@
       update();
     }());
 
-    // Assembly Coffee slideshow
-    (function() {
-      var slides = document.querySelectorAll('#assembly-slideshow .slideshow-slide');
+    // Slideshow helper
+    function initSlideshow(id, interval) {
+      var slides = document.querySelectorAll('#' + id + ' .slideshow-slide');
       if (!slides.length) return;
-      var current = 0;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var current = 0;
       setInterval(function() {
         slides[current].classList.remove('slideshow-slide--active');
         current = (current + 1) % slides.length;
         slides[current].classList.add('slideshow-slide--active');
-      }, 3000);
-    }());
+      }, interval);
+    }
+    initSlideshow('assembly-slideshow', 3000);
+    initSlideshow('sorrel-home-slideshow', 3500);
 
     // BTS card fan — pop up & flip on hover
     (function () {
