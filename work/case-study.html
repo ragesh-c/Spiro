@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/case-study.css">
+  <link rel="stylesheet" href="../css/contact-panel.css">
 
   <style>
     /* ── Tokens ─────────────────────────────────────────────────── */
@@ -38,6 +39,7 @@
       --nav-bg:         rgba(26, 26, 26, 0.92);
       --nav-link:       rgba(245, 241, 234, 0.75);
       --nav-link-hover: #f5f1ea;
+      --nav-pill-bg:    transparent;
       --footer-bg:      #000000;
     }
 
@@ -52,6 +54,7 @@
       --nav-bg:         rgba(255, 255, 235, 0.92);
       --nav-link:       rgba(26, 26, 26, 0.65);
       --nav-link-hover: #1a1a1a;
+      --nav-pill-bg:    transparent;
       --footer-bg:      #1a1a1a;
     }
 
@@ -78,19 +81,20 @@
     .nav-logo { height: 120px; width: auto; display: block; }
     [data-theme="dark"]  .nav-logo--light { display: none; }
     [data-theme="light"] .nav-logo--dark  { display: none; }
-    .nav__pill { display: flex; align-items: center; background: transparent !important; border: none !important; border-radius: 10px; padding: 0 6px 0 20px; height: 40px; }
+    .nav__pill { display: flex; align-items: center; background: var(--nav-pill-bg); border: none; border-radius: 8px; padding: 10px 22px; gap: 0; }
     .nav__links { display: flex; align-items: center; gap: 28px; list-style: none; }
-    .nav__links a { font-family: var(--font-body); font-size: 14px; color: var(--nav-link); text-decoration: none; transition: color 0.3s; }
-    .nav__links a:hover { color: var(--nav-link-hover); }
-    .nav__pill-divider { width: 1px; height: 16px; background: var(--divider); margin: 0 16px; }
-    .nav__cta { font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--orange); text-decoration: none; background: transparent; border: none; cursor: pointer; padding: 8px 12px; }
+    .nav__links a { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--nav-link); text-decoration: none; transition: color 0.3s, transform 0.35s; }
+    .nav__links a:hover { color: var(--nav-link-hover); transform: translateY(-1px); }
+    .nav__pill-divider { width: 1px; height: 16px; background: var(--divider); margin: 0 16px; flex-shrink: 0; }
+    .nav__cta { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--nav-link); text-decoration: none; background: transparent; border: none; cursor: pointer; padding: 0; transition: color 0.35s, transform 0.35s; }
+    .nav__cta:hover { color: var(--nav-link-hover); transform: translateY(-1px); }
     .nav__hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 28px; height: 28px; cursor: pointer; background: none; border: none; padding: 0; }
     .nav__hamburger span { display: block; width: 100%; height: 1.5px; background: var(--text-primary); border-radius: 1px; }
     .nav-overlay { display: none; position: fixed; inset: 0; background: var(--bg-primary); z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
     .nav-overlay.open { display: flex; }
     .nav-overlay a { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 6vw, 3.5rem); color: var(--text-primary); text-decoration: none; }
     .nav-overlay__close { position: absolute; top: 16px; right: 24px; font-size: 28px; color: var(--text-primary); background: none; border: none; cursor: pointer; font-family: var(--font-body); }
-    .nav-overlay__cta { font-family: var(--font-body); font-size: 16px; color: var(--text-primary); border: 1px solid var(--divider); padding: 12px 32px; border-radius: 4px; text-decoration: none; margin-top: 8px; }
+    .nav-overlay__cta { font-family: var(--font-body); font-size: 16px; color: var(--text-primary); border: 1px solid var(--divider); padding: 12px 32px; border-radius: 100px; text-decoration: none; margin-top: 8px; }
     @media (max-width: 767px) { .nav__pill { display: none; } .nav__hamburger { display: flex; } }
 
     /* ── Theme toggle ────────────────────────────────────────────── */
@@ -451,5 +455,6 @@
     }
   </script>
 
+  <script src="../js/contact-panel.js"></script>
 </body>
 </html>

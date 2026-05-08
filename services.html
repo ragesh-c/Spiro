@@ -34,6 +34,7 @@
       --nav-link:       rgba(245, 241, 234, 0.75);
       --nav-link-hover: #f5f1ea;
       --nav-wordmark:   #f5f1ea;
+      --nav-pill-bg:    transparent;
       --footer-bg:      #000000;
       --tagline-bg:     #1a1a1a;
       --tagline-text:   rgba(245, 241, 234, 0.45);
@@ -52,6 +53,7 @@
       --nav-link:       rgba(26, 26, 26, 0.65);
       --nav-link-hover: #1a1a1a;
       --nav-wordmark:   #1a1a1a;
+      --nav-pill-bg:    transparent;
       --footer-bg:      #1a1a1a;
       --tagline-bg:     #ffffeb;
       --tagline-text:   rgba(26, 26, 26, 0.45);
@@ -210,6 +212,9 @@
       padding: 0 28px;
       z-index: 99;
       background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--divider);
     }
 
     /* Wordmark */
@@ -230,14 +235,13 @@
     [data-theme="dark"]  .nav-logo--light { display: none; }
     [data-theme="light"] .nav-logo--dark  { display: none; }
 
-    /* Pill — groups links + divider + CTA */
     .nav__pill {
       display: flex;
       align-items: center;
-      border: 1px solid var(--divider);
-      border-radius: 10px;
-      padding: 0 6px 0 20px;
-      height: 40px;
+      background: var(--nav-pill-bg);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 22px;
       gap: 0;
     }
 
@@ -250,8 +254,8 @@
 
     .nav__links a {
       font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 14px;
+      font-weight: 600;
+      font-size: 15px;
       color: var(--nav-link);
       text-decoration: none;
       transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -289,20 +293,19 @@
       flex-shrink: 0;
     }
 
-    /* CTA */
     .nav__cta {
       font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 14px;
-      color: var(--orange);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--nav-link);
       text-decoration: none;
       background: transparent;
       border: none;
       cursor: pointer;
-      padding: 8px 12px;
+      padding: 0;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                   transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -312,7 +315,7 @@
     }
 
     .nav__cta:hover {
-      opacity: 0.85;
+      color: var(--nav-link-hover);
       transform: translateY(-1px);
     }
 
@@ -384,7 +387,7 @@
       color: var(--text-primary);
       border: 1px solid var(--divider);
       padding: 12px 32px;
-      border-radius: 4px;
+      border-radius: 100px;
       text-decoration: none;
       margin-top: 8px;
     }
@@ -1006,6 +1009,7 @@
     }
 
   </style>
+  <link rel="stylesheet" href="css/contact-panel.css">
 </head>
 <body>
 
@@ -1492,5 +1496,6 @@
     }());
   </script>
 
+  <script src="js/contact-panel.js"></script>
 </body>
 </html>

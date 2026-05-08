@@ -156,18 +156,10 @@
       justify-content: space-between;
       padding: 0 28px;
       z-index: 99;
-      background: transparent;
-      transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .nav.scrolled {
-      background: transparent;
-      border-bottom: none;
-    }
-
-    [data-theme="light"] .nav {
       background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--divider);
     }
 
     .nav__wordmark {
@@ -190,17 +182,11 @@
     .nav__pill {
       display: flex;
       align-items: center;
-      background: transparent !important;
-      border: none !important;
-      border-radius: 10px;
-      padding: 0 6px 0 20px;
-      height: 40px;
+      background: var(--nav-pill-bg);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 22px;
       gap: 0;
-    }
-
-    [data-theme="light"] .nav__pill {
-      background: transparent !important;
-      border: none !important;
     }
 
     .nav__links {
@@ -212,8 +198,8 @@
 
     .nav__links a {
       font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 14px;
+      font-weight: 600;
+      font-size: 15px;
       color: var(--nav-link);
       text-decoration: none;
       transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -253,17 +239,17 @@
 
     .nav__cta {
       font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 14px;
-      color: var(--orange);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--nav-link);
       text-decoration: none;
       background: transparent;
       border: none;
       cursor: pointer;
-      padding: 8px 12px;
+      padding: 0;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                   transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -273,7 +259,7 @@
     }
 
     .nav__cta:hover {
-      opacity: 0.85;
+      color: var(--nav-link-hover);
       transform: translateY(-1px);
     }
 
@@ -343,7 +329,7 @@
       color: var(--text-primary);
       border: 1px solid var(--divider);
       padding: 12px 32px;
-      border-radius: 4px;
+      border-radius: 100px;
       text-decoration: none;
       margin-top: 8px;
     }
@@ -573,6 +559,7 @@
       opacity: 0;
     }
   </style>
+  <link rel="stylesheet" href="css/contact-panel.css">
 </head>
 <body>
 
@@ -650,7 +637,7 @@
     <div class="work-grid-inner">
 
       <!-- Assembly Coffee -->
-      <a href="work/case-study.html?slug=the-morning-ritual" class="work-card reveal" data-pillar="social-media">
+      <a href="/work/case-study.html?slug=the-morning-ritual" class="work-card reveal" data-pillar="social-media">
       <div class="kettle-card__content">
         <span class="kettle-card__client">Assembly Coffee</span>
         <h2 class="kettle-card__title">The <span>morning ritual</span></h2>
@@ -681,7 +668,7 @@
     </a>
 
       <!-- Cezara Hertanu -->
-      <a href="work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.12s">
+      <a href="/work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.12s">
       <div class="kettle-card__content">
         <span class="kettle-card__client">Cezara Hertanu</span>
         <h2 class="kettle-card__title">A <span>personal brand, built to last</span></h2>
@@ -692,7 +679,7 @@
     </a>
 
       <!-- Clubhouse PT -->
-      <a href="work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.16s">
+      <a href="/work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.16s">
       <div class="kettle-card__content">
         <span class="kettle-card__client">Clubhouse PT</span>
         <h2 class="kettle-card__title">Strength <span>looks like this</span></h2>
@@ -975,7 +962,7 @@
           cursor.style.top = e.clientY + 'px';
         });
 
-        cards.forEach(function (card) {
+        document.querySelectorAll('.work-card').forEach(function (card) {
           card.addEventListener('mouseenter', function () {
             if (workGridInner.classList.contains('is-grid')) {
               cursor.classList.add('is-visible');
@@ -1028,6 +1015,6 @@
     }());
   </script>
 
-
+  <script src="js/contact-panel.js"></script>
 </body>
 </html>
