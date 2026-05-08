@@ -570,95 +570,75 @@
     }
 
     /* ════════════════════════════════════════════════════════════ */
-    /* LET'S TALK                                                  */
+    /* CAL SHEET                                                    */
     /* ════════════════════════════════════════════════════════════ */
-    .lets-talk {
+    .cal-sheet {
+      position: fixed; inset: 0; z-index: 99000;
+      pointer-events: none; visibility: hidden;
+    }
+    .cal-sheet.open { pointer-events: all; visibility: visible; }
+    .cal-sheet__backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.55);
+      opacity: 0; transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    }
+    .cal-sheet.open .cal-sheet__backdrop { opacity: 1; }
+    .cal-sheet__panel {
+      position: absolute; top: 0; right: 0; bottom: 0;
+      width: min(100%, 760px);
       background: var(--bg-primary);
-      padding: 120px 80px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 56px;
+      border-left: 1px solid var(--divider);
+      transform: translateX(100%);
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column;
+      overflow-y: auto;
     }
-
-    .lets-talk__header {
-      text-align: center;
-      max-width: 560px;
+    .cal-sheet.open .cal-sheet__panel { transform: translateX(0); }
+    .cal-sheet__head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 36px 40px 28px; flex-shrink: 0;
+      border-bottom: 1px solid var(--divider);
     }
-
-    .lets-talk__label {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--orange);
-      display: block;
-      margin-bottom: 16px;
+    .cal-sheet__label {
+      font-family: var(--font-body); font-size: 11px;
+      font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--orange);
+      display: block; margin-bottom: 8px;
     }
-
-    .lets-talk__heading {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(2.8rem, 5vw, 5rem);
-      color: #f5f1ea;
-      line-height: 1.0;
-      margin-bottom: 20px;
+    .cal-sheet__heading {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--text-primary); line-height: 1.0;
+      margin-bottom: 10px;
     }
-
-    .lets-talk__sub {
-      font-family: var(--font-body);
-      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-      color: rgba(245, 241, 234, 0.55);
-      line-height: 1.6;
+    .cal-sheet__sub {
+      font-family: var(--font-body); font-size: 0.95rem;
+      color: var(--text-secondary); line-height: 1.65;
     }
-
-    .lets-talk__cal-wrapper {
-      width: 100%;
-      max-width: 1000px;
-      min-height: 600px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(245, 241, 234, 0.08);
-      background: var(--bg-secondary);
+    .cal-sheet__close {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-secondary); font-size: 32px; line-height: 1;
+      font-family: var(--font-body); padding: 0 0 0 24px;
+      flex-shrink: 0; transition: color 0.2s ease;
     }
-
-    #my-cal-inline-intro-call-spiro-creatives {
-      width: 100% !important;
-      min-height: 600px;
+    .cal-sheet__close:hover { color: var(--text-primary); }
+    .cal-sheet__body {
+      flex: 1; padding: 32px 40px;
+      display: flex; flex-direction: column; gap: 24px;
     }
-
-    .lets-talk__fallback {
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: rgba(245, 241, 234, 0.45);
-      text-align: center;
+    .cal-sheet__cal-wrap { flex: 1; min-height: 600px; }
+    .cal-sheet__fallback {
+      font-family: var(--font-body); font-size: 0.9rem;
+      color: var(--text-secondary); padding-top: 4px;
     }
-
-    .lets-talk__fallback a {
-      color: #f5f1ea;
-      border-bottom: 1px solid rgba(245, 241, 234, 0.3);
-      text-decoration: none;
-      transition: border-color 0.2s ease, color 0.2s ease;
+    .cal-sheet__fallback a {
+      color: var(--text-primary);
+      text-decoration: underline; text-underline-offset: 3px;
     }
-
-    .lets-talk__fallback a:hover {
-      border-color: var(--orange);
-      color: var(--orange);
-    }
-
-    @media (max-width: 768px) {
-      .lets-talk {
-        padding: 80px 24px;
-        gap: 40px;
-      }
-      .lets-talk__cal-wrapper {
-        min-height: 700px;
-        border-radius: 8px;
-      }
-      #my-cal-inline-intro-call-spiro-creatives {
-        min-height: 700px;
-      }
+    @media (max-width: 600px) {
+      .cal-sheet__head { padding: 28px 24px 20px; }
+      .cal-sheet__body { padding: 24px; }
     }
 
     /* ════════════════════════════════════════════════════════════ */
@@ -1735,7 +1715,7 @@
           <li><a href="journal.html">Journal</a></li>
         </ul>
         <span class="nav__pill-divider" aria-hidden="true"></span>
-        <a href="#lets-talk" class="nav__cta" role="button">Let&rsquo;s talk</a>
+        <a href="#" data-cal-sheet class="nav__cta" role="button">Let&rsquo;s talk</a>
       </div>
 
       <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay">
@@ -1753,7 +1733,7 @@
     <a href="services.html">Services</a>
     <a href="about.html">About</a>
     <a href="journal.html">Journal</a>
-    <a href="#lets-talk" class="nav-overlay__cta">Let&rsquo;s talk</a>
+    <a href="#" data-cal-sheet class="nav-overlay__cta">Let&rsquo;s talk</a>
   </div>
 
   <!-- ── Hero ───────────────────────────────────────────────── -->
@@ -2001,84 +1981,6 @@
 
   </section>
 
-  <!-- ── Let's Talk ─────────────────────────────────────────── -->
-  <section class="lets-talk" id="lets-talk">
-
-    <div class="lets-talk__header">
-      <span class="lets-talk__label">Book a call</span>
-      <h2 class="lets-talk__heading">Let&rsquo;s talk.</h2>
-      <p class="lets-talk__sub">
-        30 minutes. No pitch, no pressure.<br>
-        Just a conversation about what you&rsquo;re working on.
-      </p>
-    </div>
-
-    <div class="lets-talk__cal-wrapper">
-      <!-- Cal inline embed code begins -->
-      <div
-        style="width:100%;height:100%;overflow:scroll"
-        id="my-cal-inline-intro-call-spiro-creatives">
-      </div>
-      <script type="text/javascript">
-        (function (C, A, L) {
-          let p = function (a, ar) { a.q.push(ar); };
-          let d = C.document;
-          C.Cal = C.Cal || function () {
-            let cal = C.Cal;
-            let ar = arguments;
-            if (!cal.loaded) {
-              cal.ns = {};
-              cal.q = cal.q || [];
-              d.head.appendChild(d.createElement("script")).src = A;
-              cal.loaded = true;
-            }
-            if (ar[0] === L) {
-              const api = function () { p(api, arguments); };
-              const namespace = ar[1];
-              api.q = api.q || [];
-              if (typeof namespace === "string") {
-                cal.ns[namespace] = cal.ns[namespace] || api;
-                p(cal.ns[namespace], ar);
-                p(cal, ["initNamespace", namespace]);
-              } else p(cal, ar);
-              return;
-            }
-            p(cal, ar);
-          };
-        })(window, "https://app.cal.com/embed/embed.js", "init");
-
-        Cal("init", "intro-call-spiro-creatives", {origin:"https://app.cal.com"});
-
-        Cal.ns["intro-call-spiro-creatives"]("inline", {
-          elementOrSelector:"#my-cal-inline-intro-call-spiro-creatives",
-          config: {
-            "layout":"month_view",
-            "useSlotsViewOnSmallScreen":"true"
-          },
-          calLink: "spiro-c-2mxfjy/intro-call-spiro-creatives",
-        });
-
-        Cal.ns["intro-call-spiro-creatives"]("ui", {
-          "hideEventTypeDetails": false,
-          "layout": "month_view",
-          "theme": "dark",
-          "cssVarsPerTheme": {
-            "dark":  {"cal-brand": "#f5ac45"},
-            "light": {"cal-brand": "#f5ac45"}
-          }
-        });
-      </script>
-      <!-- Cal inline embed code ends -->
-    </div>
-
-    <div class="lets-talk__fallback">
-      <p>Prefer to write first?
-        <a href="mailto:hello@spirocreatives.co.uk">hello@spirocreatives.co.uk</a>
-      </p>
-    </div>
-
-  </section>
-
   <div class="ticker-wrap" aria-label="Studio news" aria-hidden="true">
     <div class="ticker-track">
       <span class="ticker-item">Available for new projects&emsp;★</span>
@@ -2137,7 +2039,7 @@
           <li><a href="services.html">Services</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="journal.html">Journal</a></li>
-          <li><a href="#lets-talk">Contact</a></li>
+          <li><a href="#" data-cal-sheet>Contact</a></li>
         </ul>
       </div>
 
@@ -2531,6 +2433,93 @@
         rows.forEach(function(row) { observer.observe(row); });
       }
     })();
+  </script>
+
+  <!-- ── Cal Sheet ──────────────────────────────────────────── -->
+  <div id="cal-sheet" class="cal-sheet" role="dialog" aria-modal="true" aria-label="Book a call">
+    <div class="cal-sheet__backdrop"></div>
+    <div class="cal-sheet__panel">
+      <div class="cal-sheet__head">
+        <div>
+          <span class="cal-sheet__label">Book a call</span>
+          <h2 class="cal-sheet__heading">Let&rsquo;s talk.</h2>
+          <p class="cal-sheet__sub">30 minutes. No pitch, no pressure.<br>Just a conversation about what you&rsquo;re working on.</p>
+        </div>
+        <button class="cal-sheet__close" aria-label="Close">&times;</button>
+      </div>
+      <div class="cal-sheet__body">
+        <div class="cal-sheet__cal-wrap">
+          <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-intro-call-spiro-creatives"></div>
+        </div>
+        <p class="cal-sheet__fallback">
+          Prefer to write first? <a href="mailto:hello@spirocreatives.co.uk">hello@spirocreatives.co.uk</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Cal sheet ─────────────────────────────────────────────────
+    (function () {
+      var sheet = document.getElementById('cal-sheet');
+      if (!sheet) return;
+      var calLoaded = false;
+
+      function openSheet() {
+        sheet.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if (!calLoaded) {
+          calLoaded = true;
+          (function (C, A, L) {
+            var p = function (a, ar) { a.q.push(ar); };
+            var d = C.document;
+            C.Cal = C.Cal || function () {
+              var cal = C.Cal; var ar = arguments;
+              if (!cal.loaded) {
+                cal.ns = {}; cal.q = cal.q || [];
+                d.head.appendChild(d.createElement('script')).src = A;
+                cal.loaded = true;
+              }
+              if (ar[0] === L) {
+                var api = function () { p(api, arguments); };
+                var namespace = ar[1]; api.q = api.q || [];
+                if (typeof namespace === 'string') {
+                  cal.ns[namespace] = cal.ns[namespace] || api;
+                  p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]);
+                } else p(cal, ar); return;
+              }
+              p(cal, ar);
+            };
+          })(window, 'https://app.cal.com/embed/embed.js', 'init');
+          Cal('init', 'intro-call-spiro-creatives', { origin: 'https://app.cal.com' });
+          Cal.ns['intro-call-spiro-creatives']('inline', {
+            elementOrSelector: '#my-cal-inline-intro-call-spiro-creatives',
+            config: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true' },
+            calLink: 'spiro-c-2mxfjy/intro-call-spiro-creatives',
+          });
+          Cal.ns['intro-call-spiro-creatives']('ui', {
+            hideEventTypeDetails: false, layout: 'month_view', theme: 'dark',
+            cssVarsPerTheme: { dark: {'cal-brand':'#f5ac45'}, light: {'cal-brand':'#f5ac45'} },
+          });
+        }
+      }
+
+      function closeSheet() {
+        sheet.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('[data-cal-sheet]').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault(); e.stopPropagation(); openSheet();
+        });
+      });
+      sheet.querySelector('.cal-sheet__backdrop').addEventListener('click', closeSheet);
+      sheet.querySelector('.cal-sheet__close').addEventListener('click', closeSheet);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
+      });
+    }());
   </script>
 
   <div id="page-transition"></div>
