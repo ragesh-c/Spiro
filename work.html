@@ -6,8 +6,9 @@
   <title>Work — Spiro Creatives</title>
 
   <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="css/work.css">
 
   <style>
@@ -552,14 +553,15 @@
       z-index: 100000;
       background: var(--bg-primary);
       pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: pt-reveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
     }
-    #page-transition.is-out {
-      opacity: 0;
+    @keyframes pt-reveal {
+      from { opacity: 1; }
+      to   { opacity: 0; }
     }
   </style>
-  <link rel="stylesheet" href="css/contact-panel.css">
+  <link rel="preload" href="css/contact-panel.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/contact-panel.css"></noscript>
 </head>
 <body>
 
@@ -643,9 +645,9 @@
         <h2 class="kettle-card__title">The <span>morning ritual</span></h2>
       </div>
       <div class="kettle-card__media" id="assembly-slideshow">
-        <img src="assets/img/Assembly/DSC05314-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide slideshow-slide--active">
-        <img src="assets/img/Assembly/DSC05319-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide">
-        <img src="assets/img/Assembly/DSC05334-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide">
+        <img src="assets/img/web/Assembly/DSC05314-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide slideshow-slide--active" fetchpriority="high">
+        <img src="assets/img/web/Assembly/DSC05319-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" loading="lazy">
+        <img src="assets/img/web/Assembly/DSC05334-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" loading="lazy">
         <div class="kettle-card__pill">View case study &rarr;</div>
       </div>
     </a>
@@ -657,12 +659,12 @@
         <h2 class="kettle-card__title">A <span>restaurant finds its voice</span></h2>
       </div>
       <div class="kettle-card__media" id="sorrel-slideshow">
-        <img src="assets/img/Sorrel/DSC01196-Edit.jpg" alt="Sorrel" class="slideshow-slide slideshow-slide--active">
-        <img src="assets/img/Sorrel/DSC01211-Edit.jpg" alt="Sorrel" class="slideshow-slide">
-        <img src="assets/img/Sorrel/DSC01490-Edit.jpg" alt="Sorrel" class="slideshow-slide">
-        <img src="assets/img/Sorrel/DSC01529.jpg" alt="Sorrel" class="slideshow-slide">
-        <img src="assets/img/Sorrel/DSC01570-Edit.jpg" alt="Sorrel" class="slideshow-slide">
-        <img src="assets/img/Sorrel/DSC01588-final.jpg" alt="Sorrel" class="slideshow-slide">
+        <img src="assets/img/web/Sorrel/DSC01196-Edit.jpg" alt="Sorrel" class="slideshow-slide slideshow-slide--active" fetchpriority="high">
+        <img src="assets/img/web/Sorrel/DSC01211-Edit.jpg" alt="Sorrel" class="slideshow-slide" loading="lazy">
+        <img src="assets/img/web/Sorrel/DSC01490-Edit.jpg" alt="Sorrel" class="slideshow-slide" loading="lazy">
+        <img src="assets/img/web/Sorrel/DSC01529.jpg" alt="Sorrel" class="slideshow-slide" loading="lazy">
+        <img src="assets/img/web/Sorrel/DSC01570-Edit.jpg" alt="Sorrel" class="slideshow-slide" loading="lazy">
+        <img src="assets/img/web/Sorrel/DSC01588-final.jpg" alt="Sorrel" class="slideshow-slide" loading="lazy">
         <div class="kettle-card__pill">View case study &rarr;</div>
       </div>
     </a>
@@ -998,9 +1000,6 @@
     (function () {
       var overlay = document.getElementById('page-transition');
       if (!overlay) return;
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () { overlay.classList.add('is-out'); });
-      });
       document.addEventListener('click', function (e) {
         var link = e.target.closest('a[href]');
         if (!link) return;
@@ -1008,9 +1007,15 @@
         if (!href || href.charAt(0) === '#' || href.indexOf('mailto') === 0 ||
             href.indexOf('tel') === 0 || link.target) return;
         e.preventDefault();
+        overlay.style.animation = 'none';
+        overlay.style.opacity = '0';
+        overlay.offsetHeight;
         overlay.style.transition = 'opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1)';
-        overlay.classList.remove('is-out');
-        setTimeout(function () { window.location.href = href; }, 420);
+        overlay.style.pointerEvents = 'all';
+        requestAnimationFrame(function () {
+          overlay.style.opacity = '1';
+          setTimeout(function () { window.location.href = href; }, 420);
+        });
       });
     }());
   </script>

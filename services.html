@@ -7,7 +7,8 @@
 
   <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="css/services.css">
 
   <style>
@@ -1001,15 +1002,15 @@
       z-index: 100000;
       background: var(--bg-primary);
       pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: pt-reveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
     }
-    #page-transition.is-out {
-      opacity: 0;
+    @keyframes pt-reveal {
+      from { opacity: 1; }
+      to   { opacity: 0; }
     }
-
   </style>
-  <link rel="stylesheet" href="css/contact-panel.css">
+  <link rel="preload" href="css/contact-panel.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/contact-panel.css"></noscript>
 </head>
 <body>
 
@@ -1475,13 +1476,6 @@
     (function () {
       var overlay = document.getElementById('page-transition');
       if (!overlay) return;
-
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          overlay.classList.add('is-out');
-        });
-      });
-
       document.addEventListener('click', function (e) {
         var link = e.target.closest('a[href]');
         if (!link) return;
@@ -1489,9 +1483,15 @@
         if (!href || href.charAt(0) === '#' || href.indexOf('mailto') === 0 ||
             href.indexOf('tel') === 0 || link.target) return;
         e.preventDefault();
+        overlay.style.animation = 'none';
+        overlay.style.opacity = '0';
+        overlay.offsetHeight;
         overlay.style.transition = 'opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1)';
-        overlay.classList.remove('is-out');
-        setTimeout(function () { window.location.href = href; }, 420);
+        overlay.style.pointerEvents = 'all';
+        requestAnimationFrame(function () {
+          overlay.style.opacity = '1';
+          setTimeout(function () { window.location.href = href; }, 420);
+        });
       });
     }());
   </script>

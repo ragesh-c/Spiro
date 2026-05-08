@@ -7,7 +7,8 @@
 
   <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=chillax@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=chillax@500,600,700&f[]=general-sans@400,500,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://api.fontshare.com/v2/css?f[]=chillax@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet"></noscript>
 
   <style>
     /* ── Tokens ─────────────────────────────────────────────────── */
@@ -566,6 +567,51 @@
       .hero__subline {
         font-size: 16px;
       }
+    }
+
+    /* ════════════════════════════════════════════════════════════ */
+    /* NEWS TICKER                                                 */
+    /* ════════════════════════════════════════════════════════════ */
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: var(--orange);
+      padding: 13px 0;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: ticker-scroll 45s linear infinite;
+      will-change: transform;
+    }
+
+    .ticker-wrap:hover .ticker-track {
+      animation-play-state: paused;
+    }
+
+    .ticker-item {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: #1a1a1a;
+      white-space: nowrap;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-track { animation: none; }
     }
 
     /* ════════════════════════════════════════════════════════════ */
@@ -1570,14 +1616,15 @@
       z-index: 100000;
       background: var(--bg-primary);
       pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: pt-reveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
     }
-    #page-transition.is-out {
-      opacity: 0;
+    @keyframes pt-reveal {
+      from { opacity: 1; }
+      to   { opacity: 0; }
     }
   </style>
-  <link rel="stylesheet" href="css/contact-panel.css">
+  <link rel="preload" href="css/contact-panel.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/contact-panel.css"></noscript>
 </head>
 <body>
 
@@ -1625,7 +1672,7 @@
     <!-- Video background -->
     <div class="hero__video-bg" aria-hidden="true">
       <video autoplay muted loop playsinline poster="assets/img/hero-poster.jpg">
-        <source src="assets/video/Spiro%20Creatives%20%E2%80%93%20Video%20content%20production.mov">
+        <source src="assets/video/hero.mp4" type="video/mp4">
       </video>
     </div>
 
@@ -1663,9 +1710,9 @@
         <!-- Card 1 — large -->
         <a href="/work/case-study.html?slug=the-morning-ritual" class="work-card work-card--large reveal" style="transition-delay: 0s">
           <div class="work-card__media" id="assembly-slideshow">
-            <img src="assets/img/Assembly/DSC05314-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:16/9;">
-            <img src="assets/img/Assembly/DSC05319-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;">
-            <img src="assets/img/Assembly/DSC05334-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;">
+            <img src="assets/img/web/Assembly/DSC05314-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:16/9;" fetchpriority="high">
+            <img src="assets/img/web/Assembly/DSC05319-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;" loading="lazy">
+            <img src="assets/img/web/Assembly/DSC05334-Edit.jpg" alt="Assembly Coffee" class="slideshow-slide" style="aspect-ratio:16/9;" loading="lazy">
             <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
           </div>
           <div class="work-card__info">
@@ -1680,12 +1727,12 @@
         <!-- Card 2 — tall -->
         <a href="/work/case-study.html?slug=Sorrel-restaurant" class="work-card work-card--tall reveal" style="transition-delay: 0.1s">
           <div class="work-card__media" id="sorrel-home-slideshow">
-            <img src="assets/img/Sorrel/DSC01196-Edit.jpg" alt="Sorrel" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:4/5;">
-            <img src="assets/img/Sorrel/DSC01211-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
-            <img src="assets/img/Sorrel/DSC01490-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
-            <img src="assets/img/Sorrel/DSC01529.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
-            <img src="assets/img/Sorrel/DSC01570-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
-            <img src="assets/img/Sorrel/DSC01588-final.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;">
+            <img src="assets/img/web/Sorrel/DSC01196-Edit.jpg" alt="Sorrel" class="slideshow-slide slideshow-slide--active" style="aspect-ratio:4/5;" fetchpriority="high">
+            <img src="assets/img/web/Sorrel/DSC01211-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;" loading="lazy">
+            <img src="assets/img/web/Sorrel/DSC01490-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;" loading="lazy">
+            <img src="assets/img/web/Sorrel/DSC01529.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;" loading="lazy">
+            <img src="assets/img/web/Sorrel/DSC01570-Edit.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;" loading="lazy">
+            <img src="assets/img/web/Sorrel/DSC01588-final.jpg" alt="Sorrel" class="slideshow-slide" style="aspect-ratio:4/5;" loading="lazy">
             <div class="work-card__hover"><span class="work-card__hover-label">View project &rarr;</span></div>
           </div>
           <div class="work-card__info">
@@ -1863,6 +1910,32 @@
     </div>
 
   </section>
+
+  <div class="ticker-wrap" aria-label="Studio news" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">Available for new projects&emsp;★</span>
+      <span class="ticker-item">Brand films for Assembly Coffee&emsp;★</span>
+      <span class="ticker-item">Editorial photography for Sorrel Restaurant&emsp;★</span>
+      <span class="ticker-item">Content Production &amp; Social Media Management&emsp;★</span>
+      <span class="ticker-item">Based in London &amp; Guildford&emsp;★</span>
+      <span class="ticker-item">Working with brands that mean something&emsp;★</span>
+      <span class="ticker-item">Campaign work for Cezara Hertanu&emsp;★</span>
+      <span class="ticker-item">Social content for Clubhouse PT&emsp;★</span>
+      <span class="ticker-item">Strategy. Production. Delivery.&emsp;★</span>
+      <span class="ticker-item">hello@spirocreatives.com&emsp;★</span>
+      <!-- Duplicate set for seamless loop -->
+      <span class="ticker-item">Available for new projects&emsp;★</span>
+      <span class="ticker-item">Brand films for Assembly Coffee&emsp;★</span>
+      <span class="ticker-item">Editorial photography for Sorrel Restaurant&emsp;★</span>
+      <span class="ticker-item">Content Production &amp; Social Media Management&emsp;★</span>
+      <span class="ticker-item">Based in London &amp; Guildford&emsp;★</span>
+      <span class="ticker-item">Working with brands that mean something&emsp;★</span>
+      <span class="ticker-item">Campaign work for Cezara Hertanu&emsp;★</span>
+      <span class="ticker-item">Social content for Clubhouse PT&emsp;★</span>
+      <span class="ticker-item">Strategy. Production. Delivery.&emsp;★</span>
+      <span class="ticker-item">hello@spirocreatives.com&emsp;★</span>
+    </div>
+  </div>
 
   <!-- ── Footer ────────────────────────────────────────────── -->
   <footer class="footer" aria-label="Site footer">
@@ -2299,15 +2372,7 @@
     (function () {
       var overlay = document.getElementById('page-transition');
       if (!overlay) return;
-
-      // Reveal page on load
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          overlay.classList.add('is-out');
-        });
-      });
-
-      // Fade out before navigating
+      // Reveal is handled by CSS animation — no JS needed on load
       document.addEventListener('click', function (e) {
         var link = e.target.closest('a[href]');
         if (!link) return;
@@ -2315,9 +2380,15 @@
         if (!href || href.charAt(0) === '#' || href.indexOf('mailto') === 0 ||
             href.indexOf('tel') === 0 || link.target) return;
         e.preventDefault();
+        overlay.style.animation = 'none';
+        overlay.style.opacity = '0';
+        overlay.offsetHeight; // force reflow
         overlay.style.transition = 'opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1)';
-        overlay.classList.remove('is-out');
-        setTimeout(function () { window.location.href = href; }, 420);
+        overlay.style.pointerEvents = 'all';
+        requestAnimationFrame(function () {
+          overlay.style.opacity = '1';
+          setTimeout(function () { window.location.href = href; }, 420);
+        });
       });
     }());
   </script>
