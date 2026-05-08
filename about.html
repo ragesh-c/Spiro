@@ -368,120 +368,63 @@
     /* WHY US                                                       */
     /* ════════════════════════════════════════════════════════════ */
     .about-why {
-      background: var(--bg-primary);
-      border-top: 1px solid var(--divider);
+      background: var(--orange);
+      padding: 80px var(--space-side) 120px;
     }
-    .about-why__header {
-      padding: 80px var(--space-side) 0;
+    .about-why__inner {
       max-width: var(--max-wide);
       margin: 0 auto;
     }
-    .about-why__eyebrow {
-      font-family: var(--font-body);
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--text-muted); display: block;
+    .about-why__tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
     }
-    .why-block {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 560px;
-      border-top: 1px solid var(--divider);
+    .about-why__tag-badge {
+      background: #1a1a1a; color: var(--orange);
+      padding: 3px 9px; border-radius: 5px;
+      font-family: var(--font-body); font-size: 11px;
+      font-weight: 600; letter-spacing: 0.08em;
     }
-    .why-block__text {
-      padding: 80px var(--space-side);
-      display: flex; flex-direction: column;
-      justify-content: center; gap: 28px;
+    .about-why__tag-text {
+      font-family: var(--font-body); font-size: 13px;
+      font-weight: 500; color: #1a1a1a;
     }
-    .why-block__counter {
-      font-family: var(--font-body);
-      font-size: 11px; font-weight: 500;
-      letter-spacing: 0.14em; color: var(--orange);
+    .about-why__heading {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(5rem, 13vw, 11rem);
+      color: #1a1a1a; line-height: 0.88;
+      letter-spacing: -0.02em; margin-bottom: 72px;
     }
-    .why-block__heading {
+    .about-why__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .why-card { display: flex; flex-direction: column; }
+    .why-card__img-wrap {
+      width: 100%; aspect-ratio: 4/3;
+      overflow: hidden; border-radius: 12px;
+      background: rgba(26,26,26,0.15);
+      position: relative; margin-bottom: 28px;
+    }
+    .why-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .why-card__img-placeholder {
+      position: absolute; inset: 0; background: rgba(26,26,26,0.10);
+    }
+    .why-card__heading {
       font-family: var(--font-display); font-weight: 600;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      color: var(--text-primary); line-height: 1.05;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: #1a1a1a; line-height: 1.0; margin-bottom: 16px;
     }
-    .why-block__copy {
+    .why-card__copy {
       font-family: var(--font-body);
-      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-      color: var(--text-secondary); line-height: 1.75;
-      max-width: 480px;
+      font-size: clamp(0.9rem, 1.2vw, 1rem);
+      color: rgba(26,26,26,0.72); line-height: 1.75;
     }
-    .why-block__img-wrap {
-      overflow: hidden; background: var(--bg-tertiary); position: relative;
-    }
-    .why-block__img-placeholder {
-      position: absolute; inset: 0;
-      background: linear-gradient(160deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-    }
-    .why-block__img-wrap img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .why-block--img-left .why-block__img-wrap { order: -1; }
-    .why-block:nth-child(even) { background: var(--bg-secondary); }
     @media (max-width: 900px) {
-      .why-block { grid-template-columns: 1fr; min-height: auto; }
-      .why-block__img-wrap { aspect-ratio: 16/9; order: -1 !important; }
-      .why-block__text { padding: 56px 24px; }
-      .about-why__header { padding: 64px 24px 0; }
+      .about-why { padding: 64px 24px 80px; }
+      .about-why__grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-why__heading { margin-bottom: 48px; }
     }
 
-    /* ════════════════════════════════════════════════════════════ */
-    /* SERVICES STRIP                                               */
-    /* ════════════════════════════════════════════════════════════ */
-    .services-strip { background: #f5ac45; padding-bottom: 120px; }
-    .services-header {
-      font-family: var(--font-body); font-weight: 600; font-size: 26px;
-      text-transform: uppercase; letter-spacing: 0.10em;
-      color: rgba(26,26,26,0.5); display: block;
-      max-width: var(--max-wide); margin: 0 auto 80px;
-      padding: 120px 56px 0;
-    }
-    .services-inner { max-width: var(--max-wide); margin: 0 auto; padding: 0 56px; }
-    .services-row {
-      border-top: 6px solid #1a1a1a; padding: 64px 0;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
-      align-items: start; text-decoration: none;
-    }
-    .services-row:first-child { border-top: none; }
-    .services-row:last-child { padding-bottom: 0; }
-    .services-row__left { display: flex; flex-direction: column; }
-    .services-row__number {
-      font-family: var(--font-display); font-weight: 600; font-size: 14px;
-      text-transform: uppercase; letter-spacing: 0.10em;
-      color: rgba(26,26,26,0.5); margin-bottom: 20px;
-    }
-    .services-row__name {
-      font-family: var(--font-display); font-weight: 600;
-      font-size: clamp(2.5rem, 4.5vw, 4.25rem);
-      line-height: 0.9; letter-spacing: -0.02em; color: #1a1a1a; display: block;
-      transition: translate 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .services-row:hover .services-row__name { translate: 0 -4px; }
-    .services-row__right { display: flex; flex-direction: column; }
-    .services-row__desc {
-      font-family: var(--font-body); font-weight: 400; font-size: 20px;
-      line-height: 1.5; max-width: 480px; color: #1a1a1a; margin-bottom: 32px;
-    }
-    .services-row__cta {
-      font-family: var(--font-body); font-weight: 500; font-size: 14px;
-      color: #1a1a1a; position: relative; display: inline-block; width: fit-content;
-    }
-    .services-row__cta::after {
-      content: ''; position: absolute; left: 0; bottom: -2px;
-      width: 0; height: 1px; background: #1a1a1a;
-      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .services-row:hover .services-row__cta::after { width: 100%; }
-    @media (max-width: 767px) {
-      .services-strip { padding-bottom: 80px; }
-      .services-header { padding: 80px 24px 0; margin: 0 auto 48px; }
-      .services-inner { padding: 0 24px; }
-      .services-row { grid-template-columns: 1fr; gap: 32px; padding: 32px 0; }
-      .services-row__desc { margin-bottom: 24px; }
-    }
 
     /* ════════════════════════════════════════════════════════════ */
     /* ABOUT CTA                                                    */
@@ -698,89 +641,61 @@
 
   <!-- ── Why Us ──────────────────────────────────────────────── -->
   <section class="about-why" aria-label="Why Spiro Creatives">
-    <div class="about-why__header">
-      <span class="about-why__eyebrow reveal">Why us</span>
-    </div>
+    <div class="about-why__inner">
 
-    <!-- Block 001 — image right -->
-    <div class="why-block why-block--img-right reveal">
-      <div class="why-block__text">
-        <span class="why-block__counter">001</span>
-        <h2 class="why-block__heading">Built for brands,<br>not agencies.</h2>
-        <p class="why-block__copy">
-          We work directly with brand teams, not through layers of account managers.
-          You get one team that takes your business objectives seriously and turns
-          them into content that actually performs &mdash; strategically sound and
-          creatively ambitious, every time.
-        </p>
+      <div class="about-why__tag reveal">
+        <span class="about-why__tag-badge">001</span>
+        <span class="about-why__tag-text">Best production company, but&hellip;</span>
       </div>
-      <div class="why-block__img-wrap">
-        <div class="why-block__img-placeholder" aria-hidden="true"></div>
-      </div>
-    </div>
 
-    <!-- Block 002 — image left -->
-    <div class="why-block why-block--img-left reveal">
-      <div class="why-block__img-wrap">
-        <div class="why-block__img-placeholder" aria-hidden="true"></div>
-      </div>
-      <div class="why-block__text">
-        <span class="why-block__counter">002</span>
-        <h2 class="why-block__heading">Everything<br>in-house.</h2>
-        <p class="why-block__copy">
-          No outsourcing. No surprises. From the first brief to the final export,
-          one team handles everything. That means faster turnarounds, consistent
-          quality, and a team that actually knows your brand by the second project.
-        </p>
-      </div>
-    </div>
+      <h2 class="about-why__heading">
+        <div class="line-wrap"><div class="line-inner">Why us?</div></div>
+      </h2>
 
-    <!-- Block 003 — image right -->
-    <div class="why-block why-block--img-right reveal">
-      <div class="why-block__text">
-        <span class="why-block__counter">003</span>
-        <h2 class="why-block__heading">Small on purpose.</h2>
-        <p class="why-block__copy">
-          We take on a small number of clients at a time, on purpose. It means
-          we can move fast, stay sharp, and actually care about what we&rsquo;re making.
-          If you want a cruise liner, there are bigger names. If you want a
-          jet-ski, you&rsquo;re in the right place.
-        </p>
-      </div>
-      <div class="why-block__img-wrap">
-        <div class="why-block__img-placeholder" aria-hidden="true"></div>
-      </div>
-    </div>
+      <div class="about-why__grid">
 
-  </section>
-
-  <!-- ── Services Strip ──────────────────────────────────────── -->
-  <section class="services-strip" aria-label="Services">
-    <div class="services-header reveal">OUR SERVICES</div>
-    <div class="services-inner">
-
-      <a href="services.html" class="services-row reveal" style="transition-delay: 0s">
-        <div class="services-row__left">
-          <span class="services-row__number">001</span>
-          <span class="services-row__name">Content Production</span>
+        <div class="why-card reveal">
+          <div class="why-card__img-wrap">
+            <img src="assets/img/about-bts-1.jpg" alt="Spiro Creatives on set" class="why-card__img" loading="lazy" onerror="this.style.display='none'">
+            <div class="why-card__img-placeholder" aria-hidden="true"></div>
+          </div>
+          <h3 class="why-card__heading">Built for<br>Brands</h3>
+          <p class="why-card__copy">
+            We work directly with brand teams, not through layers of account managers.
+            You get one team that takes your business objectives seriously and turns
+            them into content that actually performs &mdash; strategically sound and
+            creatively ambitious, every time.
+          </p>
         </div>
-        <div class="services-row__right">
-          <p class="services-row__desc">From brief to final cut, we handle everything in-house. Brand films, campaigns, and social content that actually moves people.</p>
-          <span class="services-row__cta">See the work &rarr;</span>
-        </div>
-      </a>
 
-      <a href="services.html" class="services-row reveal" style="transition-delay: 0.15s">
-        <div class="services-row__left">
-          <span class="services-row__number">002</span>
-          <span class="services-row__name">Social Content System</span>
+        <div class="why-card reveal" style="transition-delay: 0.1s">
+          <div class="why-card__img-wrap">
+            <img src="assets/img/about-bts-2.jpg" alt="Spiro Creatives crew" class="why-card__img" loading="lazy" onerror="this.style.display='none'">
+            <div class="why-card__img-placeholder" aria-hidden="true"></div>
+          </div>
+          <h3 class="why-card__heading">Talent<br>Access</h3>
+          <p class="why-card__copy">
+            No outsourcing. No surprises. From the first brief to the final export,
+            one team handles everything. That means faster turnarounds, consistent
+            quality, and a team that actually knows your brand by the second project.
+          </p>
         </div>
-        <div class="services-row__right">
-          <p class="services-row__desc">A monthly content engine for your brand. Shoot days, strategy, editing, and delivery &mdash; one retainer, no gaps in the feed.</p>
-          <span class="services-row__cta">See the work &rarr;</span>
-        </div>
-      </a>
 
+        <div class="why-card reveal" style="transition-delay: 0.2s">
+          <div class="why-card__img-wrap">
+            <img src="assets/img/about-bts-3.jpg" alt="Spiro Creatives team" class="why-card__img" loading="lazy" onerror="this.style.display='none'">
+            <div class="why-card__img-placeholder" aria-hidden="true"></div>
+          </div>
+          <h3 class="why-card__heading">Next<br>Gen</h3>
+          <p class="why-card__copy">
+            We take on a small number of clients at a time, on purpose. It means
+            we can move fast, stay sharp, and actually care about what we&rsquo;re making.
+            If you want a cruise liner, there are bigger names. If you want a
+            jet-ski, you&rsquo;re in the right place.
+          </p>
+        </div>
+
+      </div>
     </div>
   </section>
 
