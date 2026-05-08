@@ -150,6 +150,14 @@
       padding: 80px 64px;
     }
 
+    /* ── News Ticker ─────────────────────────────────────────────── */
+    .ticker-wrap { width: 100%; overflow: hidden; background: var(--orange); padding: 13px 0; border-top: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .ticker-track { display: flex; gap: 0; width: max-content; animation: ticker-scroll 45s linear infinite; will-change: transform; }
+    .ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+    .ticker-item { font-family: var(--font-body); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.10em; color: #1a1a1a; white-space: nowrap; padding: 0 32px; flex-shrink: 0; }
+    @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+
     /* ── Page transition ─────────────────────────────────────────── */
     #page-transition { position: fixed; inset: 0; z-index: 100000; background: var(--bg-primary); pointer-events: none; animation: pt-reveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
     @keyframes pt-reveal { from { opacity: 1; } to { opacity: 0; } }
@@ -193,6 +201,31 @@
   <main id="cs-main">
     <div class="cs-loading" id="cs-loading">Loading&hellip;</div>
   </main>
+
+  <div class="ticker-wrap" aria-label="Studio news" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">Available for new projects&emsp;★</span>
+      <span class="ticker-item">Brand films for Assembly Coffee&emsp;★</span>
+      <span class="ticker-item">Editorial photography for Sorrel Restaurant&emsp;★</span>
+      <span class="ticker-item">Content Production &amp; Social Media Management&emsp;★</span>
+      <span class="ticker-item">Based in London &amp; Guildford&emsp;★</span>
+      <span class="ticker-item">Working with brands that mean something&emsp;★</span>
+      <span class="ticker-item">Campaign work for Cezara Hertanu&emsp;★</span>
+      <span class="ticker-item">Social content for Clubhouse PT&emsp;★</span>
+      <span class="ticker-item">Strategy. Production. Delivery.&emsp;★</span>
+      <span class="ticker-item">hello@spirocreatives.com&emsp;★</span>
+      <span class="ticker-item">Available for new projects&emsp;★</span>
+      <span class="ticker-item">Brand films for Assembly Coffee&emsp;★</span>
+      <span class="ticker-item">Editorial photography for Sorrel Restaurant&emsp;★</span>
+      <span class="ticker-item">Content Production &amp; Social Media Management&emsp;★</span>
+      <span class="ticker-item">Based in London &amp; Guildford&emsp;★</span>
+      <span class="ticker-item">Working with brands that mean something&emsp;★</span>
+      <span class="ticker-item">Campaign work for Cezara Hertanu&emsp;★</span>
+      <span class="ticker-item">Social content for Clubhouse PT&emsp;★</span>
+      <span class="ticker-item">Strategy. Production. Delivery.&emsp;★</span>
+      <span class="ticker-item">hello@spirocreatives.com&emsp;★</span>
+    </div>
+  </div>
 
   <!-- ── Footer ────────────────────────────────────────────────── -->
   <footer class="footer" aria-label="Site footer">
