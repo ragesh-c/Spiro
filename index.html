@@ -1715,8 +1715,6 @@
       to   { opacity: 0; }
     }
   </style>
-  <link rel="preload" href="css/contact-panel.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="css/contact-panel.css"></noscript>
 </head>
 <body>
 
@@ -1737,7 +1735,7 @@
           <li><a href="journal.html">Journal</a></li>
         </ul>
         <span class="nav__pill-divider" aria-hidden="true"></span>
-        <a href="#" class="nav__cta" data-panel="contact" role="button">Let&rsquo;s talk</a>
+        <a href="#lets-talk" class="nav__cta" role="button">Let&rsquo;s talk</a>
       </div>
 
       <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay">
@@ -1755,7 +1753,7 @@
     <a href="services.html">Services</a>
     <a href="about.html">About</a>
     <a href="journal.html">Journal</a>
-    <a href="#" class="nav-overlay__cta" data-panel="contact">Let&rsquo;s talk</a>
+    <a href="#lets-talk" class="nav-overlay__cta">Let&rsquo;s talk</a>
   </div>
 
   <!-- ── Hero ───────────────────────────────────────────────── -->
@@ -2061,8 +2059,13 @@
         });
 
         Cal.ns["intro-call-spiro-creatives"]("ui", {
-          "hideEventTypeDetails":false,
-          "layout":"month_view"
+          "hideEventTypeDetails": false,
+          "layout": "month_view",
+          "theme": "dark",
+          "cssVarsPerTheme": {
+            "dark":  {"cal-brand": "#f5ac45"},
+            "light": {"cal-brand": "#f5ac45"}
+          }
         });
       </script>
       <!-- Cal inline embed code ends -->
@@ -2134,7 +2137,7 @@
           <li><a href="services.html">Services</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="journal.html">Journal</a></li>
-          <li><a href="#" data-panel="contact">Contact</a></li>
+          <li><a href="#lets-talk">Contact</a></li>
         </ul>
       </div>
 
@@ -2558,6 +2561,5 @@
     }());
   </script>
 
-  <script src="js/contact-panel.js"></script>
 </body>
 </html>
