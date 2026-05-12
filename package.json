@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ragesh-c/Spiro#readme",
   "dependencies": {
-    "@sanity/client": "^7.22.0"
+    "@sanity/client": "^7.22.0",
+    "animejs": "^4.4.1"
   }
 }

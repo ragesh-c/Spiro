@@ -2,3 +2,5 @@
 **/.DS_Store
 .claude/
 assets/video/
+node_modules/
+*.zip

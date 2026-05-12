@@ -264,21 +264,30 @@
   var closeBtn = document.getElementById('cp-close');
 
   function openPanel() {
-    panel.classList.add('is-open');
-    backdrop.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
     panel.setAttribute('aria-hidden', 'false');
-    setTimeout(function () {
-      var first = panel.querySelector('input, textarea, select');
-      if (first) first.focus();
-    }, 300);
+    document.body.style.overflow = 'hidden';
+    backdrop.style.pointerEvents = 'all';
+    anime.animate(backdrop, { opacity: 1, duration: 500, ease: 'easeOutQuart' });
+    anime.animate(panel, { translateX: ['100%', '0%'], duration: 560, ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      onComplete: function () {
+        var first = panel.querySelector('input, textarea, select');
+        if (first) first.focus();
+      }
+    });
   }
 
   function closePanel() {
-    panel.classList.remove('is-open');
-    backdrop.classList.remove('is-open');
-    document.body.style.overflow = '';
-    panel.setAttribute('aria-hidden', 'true');
+    backdrop.style.pointerEvents = 'none';
+    anime.animate(backdrop, { opacity: 0, duration: 360, ease: 'easeInQuart' });
+    anime.animate(panel, {
+      translateX: '100%',
+      duration: 480,
+      ease: 'cubic-bezier(0.76, 0, 0.24, 1)',
+      onComplete: function () {
+        document.body.style.overflow = '';
+        panel.setAttribute('aria-hidden', 'true');
+      }
+    });
   }
 
   // All [data-panel="contact"] triggers
