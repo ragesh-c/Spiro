@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /node_modules/
+Disallow: /data/
+
+Sitemap: https://spirocreatives.com/sitemap.xml
