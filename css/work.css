@@ -311,6 +311,7 @@ section#work-grid {
   min-height: auto;
   flex-direction: column;
   margin-top: 0 !important;
+  cursor: none;
 }
 
 .work-grid-inner.is-grid .work-card:hover {
@@ -408,10 +409,6 @@ section#work-grid {
 .custom-cursor.is-visible {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
-}
-
-.work-grid-inner.is-grid .work-card {
-  cursor: none;
 }
 
 @media (max-width: 1024px) {

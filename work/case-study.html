@@ -4,6 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Case Study — Spiro Creatives</title>
+  <meta name="description" content="Creative production case study by Spiro Creatives — brand film, photography and social content for ambitious brands.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://spirocreatives.com/work/case-study.html" id="cs-canonical">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Spiro Creatives">
+  <meta property="og:title" content="Case Study — Spiro Creatives" id="cs-og-title">
+  <meta property="og:description" content="Creative production case study by Spiro Creatives." id="cs-og-desc">
+  <meta property="og:url" content="https://spirocreatives.com/work/case-study.html" id="cs-og-url">
+  <meta property="og:image" content="https://spirocreatives.com/assets/img/og-image.jpg" id="cs-og-image">
+  <meta property="og:locale" content="en_GB">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@spirocreatives">
+  <meta name="twitter:title" content="Case Study — Spiro Creatives" id="cs-tw-title">
+  <meta name="twitter:description" content="Creative production case study by Spiro Creatives." id="cs-tw-desc">
+  <meta name="twitter:image" content="https://spirocreatives.com/assets/img/og-image.jpg" id="cs-tw-image">
+
+  <script type="application/ld+json" id="cs-schema">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Case Study",
+    "creator": {
+      "@type": "Organization",
+      "name": "Spiro Creatives",
+      "url": "https://spirocreatives.com"
+    }
+  }
+  </script>
 
   <script>(function(){var t=localStorage.getItem('spiro-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
   <script type="importmap">
@@ -594,37 +624,91 @@
         </div>`;
     }
 
+    function updateMeta(doc) {
+      const pageTitle = `${doc.title} — Spiro Creatives`;
+      const desc = doc.summary || `${doc.client || doc.title} case study — brand film & photography by Spiro Creatives.`;
+      const img = doc.coverImage || 'https://spirocreatives.com/assets/img/og-image.jpg';
+      const url = `https://spirocreatives.com/work/case-study.html?slug=${doc.slug}`;
+
+      document.title = pageTitle;
+      document.querySelector('meta[name="description"]').setAttribute('content', desc);
+      document.getElementById('cs-canonical').setAttribute('href', url);
+
+      document.getElementById('cs-og-title').setAttribute('content', pageTitle);
+      document.getElementById('cs-og-desc').setAttribute('content', desc);
+      document.getElementById('cs-og-url').setAttribute('content', url);
+      document.getElementById('cs-og-image').setAttribute('content', img);
+
+      document.getElementById('cs-tw-title').setAttribute('content', pageTitle);
+      document.getElementById('cs-tw-desc').setAttribute('content', desc);
+      document.getElementById('cs-tw-image').setAttribute('content', img);
+
+      document.getElementById('cs-schema').textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        'name': doc.title,
+        'description': desc,
+        'image': img,
+        'url': url,
+        'datePublished': doc.publishedAt || undefined,
+        'creator': {
+          '@type': 'Organization',
+          'name': 'Spiro Creatives',
+          'url': 'https://spirocreatives.com'
+        }
+      });
+    }
+
+    function toEmbedUrl(url) {
+      if (!url) return null;
+      // Already an embed URL
+      if (url.includes('youtube.com/embed/')) return url;
+      // youtu.be/ID
+      const short = url.match(/youtu\.be\/([^?&]+)/);
+      if (short) return `https://www.youtube.com/embed/${short[1]}`;
+      // youtube.com/watch?v=ID
+      const watch = url.match(/[?&]v=([^&]+)/);
+      if (watch) return `https://www.youtube.com/embed/${watch[1]}`;
+      // Vimeo: vimeo.com/ID
+      const vimeo = url.match(/vimeo\.com\/(\d+)/);
+      if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
+      return url;
+    }
+
     function renderDoc(doc) {
       const year = doc.publishedAt ? new Date(doc.publishedAt).getFullYear() : '';
-      const heroHtml = doc.coverImage
-        ? `<div class="cs-hero"><img src="${doc.coverImage}" alt="${doc.client || doc.title}" class="cs-hero-img"></div>`
-        : '';
-      const videoHtml = doc.videoUrl
-        ? `<div style="margin-bottom:48px;"><iframe src="${doc.videoUrl}" style="width:100%;aspect-ratio:16/9;border:none;" allowfullscreen></iframe></div>`
+      const metaItems = `
+        <div class="cs-meta-inner">
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Client</span>
+            <span class="cs-meta-value">${doc.client || ''}</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Service</span>
+            <span class="cs-meta-value">${doc.servicePillar || ''}</span>
+          </div>
+          ${year ? `<div class="cs-meta-item"><span class="cs-meta-label">Year</span><span class="cs-meta-value">${year}</span></div>` : ''}
+        </div>`;
+      const heroHtml = `
+        <div class="cs-hero">
+          ${doc.coverImage ? `<img src="${doc.coverImage}" alt="${doc.client || doc.title}" class="cs-hero-img">` : ''}
+          <div class="cs-hero-overlay"></div>
+          <div class="cs-hero-content">${metaItems}</div>
+        </div>`;
+      const embedUrl = toEmbedUrl(doc.videoUrl);
+      const videoHtml = embedUrl
+        ? `<div class="cs-video-full"><iframe src="${embedUrl}" style="width:100%;aspect-ratio:16/9;border:none;display:block;" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>`
         : '';
 
-      document.title = `${doc.title} — Spiro Creatives`;
+      updateMeta(doc);
       document.getElementById('cs-main').innerHTML = `
         <article>
           ${heroHtml}
-          <div class="cs-meta-bar">
-            <div class="cs-meta-inner">
-              <div class="cs-meta-item">
-                <span class="cs-meta-label">Client</span>
-                <span class="cs-meta-value">${doc.client || ''}</span>
-              </div>
-              <div class="cs-meta-item">
-                <span class="cs-meta-label">Service</span>
-                <span class="cs-meta-value">${doc.servicePillar || ''}</span>
-              </div>
-              ${year ? `<div class="cs-meta-item"><span class="cs-meta-label">Year</span><span class="cs-meta-value">${year}</span></div>` : ''}
-            </div>
-          </div>
+          ${videoHtml}
           <div class="cs-body">
             <div class="cs-body-inner">
               <h1 class="cs-title">${doc.title || ''}</h1>
               ${doc.summary ? `<p class="cs-summary">${doc.summary}</p>` : ''}
-              ${videoHtml}
               <div class="cs-content">${renderBody(doc.body)}</div>
               ${renderResults(doc.results)}
             </div>
@@ -636,26 +720,18 @@
     }
 
     const slug = new URLSearchParams(window.location.search).get('slug');
-    console.log('[Sanity] slug from URL:', slug);
 
     if (!slug || slug === 'coming-soon') {
-      console.warn('[Sanity] No slug or coming-soon slug — showing coming soon');
       renderComingSoon();
     } else {
-      console.log('[Sanity] Sending GROQ query:', QUERY);
-      console.log('[Sanity] Query params:', { slug });
       try {
         const doc = await client.fetch(QUERY, { slug });
-        console.log('[Sanity] Response:', doc);
         if (doc) {
-          console.log('[Sanity] Document found — rendering:', doc.title);
           renderDoc(doc);
         } else {
-          console.warn('[Sanity] Query returned null — no document with slug:', slug);
           renderComingSoon();
         }
       } catch (err) {
-        console.error('[Sanity] Fetch error:', err);
         renderComingSoon();
       }
     }

@@ -434,10 +434,7 @@
       brand_known: document.getElementById('cp-brand-known').value.trim()
     };
 
-    console.log('Spiro contact form submission:', formData);
-
     // TODO: Wire to your backend / Formspree / Netlify Forms
-    // fetch('https://formspree.io/f/YOUR_ID', { method:'POST', body: JSON.stringify(formData), headers:{'Content-Type':'application/json'} })
 
     panel.querySelectorAll('.cp-step').forEach(function (s) { s.classList.remove('is-active'); });
     panel.querySelector('.cp-progress').style.display = 'none';
