@@ -26,6 +26,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    server = http.server.HTTPServer(('', 3000), Handler)
-    print('Server running at http://localhost:3000')
-    server.serve_forever()
+    port = int(os.environ.get('PORT', 3000))
+    while True:
+        try:
+            server = http.server.HTTPServer(('', port), Handler)
+            print(f'Server running at http://localhost:{port}')
+            server.serve_forever()
+            break
+        except OSError as e:
+            if e.errno == 48: # Address already in use
+                print(f'Port {port} is in use, trying {port + 1}...')
+                port += 1
+            else:
+                raise e
+
