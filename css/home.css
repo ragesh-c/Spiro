@@ -23,6 +23,7 @@
       background: #000000;
       overflow: hidden;
       opacity: 1; /* Visible initially on page load */
+      pointer-events: none !important; /* Disable all mouse interactions to block YouTube play/pause overlays */
       will-change: transform, width, height, border-radius, left, bottom;
     }
 
