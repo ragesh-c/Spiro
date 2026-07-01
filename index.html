@@ -152,7 +152,12 @@
 
     <!-- Video background -->
     <div class="hero__video-bg" aria-hidden="true">
-      <div id="hero-yt-player"></div>
+      <div id="hero-yt-player">
+        <iframe src="https://www.youtube.com/embed/5SBU5ArxEbM?autoplay=1&mute=1&loop=1&playlist=5SBU5ArxEbM&controls=0&showinfo=0&rel=0&disablekb=1&iv_load_policy=3&modestbranding=1&playsinline=1&fs=0&cc_load_policy=0&enablejsapi=1"
+                allow="autoplay; encrypted-media"
+                frameborder="0">
+        </iframe>
+      </div>
     </div>
 
     <div class="hero__overlay" aria-hidden="true"></div>
@@ -689,52 +694,6 @@
     }());
 
 
-    // ── Hero YouTube background ──────────────────────────────────
-    (function () {
-      if (window.innerWidth <= 767) return;
-
-      window.onYouTubeIframeAPIReady = function () {
-        new YT.Player('hero-yt-player', {
-          videoId: '5SBU5ArxEbM',
-          playerVars: {
-            autoplay: 1, mute: 1, loop: 1, playlist: '5SBU5ArxEbM',
-            controls: 0, showinfo: 0, rel: 0, disablekb: 1,
-            iv_load_policy: 3, modestbranding: 1, playsinline: 1,
-            fs: 0, cc_load_policy: 0
-          },
-          events: {
-            onReady: function (e) {
-              var iframe = e.target.getIframe();
-              Object.assign(iframe.style, {
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                width: '177.78vh',
-                height: '56.25vw',
-                minWidth: '100%',
-                minHeight: '100%',
-                transform: 'translate(-50%, -50%)',
-                pointerEvents: 'none',
-                border: '0',
-                opacity: '1',
-                transition: 'opacity 0.6s ease'
-              });
-              e.target.mute();
-              e.target.playVideo();
-            },
-            onStateChange: function (e) {
-              if (e.data === YT.PlayerState.PLAYING) {
-                e.target.getIframe().style.opacity = '1';
-              }
-            }
-          }
-        });
-      };
-
-      var tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(tag);
-    }());
 
     // Footer wordmark scroll-driven fly-in
     (function () {
