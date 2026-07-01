@@ -25,7 +25,7 @@
           trigger: heroSection,
           start: "top top",
           end: "+=120%",
-          scrub: true,
+          scrub: 1,
           pin: true,
           anticipatePin: 1
         }
