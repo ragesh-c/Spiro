@@ -28,7 +28,28 @@
           scrub: 1,
           pin: true,
           anticipatePin: 1,
-          once: true
+          onLeave: (self) => {
+            self.kill(false); // Kill trigger without resetting styles
+            gsap.set(heroVideoBg, {
+              left: "0px",
+              top: "0px",
+              bottom: "0px",
+              width: "100vw",
+              height: "100vh",
+              xPercent: 0,
+              yPercent: 0,
+              scale: 1,
+              borderRadius: "0px"
+            });
+            if (heroHeadline) {
+              gsap.set(heroHeadline, {
+                scale: 0.55,
+                left: "40px",
+                bottom: "40px",
+                transformOrigin: "left bottom"
+              });
+            }
+          }
         }
       });
 
