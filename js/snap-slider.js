@@ -15,7 +15,7 @@
         const headlineWidth = heroHeadline.getBoundingClientRect().width;
         heroHeadline.style.transform = currentTransform;
         
-        const targetLayoutWidth = headlineWidth / 0.65;
+        const targetLayoutWidth = (headlineWidth * 1.40) / 0.65;
         const targetLayoutHeight = targetLayoutWidth / 1.578;
         
         heroVideoBg.style.setProperty("--hero-card-width", targetLayoutWidth + "px");
@@ -24,7 +24,7 @@
         const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
         if (heroVideoSideInfo) {
           const spaceSide = heroHeadline.offsetLeft;
-          const targetSideLeft = spaceSide + headlineWidth + 32;
+          const targetSideLeft = spaceSide + (headlineWidth * 1.40) + 32;
           gsap.set(heroVideoSideInfo, {
             left: targetSideLeft
           });
