@@ -390,77 +390,78 @@
     /* ── Services Grid Section (Premium Card Layout) ────────────── */
     .services-section {
       background: #000000;
-      padding: 140px var(--space-side); /* Dynamic margins matching the entire page layout */
+      padding: 120px var(--space-side); /* Spacious but balanced vertical padding */
       z-index: 5;
       position: relative;
     }
 
     .services-header-block {
-      max-width: 850px;
-      margin-bottom: 80px;
+      max-width: 900px;
+      margin-bottom: 70px;
     }
 
     .services-grid-title {
       font-family: var(--font-display); /* Chillax display font */
-      font-size: clamp(2.2rem, 5vw, 4.5rem);
-      line-height: 1.15;
+      font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+      line-height: 1.1;
       color: #ffffff;
       font-weight: 500;
-      letter-spacing: -0.02em;
-      margin: 0 0 24px 0;
+      letter-spacing: -0.03em;
+      margin: 0 0 20px 0;
     }
 
     .services-grid-intro {
       font-family: var(--font-body); /* General Sans */
       font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.7);
-      margin: 0 0 35px 0;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.6);
+      margin: 0 0 32px 0;
       max-width: 750px;
       letter-spacing: -0.01em;
     }
 
     .services-grid-cta {
       font-family: var(--font-body);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #ffffff;
       text-decoration: none;
-      border-bottom: 2px solid #ffffff;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.35);
       padding-bottom: 4px;
-      transition: opacity 0.3s ease;
+      transition: border-color 0.3s ease, opacity 0.3s ease;
       display: inline-block;
       font-weight: 600;
     }
 
     .services-grid-cta:hover {
-      opacity: 0.65;
+      border-color: #ffffff;
+      opacity: 1;
     }
 
     .services-grid-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr); /* 3 columns grid */
-      gap: 32px;
+      gap: 24px; /* Tight, unified column spacing matching screenshot */
     }
 
     .services-card {
       text-decoration: none;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      gap: 12px; /* Tight, integrated gap between card image and meta text */
+      transition: opacity 0.3s ease;
     }
 
     .services-card:hover {
-      transform: translateY(-8px); /* Elevates card on hover */
+      opacity: 0.9;
     }
 
     .services-card__media {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 10.5; /* Premium cinema layout proportion */
-      border-radius: 12px;
+      border-radius: 0px; /* Bold, sharp square corners matching screenshot layout */
       overflow: hidden;
       background: #111111;
     }
@@ -473,20 +474,20 @@
     }
 
     .services-card:hover .services-card__video {
-      transform: scale(1.05); /* Zoom video on hover */
+      transform: scale(1.04); /* Subtle, premium video zoom on hover */
     }
 
     .services-card__meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 4px;
+      padding: 0 2px;
     }
 
     .services-card__name {
       font-family: var(--font-body);
-      font-weight: 600;
-      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+      font-weight: 500;
+      font-size: clamp(1.05rem, 1.4vw, 1.25rem);
       color: #ffffff;
       letter-spacing: -0.01em;
     }
@@ -494,7 +495,7 @@
     .services-card__label {
       font-family: var(--font-body);
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.35); /* Muted label text matching screenshot style */
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-weight: 500;
