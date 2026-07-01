@@ -152,12 +152,9 @@
 
     <!-- Video background -->
     <div class="hero__video-bg" aria-hidden="true">
-      <div id="hero-yt-player">
-        <iframe src="https://www.youtube.com/embed/5SBU5ArxEbM?autoplay=1&mute=1&loop=1&playlist=5SBU5ArxEbM&controls=0&showinfo=0&rel=0&disablekb=1&iv_load_policy=3&modestbranding=1&playsinline=1&fs=0&cc_load_policy=0&enablejsapi=1"
-                allow="autoplay; encrypted-media"
-                frameborder="0">
-        </iframe>
-      </div>
+      <video class="hero__video-element" autoplay muted loop playsinline preload="auto">
+        <source src="assets/video/hero.mp4" type="video/mp4">
+      </video>
     </div>
 
     <div class="hero__overlay" aria-hidden="true"></div>
