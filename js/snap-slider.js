@@ -6,43 +6,8 @@
     const heroVideoBg = document.querySelector(".hero__video-bg");
     const heroYearTag = document.querySelector(".hero__year-tag");
     const heroHeadline = document.querySelector(".hero__headline");
-    const heroFirstWord = document.querySelector(".hero__first-word");
-
-    const resizeHeroCard = () => {
-      if (window.innerWidth > 767 && heroHeadline && heroFirstWord && heroVideoBg) {
-        // Temporarily clear transform to get the unscaled layout width of the first word
-        const currentTransform = heroHeadline.style.transform;
-        heroHeadline.style.transform = "none";
-        const firstWordWidth = heroFirstWord.getBoundingClientRect().width;
-        heroHeadline.style.transform = currentTransform;
-        
-        const targetLayoutWidth = firstWordWidth / 0.65;
-        const targetLayoutHeight = targetLayoutWidth / 2.2;
-        
-        heroVideoBg.style.setProperty("--hero-card-width", targetLayoutWidth + "px");
-        heroVideoBg.style.setProperty("--hero-card-height", targetLayoutHeight + "px");
-        
-        const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
-        if (heroVideoSideInfo) {
-          const spaceSide = heroHeadline.offsetLeft;
-          const targetSideLeft = spaceSide + firstWordWidth + 32;
-          gsap.set(heroVideoSideInfo, {
-            left: targetSideLeft
-          });
-        }
-      } else if (heroVideoBg) {
-        heroVideoBg.style.removeProperty("--hero-card-width");
-        heroVideoBg.style.removeProperty("--hero-card-height");
-        const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
-        if (heroVideoSideInfo) {
-          gsap.set(heroVideoSideInfo, { clearProps: "left" });
-        }
-      }
-    };
 
     if (heroSection && heroVideoBg) {
-      resizeHeroCard();
-      window.addEventListener("resize", resizeHeroCard);
       // Autoplay glitch-out on load
       if (heroYearTag) {
         gsap.timeline({ delay: 1.2 })
@@ -274,24 +239,15 @@
   }
 
   // Safely initialize GSAP after load
-  const runInit = () => {
-    if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-      gsap.registerPlugin(ScrollTrigger);
-      initSnapSlider();
-      
-      // Dispatch resize and refresh ScrollTrigger once custom fonts are fully loaded
-      if (document.fonts) {
-        document.fonts.ready.then(() => {
-          window.dispatchEvent(new Event("resize"));
-          ScrollTrigger.refresh();
-        });
-      }
-    }
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", runInit);
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+    initSnapSlider();
   } else {
-    runInit();
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+        gsap.registerPlugin(ScrollTrigger);
+        initSnapSlider();
+      }
+    });
   }
 })();
