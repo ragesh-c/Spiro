@@ -18,10 +18,8 @@
         const targetLayoutWidth = headlineWidth / 0.65;
         const targetLayoutHeight = targetLayoutWidth / 1.578;
         
-        gsap.set(heroVideoBg, {
-          width: targetLayoutWidth,
-          height: targetLayoutHeight
-        });
+        heroVideoBg.style.setProperty("--hero-card-width", targetLayoutWidth + "px");
+        heroVideoBg.style.setProperty("--hero-card-height", targetLayoutHeight + "px");
         
         const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
         if (heroVideoSideInfo) {
@@ -32,7 +30,8 @@
           });
         }
       } else if (heroVideoBg) {
-        gsap.set(heroVideoBg, { clearProps: "width,height" });
+        heroVideoBg.style.removeProperty("--hero-card-width");
+        heroVideoBg.style.removeProperty("--hero-card-height");
         const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
         if (heroVideoSideInfo) {
           gsap.set(heroVideoSideInfo, { clearProps: "left" });

@@ -28,9 +28,9 @@
         left: var(--space-side); /* Aligned straight above the letter S */
         transform: scale(0.65);
         transform-origin: left bottom; /* Scale from bottom-left anchor */
-        width: clamp(700px, 55vw, 936px);
+        width: var(--hero-card-width, clamp(700px, 55vw, 936px));
+        height: var(--hero-card-height, auto);
         aspect-ratio: 936 / 593;
-        height: auto;
       }
     }
 
