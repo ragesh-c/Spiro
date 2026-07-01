@@ -939,7 +939,8 @@
 .intro-quote-section {
   position: relative;
   background: #000000;
-  padding: 16vh 80px;
+  min-height: 100vh; /* Full viewport height for premium breathing room */
+  padding: 80px;
   z-index: 5; /* Sit on top of fixed video background */
   display: flex;
   align-items: center;
@@ -966,7 +967,8 @@
 
 @media (max-width: 767px) {
   .intro-quote-section {
-    padding: 12vh 24px;
+    padding: 24px;
+    min-height: 80vh; /* Clean spacing on mobile devices */
   }
 }
 
