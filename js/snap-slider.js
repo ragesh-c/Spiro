@@ -107,31 +107,35 @@
       0
     );
 
-    // Animate stacked slide reveals inside master timeline
+    // Set initial position of slide masks
     snapSlides.forEach((slide, i) => {
-      if (i === 0) return; // Slide 1 is at the bottom and stays static
+      if (i === 0) return;
+      const mask = slide.querySelector(".img-mask");
+      const img = slide.querySelector(".section-image");
+      if (mask) gsap.set(mask, { y: window.innerHeight });
+      if (img) gsap.set(img, { y: -window.innerHeight });
+    });
+
+    // Slide transition triggers (only transition background images during active scrolls)
+    snapSlides.forEach((slide, index) => {
+      if (index === 0) return;
 
       const mask = slide.querySelector(".img-mask");
       const img = slide.querySelector(".section-image");
-      if (!mask || !img) return;
 
-      const startTime = i - 1; // Slide i reveals during segment (i-1) to i
-
-      // Slide i mask slides up from 100vh (bottom) to 0
-      masterTimeline.fromTo(
-        mask,
-        { y: window.innerHeight },
-        { y: 0, ease: "none" },
-        startTime
-      );
-
-      // Slide i image slides down from -100vh (top) to 0, canceling out parallax
-      masterTimeline.fromTo(
-        img,
-        { y: -window.innerHeight },
-        { y: 0, ease: "none" },
-        startTime
-      );
+      ScrollTrigger.create({
+        trigger: snapSliderHolder,
+        start: () => "top+=" + window.innerHeight * (index - 0.4) + " top",
+        end: () => "top+=" + window.innerHeight * (index + 0.6) + " top",
+        onEnter: () => {
+          gsap.to(mask, { y: 0, duration: 0.75, ease: "power2.out" });
+          gsap.to(img, { y: 0, duration: 0.75, ease: "power2.out" });
+        },
+        onLeaveBack: () => {
+          gsap.to(mask, { y: window.innerHeight, duration: 0.75, ease: "power2.out" });
+          gsap.to(img, { y: -window.innerHeight, duration: 0.75, ease: "power2.out" });
+        }
+      });
     });
 
     // Interactive custom cursor behavior on hovering thumbnails
