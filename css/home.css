@@ -935,6 +935,41 @@
   }
 }
 
+/* ── Intro Quote Section Styles ────────────────────────────── */
+.intro-quote-section {
+  position: relative;
+  background: #000000;
+  padding: 16vh 80px;
+  z-index: 5; /* Sit on top of fixed video background */
+  display: flex;
+  align-items: center;
+}
+
+.intro-quote__container {
+  max-width: 1000px;
+}
+
+.intro-quote__text {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.intro-quote__text span {
+  display: block;
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 767px) {
+  .intro-quote-section {
+    padding: 12vh 24px;
+  }
+}
+
 /* ── Showcase Snap Slider Styles ───────────────────────────── */
 .snap-slider-section {
   position: relative;
