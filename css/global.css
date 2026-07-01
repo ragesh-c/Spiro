@@ -563,6 +563,8 @@
     }
 
     .footer {
+      position: relative;
+      z-index: 5; /* Layers on top of fixed video background */
       background: var(--footer-bg);
       border-top: 3px solid var(--orange);
     }
