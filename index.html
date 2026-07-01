@@ -149,22 +149,22 @@
 
   <!-- ── Hero ───────────────────────────────────────────────── -->
   <section class="hero" aria-label="Hero">
-    <div class="hero__pinned-wrap">
-      <!-- Subtitle Label (Center Left) -->
-      <div class="hero__year">2026</div>
 
-      <!-- Main Headline (Bottom Left) -->
-      <div class="hero__big-title">SPIRO CREATIVES</div>
-
-      <!-- Centered Zooming Video Card -->
-      <div class="hero__zoom-card">
-        <div class="hero__video-bg" aria-hidden="true">
-          <div id="hero-yt-player"></div>
-        </div>
-        <!-- White dot indicator -->
-        <div class="hero__video-dot"></div>
-      </div>
+    <!-- Video background -->
+    <div class="hero__video-bg" aria-hidden="true">
+      <div id="hero-yt-player"></div>
     </div>
+
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <div class="hero__year-tag hero__video-side-info">
+        <div class="hero__side-showreel">SHOWREEL</div>
+        <div class="hero__side-year">2026</div>
+      </div>
+      <h1 class="hero__headline">SPIRO CREATIVES</h1>
+    </div>
+
   </section>
 
   <!-- ── Showcase Snap Slider ──────────────────────────────── -->
@@ -945,7 +945,6 @@
   <script src="js/anime.min.js"></script>
   <script src="js/snap-slider.js" defer></script>
   <script src="js/smooth-scroll.js" defer></script>
-  <script src="js/hero-animation.js" defer></script>
   <script>
     // ── Cal sheet ─────────────────────────────────────────────────
     (function () {

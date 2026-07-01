@@ -2,6 +2,60 @@
   "use strict";
 
   function initSnapSlider() {
+    const heroSection = document.querySelector(".hero");
+    const heroVideoBg = document.querySelector(".hero__video-bg");
+    const heroYearTag = document.querySelector(".hero__year-tag");
+    const heroHeadline = document.querySelector(".hero__headline");
+
+    if (window.innerWidth > 767 && heroSection && heroVideoBg) {
+      // Autoplay glitch-out on load
+      if (heroYearTag) {
+        gsap.timeline({ delay: 1.2 })
+          .to(heroYearTag, { duration: 0.05, opacity: 0.7, x: -8, skewX: 15, ease: "none" })
+          .to(heroYearTag, { duration: 0.05, opacity: 0.3, x: 10, y: -4, skewX: -20, ease: "none" })
+          .to(heroYearTag, { duration: 0.05, opacity: 0.8, x: -14, y: 6, skewX: 25, ease: "none" })
+          .to(heroYearTag, { duration: 0.05, opacity: 0.15, x: 12, y: -6, skewX: -25, scale: 0.9, ease: "none" })
+          .to(heroYearTag, { duration: 0.05, opacity: 0, x: 0, y: 0, skewX: 0, scale: 0.8, ease: "power2.in", onComplete: () => {
+            heroYearTag.style.display = "none";
+          }});
+      }
+
+      const heroTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: heroSection,
+          start: "top top",
+          end: "+=120%",
+          scrub: true,
+          pin: true,
+          anticipatePin: 1
+        }
+      });
+
+      // Expand to full screen viewport coverage
+      heroTl.to(heroVideoBg, {
+        left: "0px",
+        bottom: "0px",
+        width: "100vw",
+        height: "100vh",
+        borderRadius: "0px",
+        scale: 1,
+        duration: 0.95,
+        ease: "power2.inOut"
+      }, 0);
+
+      // Scale down and tuck the brand title to the bottom-left corner
+      if (heroHeadline) {
+        heroTl.to(heroHeadline, {
+          scale: 0.55,
+          left: "40px",
+          bottom: "40px",
+          transformOrigin: "left bottom",
+          duration: 0.95,
+          ease: "power2.inOut"
+        }, 0);
+      }
+    }
+
     const snapSliderHolder = document.querySelector(".snap-slider-holder");
     if (!snapSliderHolder) return;
 
