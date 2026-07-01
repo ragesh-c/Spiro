@@ -7,7 +7,37 @@
     const heroYearTag = document.querySelector(".hero__year-tag");
     const heroHeadline = document.querySelector(".hero__headline");
 
+    const resizeHeroCard = () => {
+      if (window.innerWidth > 767 && heroHeadline && heroVideoBg) {
+        const headlineWidth = heroHeadline.getBoundingClientRect().width;
+        const targetLayoutWidth = headlineWidth / 0.65;
+        const targetLayoutHeight = targetLayoutWidth / 1.578;
+        
+        gsap.set(heroVideoBg, {
+          width: targetLayoutWidth,
+          height: targetLayoutHeight
+        });
+        
+        const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
+        if (heroVideoSideInfo) {
+          const spaceSide = heroHeadline.offsetLeft;
+          const targetSideLeft = spaceSide + headlineWidth + 32;
+          gsap.set(heroVideoSideInfo, {
+            left: targetSideLeft
+          });
+        }
+      } else if (heroVideoBg) {
+        gsap.set(heroVideoBg, { clearProps: "width,height" });
+        const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
+        if (heroVideoSideInfo) {
+          gsap.set(heroVideoSideInfo, { clearProps: "left" });
+        }
+      }
+    };
+
     if (heroSection && heroVideoBg) {
+      resizeHeroCard();
+      window.addEventListener("resize", resizeHeroCard);
       // Autoplay glitch-out on load
       if (heroYearTag) {
         gsap.timeline({ delay: 1.2 })
