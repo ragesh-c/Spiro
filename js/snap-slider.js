@@ -158,7 +158,7 @@
 
     // Calculate final Y position dynamically
     const getTargetY = () => {
-      const startTop = window.innerHeight * 0.73;
+      const startTop = window.innerHeight * 0.73 + 12;
       const finalBottom = window.innerWidth <= 767 ? 40 : 80;
       const titleHeight = title.offsetHeight;
       return window.innerHeight - startTop - finalBottom - titleHeight;

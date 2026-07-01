@@ -16,7 +16,7 @@
     /* Floating video container in default state */
     .hero-zoom-box {
       position: absolute;
-      top: 18vh;
+      top: calc(18vh + 12px);
       left: 80px;
       width: 48vw;
       height: 52vh;
@@ -82,7 +82,7 @@
     .hero-zoom-title-wrapper {
       position: absolute;
       left: 80px;
-      top: 73vh;
+      top: calc(73vh + 12px);
       z-index: 3;
       pointer-events: none;
     }
