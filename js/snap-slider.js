@@ -117,18 +117,18 @@
 
       const startTime = i - 1; // Slide i reveals during segment (i-1) to i
 
-      // Slide i mask slides in from -100vh (top) to 0
+      // Slide i mask slides up from 100vh (bottom) to 0
       masterTimeline.fromTo(
         mask,
-        { y: -window.innerHeight },
+        { y: window.innerHeight },
         { y: 0, ease: "none" },
         startTime
       );
 
-      // Slide i image slides in from 100vh (bottom) to 0, canceling out parallax
+      // Slide i image slides down from -100vh (top) to 0, canceling out parallax
       masterTimeline.fromTo(
         img,
-        { y: window.innerHeight },
+        { y: -window.innerHeight },
         { y: 0, ease: "none" },
         startTime
       );
