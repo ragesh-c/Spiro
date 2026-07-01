@@ -7,7 +7,7 @@
     const heroYearTag = document.querySelector(".hero__year-tag");
     const heroHeadline = document.querySelector(".hero__headline");
 
-    if (window.innerWidth > 767 && heroSection && heroVideoBg) {
+    if (heroSection && heroVideoBg) {
       // Autoplay glitch-out on load
       if (heroYearTag) {
         gsap.timeline({ delay: 1.2 })
@@ -35,6 +35,8 @@
       heroTl.to(heroVideoBg, {
         left: "0px",
         bottom: "0px",
+        top: "auto",
+        transform: "none",
         width: "100vw",
         height: "100vh",
         borderRadius: "0px",

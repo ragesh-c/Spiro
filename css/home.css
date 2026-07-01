@@ -9,22 +9,28 @@
       overflow: hidden;
     }
 
-    /* Video layer (starts as left-aligned card, scales on scroll) */
+    /* Common video container styles (fully responsive) */
     .hero__video-bg {
       position: absolute;
-      bottom: calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px); /* Exactly 24px distance above S */
-      left: 80px; /* Aligned straight above the letter S */
-      transform: scale(0.65);
-      transform-origin: left bottom; /* Scale from bottom-left anchor */
-      width: 780px;
-      height: 494px;
       border-radius: 20px;
       z-index: 2; /* Moved on top of the overlay */
       background: #000000;
       overflow: hidden;
       opacity: 1; /* Visible initially on page load */
-      pointer-events: none !important; /* Disable all mouse interactions to block YouTube play/pause overlays */
-      will-change: transform, width, height, border-radius, left, bottom;
+      pointer-events: none !important; /* Disable all mouse interactions to block default video overlays */
+      will-change: transform, width, height, border-radius, left, bottom, top;
+    }
+
+    /* Desktop-specific video card layouts */
+    @media (min-width: 768px) {
+      .hero__video-bg {
+        bottom: calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px); /* Exactly 24px distance above S */
+        left: 80px; /* Aligned straight above the letter S */
+        transform: scale(0.65);
+        transform-origin: left bottom; /* Scale from bottom-left anchor */
+        width: 780px;
+        height: 494px;
+      }
     }
 
     .hero__video-element {
@@ -899,14 +905,14 @@
 
 @media (max-width: 767px) {
   .hero__video-bg {
-    top: 40% !important;
-    bottom: auto !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    transform-origin: center center !important;
-    width: 85% !important;
-    height: 250px !important;
-    background: #000000 !important;
+    top: 40%;
+    bottom: auto;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.75);
+    transform-origin: center center;
+    width: 85%;
+    height: 250px;
+    background: #000000;
   }
 
   .hero__year-tag {
