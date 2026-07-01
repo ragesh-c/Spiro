@@ -27,7 +27,8 @@
           end: "+=120%",
           scrub: 1,
           pin: true,
-          anticipatePin: 1
+          anticipatePin: 1,
+          once: true
         }
       });
 
