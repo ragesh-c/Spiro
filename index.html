@@ -192,40 +192,7 @@
       tag.src = 'https://www.youtube.com/iframe_api';
       document.head.appendChild(tag);
     }());
-        rows.forEach(function(r) { r.classList.remove('active'); });
 
-        var targetRow = document.querySelector('.client-row[data-index="' + index + '"]');
-        var targetDesc = document.querySelector('.client-description[data-index="' + index + '"]');
-        
-        if (targetRow) targetRow.classList.add('active');
-        if (targetDesc) {
-           targetDesc.classList.remove('exiting');
-           targetDesc.classList.add('active');
-        }
-        
-        if (counter) {
-           counter.textContent = '0' + index + ' / 0' + rows.length;
-        }
-        currentIndex = index;
-      }
-
-      // Desktop: hover
-      rows.forEach(function(row) {
-        row.addEventListener('mouseenter', function() { activate(row.dataset.index); });
-      });
-
-      // Mobile: scroll-triggered
-      if (window.IntersectionObserver) {
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (e.isIntersecting && window.innerWidth <= 991) {
-              activate(e.target.dataset.index);
-            }
-          });
-        }, { threshold: 0.6 });
-        rows.forEach(function(row) { observer.observe(row); });
-      }
-    })();
   </script>
 
   <!-- ── Cal Sheet ──────────────────────────────────────────── -->
