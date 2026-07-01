@@ -28,8 +28,8 @@
         left: 80px; /* Aligned straight above the letter S */
         transform: scale(0.65);
         transform-origin: left bottom; /* Scale from bottom-left anchor */
-        width: 780px;
-        height: 494px;
+        width: 936px;
+        height: 593px;
       }
     }
 
@@ -68,7 +68,7 @@
     .hero__video-side-info {
       position: absolute;
       bottom: calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px + 120px); /* Positioned next to lower-middle of card */
-      left: calc(80px + 780px * 0.65 + 32px); /* Aligned exactly 32px next to the right edge of the card */
+      left: calc(80px + 936px * 0.65 + 32px); /* Aligned exactly 32px next to the right edge of the card */
       display: flex;
       flex-direction: column;
       gap: 6px;
