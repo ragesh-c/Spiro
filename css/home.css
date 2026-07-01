@@ -30,7 +30,7 @@
         transform-origin: left bottom; /* Scale from bottom-left anchor */
         width: var(--hero-card-width, clamp(700px, 55vw, 936px));
         height: var(--hero-card-height, auto);
-        aspect-ratio: 936 / 593;
+        aspect-ratio: 2.2;
       }
     }
 
