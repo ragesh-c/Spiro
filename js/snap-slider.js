@@ -6,17 +6,18 @@
     const heroVideoBg = document.querySelector(".hero__video-bg");
     const heroYearTag = document.querySelector(".hero__year-tag");
     const heroHeadline = document.querySelector(".hero__headline");
+    const heroFirstWord = document.querySelector(".hero__first-word");
 
     const resizeHeroCard = () => {
-      if (window.innerWidth > 767 && heroHeadline && heroVideoBg) {
-        // Temporarily clear transform to get the unscaled layout width
+      if (window.innerWidth > 767 && heroHeadline && heroFirstWord && heroVideoBg) {
+        // Temporarily clear transform to get the unscaled layout width of the first word
         const currentTransform = heroHeadline.style.transform;
         heroHeadline.style.transform = "none";
-        const headlineWidth = heroHeadline.getBoundingClientRect().width;
+        const firstWordWidth = heroFirstWord.getBoundingClientRect().width;
         heroHeadline.style.transform = currentTransform;
         
-        const targetLayoutWidth = (headlineWidth * 1.40) / 0.65;
-        const targetLayoutHeight = (headlineWidth / 0.65) / 1.578;
+        const targetLayoutWidth = firstWordWidth / 0.65;
+        const targetLayoutHeight = targetLayoutWidth / 1.578;
         
         heroVideoBg.style.setProperty("--hero-card-width", targetLayoutWidth + "px");
         heroVideoBg.style.setProperty("--hero-card-height", targetLayoutHeight + "px");
@@ -24,7 +25,7 @@
         const heroVideoSideInfo = document.querySelector(".hero__video-side-info");
         if (heroVideoSideInfo) {
           const spaceSide = heroHeadline.offsetLeft;
-          const targetSideLeft = spaceSide + (headlineWidth * 1.40) + 32;
+          const targetSideLeft = spaceSide + firstWordWidth + 32;
           gsap.set(heroVideoSideInfo, {
             left: targetSideLeft
           });
@@ -42,8 +43,6 @@
     if (heroSection && heroVideoBg) {
       resizeHeroCard();
       window.addEventListener("resize", resizeHeroCard);
-      ScrollTrigger.addEventListener("refreshInit", resizeHeroCard);
-      ScrollTrigger.addEventListener("refresh", resizeHeroCard);
       // Autoplay glitch-out on load
       if (heroYearTag) {
         gsap.timeline({ delay: 1.2 })
@@ -72,8 +71,8 @@
         left: "0px",
         top: "0px",
         bottom: "0px",
-        "--hero-card-width": "100vw",
-        "--hero-card-height": "100vh",
+        width: "100vw",
+        height: "100vh",
         xPercent: 0,
         yPercent: 0,
         scale: 1,

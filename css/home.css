@@ -911,8 +911,8 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0.75);
     transform-origin: center center;
-    width: var(--hero-card-width, 85%);
-    height: var(--hero-card-height, 250px);
+    width: 85%;
+    height: 250px;
     background: #000000;
   }
 
