@@ -32,19 +32,34 @@
       });
 
       // Expand to full screen viewport coverage
-      heroTl.to(heroVideoBg, {
-        left: "0px",
-        top: "0px",
-        bottom: "0px",
-        width: "100vw",
-        height: "100vh",
-        xPercent: 0,
-        yPercent: 0,
-        scale: 1,
-        borderRadius: "0px",
-        duration: 0.95,
-        ease: "power2.inOut"
-      }, 0);
+      const isMobile = window.innerWidth <= 767;
+      heroTl.fromTo(heroVideoBg, 
+        {
+          left: isMobile ? "50%" : "var(--space-side)",
+          top: isMobile ? "40%" : "auto",
+          bottom: isMobile ? "auto" : "calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px)",
+          width: isMobile ? "85%" : "clamp(550px, 45vw, 750px)",
+          height: isMobile ? "250px" : "auto",
+          xPercent: isMobile ? -50 : 0,
+          yPercent: isMobile ? -50 : 0,
+          scale: isMobile ? 0.75 : 0.65,
+          borderRadius: "20px"
+        },
+        {
+          left: "0px",
+          top: "0px",
+          bottom: "0px",
+          width: "100vw",
+          height: "100vh",
+          xPercent: 0,
+          yPercent: 0,
+          scale: 1,
+          borderRadius: "0px",
+          duration: 0.95,
+          ease: "power2.inOut"
+        }, 
+        0
+      );
 
       // Scale down and tuck the brand title to the bottom-left corner
       if (heroHeadline) {
