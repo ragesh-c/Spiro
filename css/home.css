@@ -940,7 +940,7 @@
   position: relative;
   background: #000000;
   z-index: 5; /* Layers on top of fixed video background */
-  padding: 80px 80px 60px 80px; /* Aligned with desktop margins */
+  padding: 140px 80px 140px 80px; /* Spacious vertical padding aligned with desktop margins */
   overflow: hidden;
 }
 
@@ -948,13 +948,13 @@
   width: 100%;
   height: 1px;
   background: rgba(255, 255, 255, 0.15); /* Sleek white divider line */
-  margin-bottom: 40px;
+  margin-bottom: 80px; /* Airy space below horizontal line */
 }
 
 .curiosity-inner {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Split column grid */
-  gap: 40px;
+  gap: 80px; /* Spacious gap between columns */
   align-items: start;
 }
 
@@ -980,36 +980,37 @@
   font-size: clamp(3rem, 7vw, 6rem);
   color: #ffffff;
   font-weight: 500;
-  margin: 20px 0 0 0;
+  margin: 35px 0 0 0; /* More breathing room below badge */
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
 
 .curiosity-right {
-  padding-top: 45px; /* Aligns description text cleanly with the title layout */
+  padding-top: 65px; /* Clean offset alignment with display heading */
 }
 
 .curiosity-desc {
   font-family: var(--font-body);
   font-size: clamp(1.1rem, 1.8vw, 1.45rem);
-  line-height: 1.5;
+  line-height: 1.6; /* Premium readability spacing */
   color: rgba(255, 255, 255, 0.7); /* Muted readability copy */
   margin: 0;
   max-width: 600px;
+  letter-spacing: -0.01em;
 }
 
 @media (max-width: 767px) {
   .curiosity-section {
-    padding: 60px 24px 40px 24px; /* Mobile margins */
+    padding: 80px 24px 80px 24px; /* Balanced mobile margins */
   }
   
   .curiosity-divider {
-    margin-bottom: 30px;
+    margin-bottom: 45px;
   }
 
   .curiosity-inner {
     grid-template-columns: 1fr; /* Stack columns on mobile */
-    gap: 20px;
+    gap: 35px;
   }
 
   .curiosity-right {
