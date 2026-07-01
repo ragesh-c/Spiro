@@ -4,14 +4,10 @@
   // Prevent multiple initializations
   if (document.getElementById("spiro-cursor-follower")) return;
 
-  // Injected HTML for the follower containing SVG eyes and idle circle
+  // Injected HTML for the follower containing SVG eyes
   const followerHtml = `
     <div id="spiro-cursor-follower" style="display: none;">
-      <!-- Inner circle outline for idle state -->
-      <div class="spiro-cursor-circle"></div>
-      
-      <!-- SVG cartoon eyes for moving state -->
-      <svg class="spiro-eyes-svg" viewBox="0 0 100 60" style="pointer-events: none;">
+      <svg viewBox="0 0 100 60" style="width: 80%; height: 80%; pointer-events: none;">
         <!-- Left Eye Sclera -->
         <ellipse cx="32" cy="30" rx="15" ry="22" fill="#ffffff" stroke="#000000" stroke-width="4.5" />
         <!-- Left Pupil Group -->
@@ -47,7 +43,8 @@
     let followerX = mouseX;
     let followerY = mouseY;
     let isVisible = false;
-    let idleTimeout = null;
+    let isMoving = false;
+    let moveTimeout;
 
     // Track real mouse position
     window.addEventListener("mousemove", function (e) {
@@ -59,22 +56,24 @@
         isVisible = true;
       }
 
-      // Add movement class
-      follower.classList.add("is-moving");
+      if (!isMoving) {
+        isMoving = true;
+        follower.classList.add("is-moving");
+      }
 
-      // Reset idle timeout
-      if (idleTimeout) clearTimeout(idleTimeout);
-      idleTimeout = setTimeout(function () {
+      clearTimeout(moveTimeout);
+      moveTimeout = setTimeout(function () {
+        isMoving = false;
         follower.classList.remove("is-moving");
-      }, 500); // 500ms of inactivity resets cursor to idle outline
+      }, 350); // Decay to idle state 350ms after stopping
     });
 
     // Handle cursor leaving the screen
     document.addEventListener("mouseleave", function () {
       follower.style.display = "none";
       isVisible = false;
+      isMoving = false;
       follower.classList.remove("is-moving");
-      if (idleTimeout) clearTimeout(idleTimeout);
     });
 
     // Main animation loop
@@ -84,8 +83,8 @@
         followerX += (mouseX - followerX) * 0.12;
         followerY += (mouseY - followerY) * 0.12;
 
-        // Position the follower (offset by half its width/height: 33px)
-        follower.style.transform = `translate3d(${followerX - 33}px, ${followerY - 33}px, 0)`;
+        // Position the follower (centered dynamically using translate3d(-50%, -50%, 0))
+        follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate3d(-50%, -50%, 0)`;
 
         // Calculate eyeball angle toward the target mouse
         const dx = mouseX - followerX;

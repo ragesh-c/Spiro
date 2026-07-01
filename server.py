@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 import http.server
 import os
-import mimetypes
-
-# Register webp and svg MIME types for Windows environments
-mimetypes.add_type('image/webp', '.webp')
-mimetypes.add_type('image/svg+xml', '.svg')
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
