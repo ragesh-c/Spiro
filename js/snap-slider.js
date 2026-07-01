@@ -38,7 +38,7 @@
           left: isMobile ? "50%" : "var(--space-side)",
           top: isMobile ? "40%" : "auto",
           bottom: isMobile ? "auto" : "calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px)",
-          width: isMobile ? "85%" : "clamp(550px, 45vw, 750px)",
+          width: isMobile ? "85%" : "clamp(385px, 32vw, 525px)",
           height: isMobile ? "250px" : "auto",
           xPercent: isMobile ? -50 : 0,
           yPercent: isMobile ? -50 : 0,
