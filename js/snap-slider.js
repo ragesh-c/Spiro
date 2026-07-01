@@ -181,15 +181,66 @@
     }
   }
 
+  function initHeroZoom() {
+    const section = document.querySelector(".hero-zoom-section");
+    const box = document.querySelector(".hero-zoom-box");
+    const title = document.querySelector(".hero-zoom-title");
+    if (!section || !box || !title) return;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=100%",
+        scrub: true,
+        pin: true,
+        invalidateOnRefresh: true,
+      }
+    });
+
+    // Zoom the box to full screen
+    tl.to(box, {
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      borderRadius: 0,
+      ease: "none"
+    }, 0);
+
+    // Calculate final Y position dynamically
+    const getTargetY = () => {
+      const startTop = window.innerHeight * 0.73;
+      const finalBottom = window.innerWidth <= 767 ? 40 : 80;
+      const titleHeight = title.offsetHeight;
+      return window.innerHeight - startTop - finalBottom - titleHeight;
+    };
+
+    // Calculate dynamic scale factor
+    const getTargetScale = () => {
+      if (window.innerWidth <= 767) return 0.75;
+      if (window.innerWidth <= 1024) return 0.65;
+      return 0.55;
+    };
+
+    tl.to(title, {
+      y: () => getTargetY(),
+      scale: () => getTargetScale(),
+      ease: "none"
+    }, 0);
+  }
+
   // Safely initialize GSAP after load
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
     initSnapSlider();
+    initHeroZoom();
   } else {
     document.addEventListener("DOMContentLoaded", () => {
       if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         gsap.registerPlugin(ScrollTrigger);
         initSnapSlider();
+        initHeroZoom();
       }
     });
   }
