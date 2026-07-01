@@ -33,8 +33,8 @@
 
       // Dynamic layout helper calculations to avoid browser computed style race conditions and CSS parser issues
       const getSpaceSide = () => Math.min(Math.max(24, window.innerWidth * 0.06), 80);
-      const getCardWidth = () => window.innerWidth <= 767 ? window.innerWidth * 0.85 : Math.min(Math.max(385, window.innerWidth * 0.32), 525);
-      const getCardHeight = () => window.innerWidth <= 767 ? 250 : getCardWidth() / (936 / 593);
+      const getCardWidth = () => window.innerWidth <= 767 ? window.innerWidth * 0.85 : 1000;
+      const getCardHeight = () => window.innerWidth <= 767 ? 250 : 500;
       
       const getBottomSpacing = () => {
         const headlineFontSize = Math.min(Math.max(3 * 16, window.innerWidth * 0.09 * 16), 7.5 * 16);
@@ -54,7 +54,7 @@
           top: () => `${getStartTop()}px`,
           width: () => window.innerWidth <= 767 ? "85%" : `${getCardWidth()}px`,
           height: () => window.innerWidth <= 767 ? "250px" : `${getCardHeight()}px`,
-          scale: () => window.innerWidth <= 767 ? 0.75 : 0.65,
+          scale: () => window.innerWidth <= 767 ? 0.9 : 1,
           borderRadius: "20px",
           xPercent: 0,
           yPercent: 0

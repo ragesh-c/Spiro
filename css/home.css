@@ -26,11 +26,10 @@
       .hero__video-bg {
         bottom: calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px); /* Exactly 24px distance above S */
         left: var(--space-side); /* Aligned straight above the letter S */
-        transform: scale(0.65);
+        transform: scale(1);
         transform-origin: left bottom; /* Scale from bottom-left anchor */
-        width: clamp(385px, 32vw, 525px);
-        aspect-ratio: 936 / 593;
-        height: auto;
+        width: 1000px;
+        height: 500px;
       }
     }
 
@@ -909,7 +908,7 @@
     top: 40%;
     bottom: auto;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.75);
+    transform: translate(-50%, -50%) scale(0.9);
     transform-origin: center center;
     width: 85%;
     height: 250px;
