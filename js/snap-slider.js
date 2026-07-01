@@ -16,7 +16,7 @@
         heroHeadline.style.transform = currentTransform;
         
         const targetLayoutWidth = (headlineWidth * 1.40) / 0.65;
-        const targetLayoutHeight = targetLayoutWidth / 1.578;
+        const targetLayoutHeight = (headlineWidth / 0.65) / 1.578;
         
         heroVideoBg.style.setProperty("--hero-card-width", targetLayoutWidth + "px");
         heroVideoBg.style.setProperty("--hero-card-height", targetLayoutHeight + "px");
