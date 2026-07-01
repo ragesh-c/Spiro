@@ -9,7 +9,12 @@
 
     const resizeHeroCard = () => {
       if (window.innerWidth > 767 && heroHeadline && heroVideoBg) {
+        // Temporarily clear transform to get the unscaled layout width
+        const currentTransform = heroHeadline.style.transform;
+        heroHeadline.style.transform = "none";
         const headlineWidth = heroHeadline.getBoundingClientRect().width;
+        heroHeadline.style.transform = currentTransform;
+        
         const targetLayoutWidth = headlineWidth / 0.65;
         const targetLayoutHeight = targetLayoutWidth / 1.578;
         
@@ -269,15 +274,24 @@
   }
 
   // Safely initialize GSAP after load
-  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
-    initSnapSlider();
-  } else {
-    document.addEventListener("DOMContentLoaded", () => {
-      if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-        gsap.registerPlugin(ScrollTrigger);
-        initSnapSlider();
+  const runInit = () => {
+    if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+      initSnapSlider();
+      
+      // Dispatch resize and refresh ScrollTrigger once custom fonts are fully loaded
+      if (document.fonts) {
+        document.fonts.ready.then(() => {
+          window.dispatchEvent(new Event("resize"));
+          ScrollTrigger.refresh();
+        });
       }
-    });
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runInit);
+  } else {
+    runInit();
   }
 })();
