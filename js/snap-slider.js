@@ -7,7 +7,6 @@
 
     const snapSlides = gsap.utils.toArray(".snap-slide");
     const snapCaptions = gsap.utils.toArray(".snap-slide-caption");
-    const snapThumbs = gsap.utils.toArray(".thumb-slide");
 
     if (snapSlides.length === 0) return;
 
@@ -67,7 +66,6 @@
       });
     });
 
-    const thumbHeight = snapThumbs[0].offsetHeight;
     const captionHeight = snapCaptions[0].offsetHeight;
 
     // ── Build Single Pin & Transition Timeline ───────────────────
@@ -86,16 +84,6 @@
         },
       },
     });
-
-    // Animate thumbs translation inside master timeline
-    masterTimeline.to(
-      ".snap-slider-thumbs-wrapper",
-      {
-        y: -thumbHeight * (slidesCount - 1),
-        ease: "none",
-      },
-      0
-    );
 
     // Animate captions translation inside master timeline
     masterTimeline.to(
@@ -138,34 +126,7 @@
       });
     });
 
-    // Interactive custom cursor behavior on hovering thumbnails
-    const tracker = document.getElementById("spiro-cursor-follower");
-    if (tracker) {
-      snapThumbs.forEach((thumb) => {
-        thumb.addEventListener("mouseenter", () => {
-          // Add custom zoom / scaling look on the follower
-          tracker.style.width = "88px";
-          tracker.style.height = "88px";
-          tracker.style.backgroundColor = "rgba(245, 172, 69, 0.95)";
-          // Squeeze pupils
-          const leftP = document.getElementById("spiro-pupil-l");
-          const rightP = document.getElementById("spiro-pupil-r");
-          if (leftP) leftP.style.transform = "scale(1.2)";
-          if (rightP) rightP.style.transform = "scale(1.2)";
-        });
-
-        thumb.addEventListener("mouseleave", () => {
-          // Restore original sizes
-          tracker.style.width = "66px";
-          tracker.style.height = "66px";
-          tracker.style.backgroundColor = "transparent";
-          const leftP = document.getElementById("spiro-pupil-l");
-          const rightP = document.getElementById("spiro-pupil-r");
-          if (leftP) leftP.style.transform = "none";
-          if (rightP) rightP.style.transform = "none";
-        });
-      });
-    }
+    // No thumbnail cursors since thumbnails were removed
   }
 
   function initHeroZoom() {
