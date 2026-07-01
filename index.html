@@ -693,10 +693,6 @@
     (function () {
       if (window.innerWidth <= 767) return;
 
-      var tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(tag);
-
       window.onYouTubeIframeAPIReady = function () {
         new YT.Player('hero-yt-player', {
           videoId: '5SBU5ArxEbM',
@@ -720,7 +716,7 @@
                 transform: 'translate(-50%, -50%)',
                 pointerEvents: 'none',
                 border: '0',
-                opacity: '0',
+                opacity: '1',
                 transition: 'opacity 0.6s ease'
               });
               e.target.mute();
@@ -734,6 +730,10 @@
           }
         });
       };
+
+      var tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
     }());
 
     // Footer wordmark scroll-driven fly-in
