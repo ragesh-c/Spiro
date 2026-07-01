@@ -20,65 +20,125 @@
           }});
       }
 
-      const heroTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: heroSection,
-          start: "top top",
-          end: "+=120%",
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-          onLeave: (self) => {
-            self.kill(false); // Kill trigger without resetting styles
-            gsap.set(heroVideoBg, {
-              left: "0px",
-              top: "0px",
-              bottom: "0px",
-              width: "100vw",
-              height: "100vh",
-              xPercent: 0,
-              yPercent: 0,
-              scale: 1,
-              borderRadius: "0px"
-            });
-            if (heroHeadline) {
-              gsap.set(heroHeadline, {
-                scale: 0.55,
-                left: "40px",
-                bottom: "40px",
-                transformOrigin: "left bottom"
+      const mm = gsap.matchMedia();
+
+      // Desktop Animation (min-width: 768px)
+      mm.add("(min-width: 768px)", () => {
+        const heroTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: heroSection,
+            start: "top top",
+            end: "+=120%",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            onLeave: (self) => {
+              self.kill(false); // Kill trigger without resetting styles
+              gsap.set(heroVideoBg, {
+                left: "0px",
+                bottom: "0px",
+                width: "100vw",
+                height: "100vh",
+                scale: 1,
+                borderRadius: "0px"
               });
+              if (heroHeadline) {
+                gsap.set(heroHeadline, {
+                  scale: 0.55,
+                  left: "40px",
+                  bottom: "40px",
+                  transformOrigin: "left bottom"
+                });
+              }
             }
           }
-        }
-      });
+        });
 
-      // Expand to full screen viewport coverage
-      heroTl.to(heroVideoBg, {
-        left: "0px",
-        top: "0px",
-        bottom: "0px",
-        width: "100vw",
-        height: "100vh",
-        xPercent: 0,
-        yPercent: 0,
-        scale: 1,
-        borderRadius: "0px",
-        duration: 0.95,
-        ease: "power2.inOut"
-      }, 0);
-
-      // Scale down and tuck the brand title to the bottom-left corner
-      if (heroHeadline) {
-        heroTl.to(heroHeadline, {
-          scale: 0.55,
-          left: "40px",
-          bottom: "40px",
-          transformOrigin: "left bottom",
+        // Expand to full screen viewport coverage
+        heroTl.to(heroVideoBg, {
+          left: "0px",
+          bottom: "0px",
+          width: "100vw",
+          height: "100vh",
+          scale: 1,
+          borderRadius: "0px",
           duration: 0.95,
           ease: "power2.inOut"
         }, 0);
-      }
+
+        // Scale down and tuck the brand title to the bottom-left corner
+        if (heroHeadline) {
+          heroTl.to(heroHeadline, {
+            scale: 0.55,
+            left: "40px",
+            bottom: "40px",
+            transformOrigin: "left bottom",
+            duration: 0.95,
+            ease: "power2.inOut"
+          }, 0);
+        }
+      });
+
+      // Mobile Animation (max-width: 767px)
+      mm.add("(max-width: 767px)", () => {
+        const heroTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: heroSection,
+            start: "top top",
+            end: "+=120%",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            onLeave: (self) => {
+              self.kill(false); // Kill trigger without resetting styles
+              gsap.set(heroVideoBg, {
+                left: "0px",
+                top: "0px",
+                width: "100vw",
+                height: "100vh",
+                xPercent: 0,
+                yPercent: 0,
+                scale: 1,
+                borderRadius: "0px"
+              });
+              if (heroHeadline) {
+                gsap.set(heroHeadline, {
+                  scale: 0.55,
+                  left: "40px",
+                  bottom: "40px",
+                  transformOrigin: "left bottom"
+                });
+              }
+            }
+          }
+        });
+
+        // Expand to full screen viewport coverage
+        heroTl.to(heroVideoBg, {
+          left: "0px",
+          top: "0px",
+          width: "100vw",
+          height: "100vh",
+          xPercent: 0,
+          yPercent: 0,
+          scale: 1,
+          borderRadius: "0px",
+          duration: 0.95,
+          ease: "power2.inOut"
+        }, 0);
+
+        // Scale down and tuck the brand title to the bottom-left corner
+        if (heroHeadline) {
+          heroTl.to(heroHeadline, {
+            scale: 0.55,
+            left: "40px",
+            bottom: "40px",
+            transformOrigin: "left bottom",
+            duration: 0.95,
+            ease: "power2.inOut"
+          }, 0);
+        }
+      });
     }
 
     const snapSliderHolder = document.querySelector(".snap-slider-holder");
