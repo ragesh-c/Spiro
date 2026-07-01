@@ -156,19 +156,19 @@
       ease: "none"
     }, 0);
 
-    // Calculate final Y position dynamically
+    // Calculate final Y position dynamically based on overlap starting coordinates
     const getTargetY = () => {
-      const startTop = window.innerHeight * 0.73;
-      const finalBottom = window.innerWidth <= 767 ? 40 : 80;
+      const isMobile = window.innerWidth <= 767;
+      const startTop = isMobile ? window.innerHeight * 0.55 : window.innerHeight * 0.60;
+      const targetBottom = isMobile ? 24 : 80;
+      const scale = isMobile ? 0.35 : 0.28;
       const titleHeight = title.offsetHeight;
-      return window.innerHeight - startTop - finalBottom - titleHeight;
+      return window.innerHeight - targetBottom - startTop - (titleHeight * scale);
     };
 
     // Calculate dynamic scale factor
     const getTargetScale = () => {
-      if (window.innerWidth <= 767) return 0.75;
-      if (window.innerWidth <= 1024) return 0.65;
-      return 0.55;
+      return window.innerWidth <= 767 ? 0.35 : 0.28;
     };
 
     tl.to(title, {

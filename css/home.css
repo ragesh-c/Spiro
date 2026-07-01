@@ -78,23 +78,23 @@
       pointer-events: none;
     }
 
-    /* Title wrapper aligned with layout */
+    /* Title wrapper aligned with layout - overlaps the video card */
     .hero-zoom-title-wrapper {
       position: absolute;
       left: 80px;
-      top: 73vh;
+      top: 60vh;
       z-index: 3;
       pointer-events: none;
     }
 
     .hero-zoom-title {
       font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(3rem, 7.8vw, 7.2rem);
+      font-weight: 900;
+      font-size: clamp(3rem, 11vw, 11rem);
       text-transform: uppercase;
       color: #ffffff;
-      letter-spacing: -0.03em;
-      line-height: 0.85;
+      letter-spacing: -0.04em;
+      line-height: 0.8;
       margin: 0;
       padding: 0;
       transform-origin: left bottom;
@@ -914,6 +914,16 @@
   }
   .hero__video-bg {
     background: url('../assets/img/hero-poster.webp') center/cover no-repeat;
+  }
+  .hero-zoom-box {
+    top: 22vh;
+    left: 24px;
+    width: calc(100% - 48px);
+    height: 40vh;
+  }
+  .hero-zoom-title-wrapper {
+    left: 24px;
+    top: 55vh;
   }
 }
 
