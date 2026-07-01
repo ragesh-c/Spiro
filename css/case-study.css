@@ -23,14 +23,14 @@
 .cs-hero-content {
   position: absolute;
   bottom: 10vh;
-  left: 80px;
-  right: 80px;
+  left: var(--space-side);
+  right: var(--space-side);
   z-index: 2;
 }
 
 .cs-meta-inner {
   display: flex;
-  gap: 80px;
+  gap: var(--space-side);
 }
 
 .cs-meta-label {

@@ -5,7 +5,7 @@
       --font-display: 'Chillax', system-ui, sans-serif;
       --font-body:    'General Sans', system-ui, sans-serif;
       --max-wide:     1200px;
-      --space-side:   80px;
+      --space-side:   clamp(24px, 6vw, 80px);
     }
 
     [data-theme="dark"] {

@@ -25,11 +25,12 @@
     @media (min-width: 768px) {
       .hero__video-bg {
         bottom: calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px); /* Exactly 24px distance above S */
-        left: 80px; /* Aligned straight above the letter S */
+        left: var(--space-side); /* Aligned straight above the letter S */
         transform: scale(0.65);
         transform-origin: left bottom; /* Scale from bottom-left anchor */
-        width: 936px;
-        height: 593px;
+        width: clamp(700px, 55vw, 936px);
+        aspect-ratio: 936 / 593;
+        height: auto;
       }
     }
 
@@ -68,7 +69,7 @@
     .hero__video-side-info {
       position: absolute;
       bottom: calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px + 120px); /* Positioned next to lower-middle of card */
-      left: calc(80px + 936px * 0.65 + 32px); /* Aligned exactly 32px next to the right edge of the card */
+      left: calc(var(--space-side) + clamp(700px, 55vw, 936px) * 0.65 + 32px); /* Aligned exactly 32px next to the right edge of the card */
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -98,7 +99,7 @@
     .hero__headline {
       position: absolute;
       bottom: 8vh;
-      left: 80px;
+      left: var(--space-side);
       margin: 0;
       font-family: var(--font-display);
       font-weight: 900;
@@ -940,7 +941,7 @@
   position: relative;
   background: #000000;
   z-index: 5; /* Layers on top of fixed video background */
-  padding: 140px 80px 140px 80px; /* Spacious vertical padding aligned with desktop margins */
+  padding: 140px var(--space-side); /* Spacious vertical padding aligned with responsive margins */
   overflow: hidden;
 }
 
@@ -1218,11 +1219,11 @@
 }
 
 .snap-slide-caption .slide-current {
-  left: 80px;
+  left: var(--space-side);
 }
 
 .snap-slide-caption .slide-counter {
-  right: 80px;
+  right: var(--space-side);
 }
 
 @media (max-width: 1024px) {
