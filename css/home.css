@@ -20,7 +20,7 @@
       height: 494px;
       border-radius: 20px;
       z-index: 2; /* Moved on top of the overlay */
-      background: #000000 url('../../assets/img/hero-poster.webp') center/cover no-repeat;
+      background: #000000;
       overflow: hidden;
       opacity: 1; /* Visible initially on page load */
       will-change: transform, width, height, border-radius, left, bottom;
@@ -920,7 +920,7 @@
     transform-origin: center center !important;
     width: 85% !important;
     height: 250px !important;
-    background: url('../../assets/img/hero-poster.webp') center/cover no-repeat !important;
+    background: #000000 !important;
   }
   #hero-yt-player {
     display: none;
