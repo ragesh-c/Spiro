@@ -34,13 +34,14 @@
       // Expand to full screen viewport coverage
       heroTl.to(heroVideoBg, {
         left: "0px",
+        top: "0px",
         bottom: "0px",
-        top: "auto",
-        transform: "none",
         width: "100vw",
         height: "100vh",
-        borderRadius: "0px",
+        xPercent: 0,
+        yPercent: 0,
         scale: 1,
+        borderRadius: "0px",
         duration: 0.95,
         ease: "power2.inOut"
       }, 0);
@@ -127,7 +128,7 @@
       start: "top top",
       end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
       pin: snapThumbsWrapper,
-      scrub: true,
+      scrub: 1,
     });
 
     const thumbHeight = snapThumbs[0].offsetHeight;
@@ -138,7 +139,7 @@
         y: -thumbHeight * (snapThumbs.length - 1),
         scrollTrigger: {
           trigger: snapSliderHolder,
-          scrub: true,
+          scrub: 1,
           start: "top top",
           end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
         },
@@ -152,7 +153,7 @@
       start: "top top",
       end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
       pin: true,
-      scrub: true,
+      scrub: 1,
     });
 
     const captionHeight = snapCaptions[0].offsetHeight;
@@ -163,7 +164,7 @@
         y: -captionHeight * (snapCaptions.length - 1),
         scrollTrigger: {
           trigger: snapSliderHolder,
-          scrub: true,
+          scrub: 1,
           start: "top top",
           end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
         },
@@ -180,7 +181,7 @@
       snap: {
         snapTo: snapPoints,
         duration: { min: 0.25, max: 0.6 },
-        delay: 0,
+        delay: 0.15, /* Allow Lenis scrolling easing to finish before snap triggers */
         ease: "power2.out",
       },
     });
