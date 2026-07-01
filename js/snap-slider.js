@@ -42,6 +42,8 @@
     if (heroSection && heroVideoBg) {
       resizeHeroCard();
       window.addEventListener("resize", resizeHeroCard);
+      ScrollTrigger.addEventListener("refreshInit", resizeHeroCard);
+      ScrollTrigger.addEventListener("refresh", resizeHeroCard);
       // Autoplay glitch-out on load
       if (heroYearTag) {
         gsap.timeline({ delay: 1.2 })
@@ -70,8 +72,8 @@
         left: "0px",
         top: "0px",
         bottom: "0px",
-        width: "100vw",
-        height: "100vh",
+        "--hero-card-width": "100vw",
+        "--hero-card-height": "100vh",
         xPercent: 0,
         yPercent: 0,
         scale: 1,
