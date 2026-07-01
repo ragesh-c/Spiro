@@ -797,8 +797,6 @@
   left: 0;
   width: 66px;
   height: 66px;
-  background-color: transparent;
-  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -806,7 +804,44 @@
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   will-change: transform;
-  box-shadow: none;
+}
+
+/* Inner circle outline for idle state */
+.spiro-cursor-circle {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(130, 130, 130, 0.7);
+  box-sizing: border-box;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+  will-change: transform, opacity;
+}
+
+/* SVG eyes for moving state */
+.spiro-eyes-svg {
+  width: 80%;
+  height: 80%;
+  opacity: 0;
+  transform: scale(0.65);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+/* Moving State transitions */
+#spiro-cursor-follower.is-moving .spiro-cursor-circle {
+  opacity: 0;
+  transform: scale(1.4);
+}
+
+#spiro-cursor-follower.is-moving .spiro-eyes-svg {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Ensure no visual conflicts on mobile where touch inputs are used */
@@ -815,4 +850,5 @@
     display: none !important;
   }
 }
+
 

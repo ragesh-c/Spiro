@@ -4,10 +4,14 @@
   // Prevent multiple initializations
   if (document.getElementById("spiro-cursor-follower")) return;
 
-  // Injected HTML for the follower containing SVG eyes
+  // Injected HTML for the follower containing SVG eyes and idle circle
   const followerHtml = `
     <div id="spiro-cursor-follower" style="display: none;">
-      <svg viewBox="0 0 100 60" style="width: 80%; height: 80%; pointer-events: none;">
+      <!-- Inner circle outline for idle state -->
+      <div class="spiro-cursor-circle"></div>
+      
+      <!-- SVG cartoon eyes for moving state -->
+      <svg class="spiro-eyes-svg" viewBox="0 0 100 60" style="pointer-events: none;">
         <!-- Left Eye Sclera -->
         <ellipse cx="32" cy="30" rx="15" ry="22" fill="#ffffff" stroke="#000000" stroke-width="4.5" />
         <!-- Left Pupil Group -->
@@ -43,6 +47,7 @@
     let followerX = mouseX;
     let followerY = mouseY;
     let isVisible = false;
+    let idleTimeout = null;
 
     // Track real mouse position
     window.addEventListener("mousemove", function (e) {
@@ -53,12 +58,23 @@
         follower.style.display = "flex";
         isVisible = true;
       }
+
+      // Add movement class
+      follower.classList.add("is-moving");
+
+      // Reset idle timeout
+      if (idleTimeout) clearTimeout(idleTimeout);
+      idleTimeout = setTimeout(function () {
+        follower.classList.remove("is-moving");
+      }, 500); // 500ms of inactivity resets cursor to idle outline
     });
 
     // Handle cursor leaving the screen
     document.addEventListener("mouseleave", function () {
       follower.style.display = "none";
       isVisible = false;
+      follower.classList.remove("is-moving");
+      if (idleTimeout) clearTimeout(idleTimeout);
     });
 
     // Main animation loop
