@@ -6,24 +6,26 @@
     if (!snapSliderHolder) return;
 
     const snapSlides = gsap.utils.toArray(".snap-slide");
-    const snapSlidesImgMask = gsap.utils.toArray(".snap-slide .img-mask");
-    const snapCaptionWrapper = document.querySelector(".snap-slider-captions");
     const snapCaptions = gsap.utils.toArray(".snap-slide-caption");
-    const snapThumbsWrapper = document.querySelector(".snap-slider-thumbs");
     const snapThumbs = gsap.utils.toArray(".thumb-slide");
 
     if (snapSlides.length === 0) return;
 
-    // Set height of slides to 100vh dynamically
-    const setHeight = () => {
-      gsap.set(snapSlides, { height: window.innerHeight });
-    };
-    setHeight();
-    window.addEventListener("resize", setHeight);
+    const slidesCount = snapSlides.length;
 
-    // Initial opacity reveal on enter
+    // Dynamically size height and set absolute stack order z-indexes
+    const setupLayout = () => {
+      gsap.set(snapSlides, { height: window.innerHeight });
+      snapSlides.forEach((slide, i) => {
+        gsap.set(slide, { zIndex: i + 1 });
+      });
+    };
+    setupLayout();
+    window.addEventListener("resize", setupLayout);
+
+    // Initial opacity reveal of the slider on scroll entrance
     gsap.fromTo(
-      snapSlidesImgMask,
+      ".snap-slider-images",
       { opacity: 0.15 },
       {
         duration: 1,
@@ -38,18 +40,18 @@
       }
     );
 
-    // Set initial caption state
+    // Set initial caption active states
     snapCaptions.forEach((cap, i) => {
       if (i === 0) cap.classList.add("in-view");
       else cap.classList.remove("in-view");
     });
 
-    // Caption active states toggle
+    // Caption active states toggle based on scroll segments
     snapSlides.forEach((slide, index) => {
       ScrollTrigger.create({
-        trigger: slide,
-        start: "top 50%",
-        end: "bottom 50%",
+        trigger: snapSliderHolder,
+        start: () => "top+=" + window.innerHeight * (index - 0.5) + " top",
+        end: () => "top+=" + window.innerHeight * (index + 0.5) + " top",
         onEnter: () => {
           snapCaptions.forEach((cap, i) => {
             if (i === index) cap.classList.add("in-view");
@@ -65,89 +67,70 @@
       });
     });
 
-    // Pin and translate thumbnails vertical stack
-    ScrollTrigger.create({
-      trigger: snapSlides,
-      start: "top top",
-      end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
-      pin: snapThumbsWrapper,
-      scrub: true,
-    });
-
     const thumbHeight = snapThumbs[0].offsetHeight;
-    gsap.fromTo(
-      snapThumbs,
-      { y: 0 },
-      {
-        y: -thumbHeight * (snapThumbs.length - 1),
-        scrollTrigger: {
-          trigger: snapSliderHolder,
-          scrub: true,
-          start: "top top",
-          end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
-        },
-        ease: "none",
-      }
-    );
-
-    // Pin and translate captions vertical stack
-    ScrollTrigger.create({
-      trigger: snapCaptionWrapper,
-      start: "top top",
-      end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
-      pin: true,
-      scrub: true,
-    });
-
     const captionHeight = snapCaptions[0].offsetHeight;
-    gsap.fromTo(
-      snapCaptions,
-      { y: 0 },
-      {
-        y: -captionHeight * (snapCaptions.length - 1),
-        scrollTrigger: {
-          trigger: snapSliderHolder,
-          scrub: true,
-          start: "top top",
-          end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
-        },
-        ease: "none",
-      }
-    );
 
-    // Snapping scroll trigger between slides
-    const snapPoints = gsap.utils.snap(1 / (snapSlides.length - 1));
-    ScrollTrigger.create({
-      trigger: snapSlides,
-      start: "top top",
-      end: () => "+=" + window.innerHeight * (snapSlides.length - 1),
-      snap: {
-        snapTo: snapPoints,
-        duration: { min: 0.25, max: 0.6 },
-        delay: 0,
-        ease: "power2.out",
+    // ── Build Single Pin & Transition Timeline ───────────────────
+    const masterTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: snapSliderHolder,
+        start: "top top",
+        end: () => "+=" + window.innerHeight * (slidesCount - 1),
+        pin: true,
+        scrub: true,
+        snap: {
+          snapTo: 1 / (slidesCount - 1),
+          duration: { min: 0.25, max: 0.6 },
+          delay: 0,
+          ease: "power2.out",
+        },
       },
     });
 
-    // Background image blind slider reveal translations
-    snapSlides.forEach((slide, i) => {
-      const imageWrappers = slide.querySelectorAll(".img-mask");
-      const isLastSlide = i === snapSlides.length - 1;
-      const isFirstSlide = i === 0;
+    // Animate thumbs translation inside master timeline
+    masterTimeline.to(
+      ".snap-slider-thumbs-wrapper",
+      {
+        y: -thumbHeight * (slidesCount - 1),
+        ease: "none",
+      },
+      0
+    );
 
-      gsap.fromTo(
-        imageWrappers,
-        { y: isFirstSlide ? 0 : -window.innerHeight },
-        {
-          y: isLastSlide ? 0 : window.innerHeight,
-          scrollTrigger: {
-            trigger: slide,
-            scrub: true,
-            start: isFirstSlide ? "top top" : "top bottom",
-            end: isLastSlide ? "top top" : undefined,
-          },
-          ease: "none",
-        }
+    // Animate captions translation inside master timeline
+    masterTimeline.to(
+      ".snap-slider-captions-wrapper",
+      {
+        y: -captionHeight * (slidesCount - 1),
+        ease: "none",
+      },
+      0
+    );
+
+    // Animate stacked slide reveals inside master timeline
+    snapSlides.forEach((slide, i) => {
+      if (i === 0) return; // Slide 1 is at the bottom and stays static
+
+      const mask = slide.querySelector(".img-mask");
+      const img = slide.querySelector(".section-image");
+      if (!mask || !img) return;
+
+      const startTime = i - 1; // Slide i reveals during segment (i-1) to i
+
+      // Slide i mask slides in from -100vh (top) to 0
+      masterTimeline.fromTo(
+        mask,
+        { y: -window.innerHeight },
+        { y: 0, ease: "none" },
+        startTime
+      );
+
+      // Slide i image slides in from 100vh (bottom) to 0, canceling out parallax
+      masterTimeline.fromTo(
+        img,
+        { y: window.innerHeight },
+        { y: 0, ease: "none" },
+        startTime
       );
     });
 
