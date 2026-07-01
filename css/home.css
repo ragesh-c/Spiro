@@ -13,18 +13,17 @@
       z-index: 10;
     }
 
-    /* Floating video container in default state */
+    /* Floating video container in default state - full bleed */
     .hero-zoom-box {
       position: absolute;
-      top: calc(18vh + 12px);
-      left: 80px;
-      width: 48vw;
-      height: 52vh;
-      border-radius: 16px;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
       overflow: hidden;
       z-index: 2;
       background: #000000;
-      will-change: width, height, top, left, border-radius;
     }
 
     /* Video bg fills container with poster fallback */
@@ -82,7 +81,7 @@
     .hero-zoom-title-wrapper {
       position: absolute;
       left: 80px;
-      top: calc(73vh + 12px);
+      bottom: 80px;
       z-index: 3;
       pointer-events: none;
     }
