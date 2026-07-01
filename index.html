@@ -158,7 +158,7 @@
     </div>
 
     <div class="hero-zoom-title-wrapper">
-      <h1 class="hero-zoom-title">Fortem Media</h1>
+      <h1 class="hero-zoom-title">Spiro Creatives</h1>
     </div>
   </section>
 
@@ -688,10 +688,6 @@
     (function () {
       if (window.innerWidth <= 767) return;
 
-      var tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(tag);
-
       window.onYouTubeIframeAPIReady = function () {
         new YT.Player('hero-yt-player', {
           videoId: '5SBU5ArxEbM',
@@ -720,6 +716,10 @@
               });
               e.target.mute();
               e.target.playVideo();
+              // Fallback to show video in case autoplay block delays playing trigger
+              setTimeout(function () {
+                iframe.style.opacity = '1';
+              }, 800);
             },
             onStateChange: function (e) {
               if (e.data === YT.PlayerState.PLAYING) {
@@ -729,6 +729,10 @@
           }
         });
       };
+
+      var tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
     }());
 
     // Footer wordmark scroll-driven fly-in
