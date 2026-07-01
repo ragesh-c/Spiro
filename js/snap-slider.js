@@ -31,28 +31,39 @@
         }
       });
 
-      // Expand to full screen viewport coverage
-      const isMobile = window.innerWidth <= 767;
+      // Dynamic layout helper calculations to avoid browser computed style race conditions and CSS parser issues
+      const getSpaceSide = () => Math.min(Math.max(24, window.innerWidth * 0.06), 80);
+      const getCardWidth = () => window.innerWidth <= 767 ? window.innerWidth * 0.85 : Math.min(Math.max(385, window.innerWidth * 0.32), 525);
+      const getCardHeight = () => window.innerWidth <= 767 ? 250 : getCardWidth() / (936 / 593);
+      
+      const getBottomSpacing = () => {
+        const headlineFontSize = Math.min(Math.max(3 * 16, window.innerWidth * 0.09 * 16), 7.5 * 16);
+        const headlineHeight = headlineFontSize * 0.95;
+        return window.innerHeight * 0.08 + headlineHeight + 24;
+      };
+      
+      const getStartLeft = () => window.innerWidth <= 767 ? (window.innerWidth - getCardWidth()) / 2 : getSpaceSide();
+      const getStartTop = () => window.innerWidth <= 767 ? window.innerHeight * 0.4 - getCardHeight() / 2 : window.innerHeight - getBottomSpacing() - getCardHeight();
+
+      // Clear CSS bottom on initialize to allow top/left coordinate interpolation
+      gsap.set(heroVideoBg, { bottom: "auto" });
+
       heroTl.fromTo(heroVideoBg, 
         {
-          left: isMobile ? "50%" : "var(--space-side)",
-          top: isMobile ? "40%" : "auto",
-          bottom: isMobile ? "auto" : "calc(8vh + clamp(3rem, 9vw, 7.5rem) * 0.95 + 24px)",
-          width: isMobile ? "85%" : "clamp(385px, 32vw, 525px)",
-          height: isMobile ? "250px" : "auto",
-          xPercent: isMobile ? -50 : 0,
-          yPercent: isMobile ? -50 : 0,
-          scale: isMobile ? 0.75 : 0.65,
-          borderRadius: "20px"
+          left: () => `${getStartLeft()}px`,
+          top: () => `${getStartTop()}px`,
+          width: () => window.innerWidth <= 767 ? "85%" : `${getCardWidth()}px`,
+          height: () => window.innerWidth <= 767 ? "250px" : `${getCardHeight()}px`,
+          scale: () => window.innerWidth <= 767 ? 0.75 : 0.65,
+          borderRadius: "20px",
+          xPercent: 0,
+          yPercent: 0
         },
         {
           left: "0px",
           top: "0px",
-          bottom: "0px",
           width: "100vw",
           height: "100vh",
-          xPercent: 0,
-          yPercent: 0,
           scale: 1,
           borderRadius: "0px",
           duration: 0.95,
