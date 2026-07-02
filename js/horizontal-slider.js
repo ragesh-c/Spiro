@@ -207,6 +207,23 @@
     if (nextBtn) nextBtn.addEventListener("click", function () { goTo(index + 1); });
     dots.forEach(function (dot, i) { dot.addEventListener("click", function () { goTo(i); }); });
 
+    // ── Open a case study: shrink the hero back, then navigate ────
+    // stopPropagation keeps the site-wide #page-transition fade from
+    // also firing for this click — this custom animation replaces it.
+    var OPEN_TRANSITION_MS = 700;
+    var links = Array.prototype.slice.call(section.querySelectorAll(".hz-slide-caption__link"));
+    links.forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var href = link.href;
+        section.classList.add("is-opening");
+        setTimeout(function () {
+          window.location.href = href;
+        }, OPEN_TRANSITION_MS);
+      });
+    });
+
     // ── Wheel scroll-jacking ────────────────────────────────────
     // Only the specific wheel events that should advance a slide are
     // swallowed (preventDefault + stopImmediatePropagation, so Lenis's

@@ -214,3 +214,50 @@
     display: none;
   }
 }
+
+/* ── Opening a case study: hero shrinks back before navigating ──── */
+.hz-slider__stage {
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1), border-radius 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+  transform-origin: center;
+}
+
+.hz-slider.is-opening .hz-slider__stage {
+  transform: scale(0.55);
+  border-radius: 20px;
+}
+
+.hz-slider.is-opening .hz-slider__captions,
+.hz-slider.is-opening .hz-slider__dots,
+.hz-slider.is-opening .hz-slider__hint,
+.hz-slider.is-opening .hz-slider__nav {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.hz-slider__opening-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.4s ease 0.3s;
+}
+
+.hz-slider.is-opening .hz-slider__opening-spinner {
+  opacity: 1;
+  animation: hz-spin 0.9s linear infinite;
+}
+
+@keyframes hz-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
