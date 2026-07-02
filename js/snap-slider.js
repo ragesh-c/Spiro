@@ -8,6 +8,9 @@
     const heroHeadline = document.querySelector(".hero__headline");
 
     if (heroSection && heroVideoBg) {
+      // Reveal the showreel card only after a 2s delay
+      gsap.to(heroVideoBg, { opacity: 1, duration: 0.8, delay: 2, ease: "power2.out" });
+
       // Autoplay glitch-out on load
       if (heroYearTag) {
         gsap.timeline({ delay: 1.2 })

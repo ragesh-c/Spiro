@@ -16,7 +16,7 @@
       z-index: 2; /* Moved on top of the overlay */
       background: #000000;
       overflow: hidden;
-      opacity: 1; /* Visible initially on page load */
+      opacity: 0; /* Hidden on load; fades in via JS after a delay */
       pointer-events: none !important; /* Disable all mouse interactions to block default video overlays */
       will-change: transform, width, height, border-radius, left, bottom, top;
     }
@@ -121,7 +121,7 @@
     .featured-work__header {
       max-width: var(--max-wide);
       margin: 0 auto;
-      padding: 120px 56px 60px;
+      padding: 120px var(--space-side) 60px;
       display: flex;
       align-items: baseline;
       justify-content: space-between;
@@ -182,7 +182,7 @@
     .featured-work__grid {
       max-width: var(--max-wide);
       margin: 0 auto;
-      padding: 0 56px 120px;
+      padding: 0 var(--space-side) 120px;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -422,13 +422,13 @@
       display: block;
       max-width: var(--max-wide);
       margin: 0 auto 80px;
-      padding: 120px 56px 0;
+      padding: 120px var(--space-side) 0;
     }
 
     .services-grid {
       max-width: var(--max-wide);
       margin: 0 auto;
-      padding: 0 56px;
+      padding: 0 var(--space-side);
       display: flex;
       gap: 20px;
       align-items: flex-start;
@@ -601,7 +601,7 @@
     .spiro-difference__inner {
       max-width: var(--max-wide);
       margin: 0 auto;
-      padding: 0 56px;
+      padding: 0 var(--space-side);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
@@ -634,7 +634,7 @@
 
     .spiro-difference__image {
       position: relative;
-      min-height: 420px;
+      min-height: 300px;
       background: transparent;
       display: flex;
       align-items: center;
@@ -644,7 +644,7 @@
 
     .bts-card {
       position: absolute;
-      width: 52%;
+      width: 36%;
       aspect-ratio: 3 / 4;
       border-radius: 12px;
       top: 50%;
@@ -675,22 +675,22 @@
     }
 
     .bts-card--1 {
-      left: 0%;
+      left: 15%;
       transform: translateY(-50%) rotate(-11deg);
       z-index: 1;
     }
     .bts-card--2 {
-      left: 16%;
+      left: 26%;
       transform: translateY(-53%) rotate(-4deg);
       z-index: 2;
     }
     .bts-card--3 {
-      left: 32%;
+      left: 37%;
       transform: translateY(-49%) rotate(4deg);
       z-index: 3;
     }
     .bts-card--4 {
-      left: 48%;
+      left: 49%;
       transform: translateY(-46%) rotate(11deg);
       z-index: 4;
     }
@@ -718,7 +718,7 @@
         font-size: 22px;
       }
       .spiro-difference__image {
-        min-height: 280px;
+        min-height: 200px;
       }
     }
 
@@ -1068,240 +1068,5 @@
   }
 }
 
-/* ── Showcase Snap Slider Styles ───────────────────────────── */
-.snap-slider-section {
-  position: relative;
-  background: #000000;
-  width: 100%;
-  z-index: 5; /* Layered on top of fixed video background */
-}
-
-.snap-slider-holder {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background: #000000;
-}
-
-.snap-slider-images {
-  position: relative;
-  width: 100%;
-  z-index: 1;
-}
-
-.snap-slider-images-wrapper {
-  position: relative;
-  width: 100%;
-}
-
-.snap-slide {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.snap-slide .img-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  will-change: transform;
-}
-
-.snap-slide .section-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.snap-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: brightness(0.35) contrast(1.05);
-  will-change: transform;
-}
-
-/* Center vertical thumbnail display */
-.snap-slider-thumbs {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 440px;
-  overflow: hidden;
-  border-radius: 16px;
-  z-index: 10;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.65);
-  pointer-events: auto;
-}
-
-.snap-slider-thumbs-wrapper {
-  position: relative;
-  width: 100%;
-  will-change: transform;
-}
-
-.thumb-slide {
-  width: 320px;
-  height: 440px;
-  position: relative;
-  overflow: hidden;
-}
-
-.thumb-slide-img {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.thumb-slide-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
-
-.thumb-slide:hover .thumb-slide-img img {
-  transform: scale(1.06);
-}
-
-.slide-link {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  cursor: pointer;
-}
-
-/* Centered captions */
-.snap-slider-captions {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 5;
-  overflow: hidden;
-}
-
-.snap-slider-captions-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  will-change: transform;
-}
-
-.snap-slide-caption {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-  padding: 0 40px;
-  box-sizing: border-box;
-}
-
-.snap-slide-caption .slide-title {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(2.5rem, 7vw, 6rem);
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-  line-height: 0.95;
-  margin-bottom: 12px;
-  overflow: hidden;
-}
-
-.snap-slide-caption .slide-title span {
-  display: block;
-  transform: translateY(100%);
-  opacity: 0;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.snap-slide-caption.in-view .slide-title span {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.snap-slide-caption .slide-subtitle {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: clamp(14px, 1.5vw, 18px);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--orange);
-  opacity: 0;
-  transform: translateY(15px);
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
-}
-
-.snap-slide-caption.in-view .slide-subtitle {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Counters positioned absolute on the sides */
-.snap-slide-caption .slide-current,
-.snap-slide-caption .slide-counter {
-  position: absolute;
-  bottom: 80px;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 24px;
-  color: rgba(255, 255, 255, 0.25);
-}
-
-.snap-slide-caption .slide-current {
-  left: var(--space-side);
-}
-
-.snap-slide-caption .slide-counter {
-  right: var(--space-side);
-}
-
-@media (max-width: 1024px) {
-  .snap-slider-thumbs {
-    width: 260px;
-    height: 360px;
-  }
-  .thumb-slide {
-    width: 260px;
-    height: 360px;
-  }
-}
-
-@media (max-width: 767px) {
-  .snap-slider-thumbs {
-    width: 200px;
-    height: 280px;
-  }
-  .thumb-slide {
-    width: 200px;
-    height: 280px;
-  }
-  .snap-slide-caption .slide-current {
-    left: 24px;
-    bottom: 40px;
-  }
-  .snap-slide-caption .slide-counter {
-    right: 24px;
-    bottom: 40px;
-  }
-}
+/* Showcase Snap Slider styles moved to css/snap-slider.css (shared with work.html) */
 

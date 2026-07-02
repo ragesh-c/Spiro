@@ -62,7 +62,7 @@
 /* ── Case Study Body ────────────────────────────────────────── */
 .cs-body {
   background: #f5f1ea;
-  padding: 80px 64px 120px;
+  padding: 80px var(--space-side) 120px;
 }
 
 .cs-body-inner {
@@ -128,7 +128,7 @@
 
 /* ── Case Study Back Link ───────────────────────────────────── */
 .cs-back {
-  padding: 40px 64px;
+  padding: 40px var(--space-side);
   background: #f5f1ea;
   border-top: 0.5px solid rgba(10, 27, 44, 0.1);
 }

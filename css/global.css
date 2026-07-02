@@ -4,8 +4,8 @@
       --red:          #c03628;
       --font-display: 'Chillax', system-ui, sans-serif;
       --font-body:    'General Sans', system-ui, sans-serif;
-      --max-wide:     1200px;
-      --space-side:   clamp(24px, 6vw, 80px);
+      --max-wide:     1800px;
+      --space-side:   clamp(16px, 4vw, 24px);
     }
 
     [data-theme="dark"] {
@@ -17,7 +17,7 @@
       --text-muted:     rgba(245, 241, 234, 0.35);
       --divider:        rgba(245, 241, 234, 0.08);
       --overlay:        rgba(26, 26, 26, 0.82);
-      --nav-bg:         #1a1a1a;
+      --nav-bg:         transparent;
       --nav-link:       rgba(245, 241, 234, 0.75);
       --nav-link-hover: #f5f1ea;
       --nav-wordmark:   #f5f1ea;
@@ -36,7 +36,7 @@
       --text-muted:     rgba(26, 26, 26, 0.40);
       --divider:        rgba(26, 26, 26, 0.10);
       --overlay:        rgba(26, 26, 26, 0.75);
-      --nav-bg:         #ffffeb;
+      --nav-bg:         transparent;
       --nav-link:       rgba(26, 26, 26, 0.65);
       --nav-link-hover: #1a1a1a;
       --nav-wordmark:   #1a1a1a;
@@ -196,12 +196,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 28px;
+      padding: 0 var(--space-side);
       z-index: 99;
       background: var(--nav-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--divider);
     }
 
     /* Wordmark */
@@ -573,7 +570,7 @@
     .footer__wordmark-block {
       width: 100%;
       overflow: hidden;
-      padding: 40px 56px 32px;
+      padding: 40px var(--space-side) 32px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
@@ -596,7 +593,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 40px;
-      padding: 60px 56px;
+      padding: 60px var(--space-side);
     }
 
     .footer__col-heading {
@@ -664,7 +661,7 @@
 
     /* Section 3 — bottom bar */
     .footer__bottom-wrap {
-      padding: 32px 56px;
+      padding: 32px var(--space-side);
       display: flex;
       align-items: center;
       justify-content: space-between;

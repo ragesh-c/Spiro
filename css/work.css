@@ -2,11 +2,11 @@
 section#work-hero {
   background: var(--bg-primary);
   width: 100%;
-  padding: 160px 64px 80px;
+  padding: 160px var(--space-side) 80px;
 }
 
 .work-hero-inner {
-  max-width: 1200px;
+  max-width: var(--max-wide);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -56,12 +56,12 @@ section#work-hero {
 section#work-filters {
   background: var(--bg-primary);
   width: 100%;
-  padding: 40px 64px;
+  padding: 40px var(--space-side);
   border-bottom: 0.5px solid var(--divider);
 }
 
 .work-filters-inner {
-  max-width: 1200px;
+  max-width: var(--max-wide);
   margin: 0 auto;
   display: flex;
   align-items: center;

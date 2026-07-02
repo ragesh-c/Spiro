@@ -1,7 +1,7 @@
 /* ── Services Hero ─────────────────────────────────────────── */
 .services-hero {
   background: var(--bg-primary); /* Uses cream if light theme, or we can force cream */
-  padding: 120px 48px; /* Adjusted padding since it centers */
+  padding: 120px var(--space-side); /* Adjusted padding since it centers */
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
@@ -250,7 +250,7 @@
 section#start-a-project {
   background: var(--bg-primary);
   width: 100%;
-  padding: 120px 64px;
+  padding: 120px var(--space-side);
 }
 
 @media (max-width: 768px) {

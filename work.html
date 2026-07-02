@@ -73,9 +73,10 @@
   <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://api.fontshare.com/v2/css?f[]=chillax@400,400i,500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/horizontal-slider.css">
   <link rel="stylesheet" href="css/work.css">
 
-  
+
 </head>
 <body>
 
@@ -128,77 +129,61 @@
     </div>
   </section>
 
-  <!-- ── Filter Bar ─────────────────────────────────────────────── -->
-  <section id="work-filters" aria-label="Filter work">
-    <div class="work-filters-inner">
-      <div class="filters-left">
-        <span class="filter-label">Filter by</span>
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="social-media">Social Media</button>
-        <button class="filter-btn" data-filter="content-production">Content Production</button>
+  <!-- ── Horizontal Scroll-Jacking Slider with WebGL Ripple ───────
+       Single full-viewport section — wheel/drag changes the active
+       client sideways instead of scrolling the page. No extra scroll
+       height. Transitions use a WebGL ripple between background
+       images (CSS crossfade fallback if WebGL is unavailable).
+       See css/horizontal-slider.css and js/horizontal-slider.js. -->
+  <section class="hz-slider" aria-label="Projects">
+    <div class="hz-slider__stage">
+      <img src="assets/img/web/Assembly/DSC05314-Edit.webp" alt="Assembly Coffee by Spiro Creatives" class="hz-slide__img is-active">
+      <img src="assets/img/web/Sorrel/DSC01196-Edit.webp" alt="Sorrel Restaurant by Spiro Creatives" class="hz-slide__img">
+      <img src="assets/img/web/Cezara/HSM00503-scaled.jpg" alt="Cezara Hertanu by Spiro Creatives" class="hz-slide__img">
+      <img src="assets/img/web/Clubhouse/HSM04202-scaled.jpg" alt="Clubhouse PT by Spiro Creatives" class="hz-slide__img">
+      <canvas class="hz-slider__canvas"></canvas>
+    </div>
+
+    <div class="hz-slider__captions">
+      <div class="hz-slide-caption is-active">
+        <div class="hz-slide-caption__subtitle">Social Content</div>
+        <h2 class="hz-slide-caption__title">Assembly Coffee</h2>
+        <a href="/work/case-study.html?slug=the-morning-ritual" class="hz-slide-caption__link">View case study &rarr;</a>
       </div>
-      <div class="view-toggles">
-        <button class="view-btn active" data-view="list" aria-label="List view">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
-        </button>
-        <button class="view-btn" data-view="grid" aria-label="Grid view">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
-        </button>
+      <div class="hz-slide-caption">
+        <div class="hz-slide-caption__subtitle">Brand Film</div>
+        <h2 class="hz-slide-caption__title">Sorrel Restaurant</h2>
+        <a href="/work/case-study.html?slug=Sorrel-restaurant" class="hz-slide-caption__link">View case study &rarr;</a>
+      </div>
+      <div class="hz-slide-caption">
+        <div class="hz-slide-caption__subtitle">Photography</div>
+        <h2 class="hz-slide-caption__title">Cezara Hertanu</h2>
+        <a href="/work/case-study.html?slug=coming-soon" class="hz-slide-caption__link">View case study &rarr;</a>
+      </div>
+      <div class="hz-slide-caption">
+        <div class="hz-slide-caption__subtitle">Brand Film</div>
+        <h2 class="hz-slide-caption__title">Clubhouse PT</h2>
+        <a href="/work/case-study.html?slug=coming-soon" class="hz-slide-caption__link">View case study &rarr;</a>
       </div>
     </div>
-  </section>
 
-  <!-- ── Project Grid ───────────────────────────────────────────── -->
-  <section id="work-grid" aria-label="Projects">
-    <div class="work-grid-inner">
-
-      <!-- Assembly Coffee -->
-      <a href="/work/case-study.html?slug=the-morning-ritual" class="work-card reveal" data-pillar="social-media">
-      <div class="kettle-card__content">
-        <span class="kettle-card__client">Assembly Coffee</span>
-        <h2 class="kettle-card__title">The <span>morning ritual</span></h2>
-      </div>
-      <div class="kettle-card__media" id="assembly-slideshow" data-deferred-slides='[{"src": "assets/img/web/Assembly/DSC05319-Edit.webp", "alt": "Assembly Coffee commercial photography London"}, {"src": "assets/img/web/Assembly/DSC05334-Edit.webp", "alt": "Assembly Coffee brand campaign photography"}]'>
-        <img src="assets/img/web/Assembly/DSC05314-Edit.webp" alt="Assembly Coffee brand photography — Spiro Creatives" class="slideshow-slide slideshow-slide--active">
-        <div class="kettle-card__pill">View case study &rarr;</div>
-      </div>
-    </a>
-
-      <!-- Sorrel -->
-      <a href="/work/case-study.html?slug=Sorrel-restaurant" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.08s">
-      <div class="kettle-card__content">
-        <span class="kettle-card__client">Sorrel</span>
-        <h2 class="kettle-card__title">A <span>restaurant finds its voice</span></h2>
-      </div>
-      <div class="kettle-card__media" id="sorrel-slideshow" data-deferred-slides='[{"src": "assets/img/web/Sorrel/DSC01211-Edit.webp", "alt": "Sorrel restaurant editorial photography London"}, {"src": "assets/img/web/Sorrel/DSC01490-Edit.webp", "alt": "Sorrel restaurant food and interiors photography"}, {"src": "assets/img/web/Sorrel/DSC01529.webp", "alt": "Sorrel restaurant campaign photography"}, {"src": "assets/img/web/Sorrel/DSC01570-Edit.webp", "alt": "Sorrel restaurant brand identity photography"}, {"src": "assets/img/web/Sorrel/DSC01588-final.webp", "alt": "Sorrel restaurant commercial photography by Spiro Creatives"}]'>
-        <img src="assets/img/web/Sorrel/DSC01196-Edit.webp" alt="Sorrel restaurant brand photography — Spiro Creatives" class="slideshow-slide slideshow-slide--active">
-        <div class="kettle-card__pill">View case study &rarr;</div>
-      </div>
-    </a>
-
-      <!-- Cezara Hertanu -->
-      <a href="/work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.12s">
-      <div class="kettle-card__content">
-        <span class="kettle-card__client">Cezara Hertanu</span>
-        <h2 class="kettle-card__title">A <span>personal brand, built to last</span></h2>
-      </div>
-      <div class="kettle-card__media" style="background: #1a1a2e;">
-        <div class="kettle-card__pill">View case study &rarr;</div>
-      </div>
-    </a>
-
-      <!-- Clubhouse PT -->
-      <a href="/work/case-study.html?slug=coming-soon" class="work-card reveal" data-pillar="content-production" style="transition-delay: 0.16s">
-      <div class="kettle-card__content">
-        <span class="kettle-card__client">Clubhouse PT</span>
-        <h2 class="kettle-card__title">Strength <span>looks like this</span></h2>
-      </div>
-      <div class="kettle-card__media" style="background: #2e1a1a;">
-        <div class="kettle-card__pill">View case study &rarr;</div>
-      </div>
-    </a>
-
+    <div class="hz-slider__dots">
+      <button class="hz-slider__dot is-active" aria-label="Go to Assembly Coffee" type="button"></button>
+      <button class="hz-slider__dot" aria-label="Go to Sorrel Restaurant" type="button"></button>
+      <button class="hz-slider__dot" aria-label="Go to Cezara Hertanu" type="button"></button>
+      <button class="hz-slider__dot" aria-label="Go to Clubhouse PT" type="button"></button>
     </div>
+
+    <div class="hz-slider__hint">Scroll or Drag</div>
+
+    <button class="hz-slider__nav hz-slider__nav--prev" aria-label="Previous project" type="button">
+      <span class="hz-slider__nav-dot"></span>
+      <span class="hz-slider__nav-label">Prev</span>
+    </button>
+    <button class="hz-slider__nav hz-slider__nav--next" aria-label="Next project" type="button">
+      <span class="hz-slider__nav-label">Next</span>
+      <span class="hz-slider__nav-dot"></span>
+    </button>
   </section>
 
   <div class="ticker-wrap" aria-label="Studio news" aria-hidden="true">
@@ -301,7 +286,6 @@
 
   </footer>
 
-  <div id="custom-cursor" class="custom-cursor">View case study</div>
   <script>
     // ── Theme toggle ─────────────────────────────────────────────
     (function () {
@@ -448,66 +432,6 @@
       update();
     }());
 
-    // ── Work filter ──────────────────────────────────────────────
-    function initFilter() {
-      var btns = document.querySelectorAll('.filter-btn');
-      btns.forEach(function (btn) {
-        btn.replaceWith(btn.cloneNode(true)); // strip old listeners
-      });
-      btns = document.querySelectorAll('.filter-btn');
-      btns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var filter = btn.getAttribute('data-filter');
-          btns.forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          document.querySelectorAll('.work-card').forEach(function (card) {
-            var pillar = card.getAttribute('data-pillar');
-            card.classList.toggle('hidden', filter !== 'all' && pillar !== filter);
-          });
-        });
-      });
-    }
-    initFilter();
-
-    (function () {
-
-      // ── View toggles ─────────────────────────────────────────────
-      var viewBtns = document.querySelectorAll('.view-btn');
-      var workGridInner = document.querySelector('.work-grid-inner');
-
-      viewBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          viewBtns.forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-
-          if (btn.getAttribute('data-view') === 'grid') {
-            workGridInner.classList.add('is-grid');
-          } else {
-            workGridInner.classList.remove('is-grid');
-          }
-        });
-      });
-
-      // ── Custom Cursor Logic ──────────────────────────────────────
-      var cursor = document.getElementById('custom-cursor');
-      if (cursor) {
-        window.addEventListener('mousemove', function (e) {
-          cursor.style.left = e.clientX + 'px';
-          cursor.style.top = e.clientY + 'px';
-        });
-
-        document.querySelectorAll('.work-card').forEach(function (card) {
-          card.addEventListener('mouseenter', function () {
-            if (workGridInner.classList.contains('is-grid')) {
-              cursor.classList.add('is-visible');
-            }
-          });
-          card.addEventListener('mouseleave', function () {
-            cursor.classList.remove('is-visible');
-          });
-        });
-      }
-    }());
   </script>
 
   <!-- ── Cal Sheet ──────────────────────────────────────────── -->
@@ -615,52 +539,6 @@
   <div id="page-transition"></div>
 
   <script>
-    // ── Slideshow helper ─────────────────────────────────────────
-    function initSlideshow(id, interval) {
-      var container = document.getElementById(id);
-      if (!container) return;
-      
-      // Dynamically load deferred slides
-      var deferredData = container.getAttribute('data-deferred-slides');
-      if (deferredData) {
-        try {
-          var slidesData = JSON.parse(deferredData);
-          var pill = container.querySelector('.kettle-card__pill, .work-card__hover');
-          slidesData.forEach(function(slideInfo) {
-            var img = document.createElement('img');
-            img.src = slideInfo.src;
-            img.alt = slideInfo.alt;
-            img.className = 'slideshow-slide';
-            if (slideInfo.style) {
-              img.style.cssText = slideInfo.style;
-            }
-            if (pill) {
-              container.insertBefore(img, pill);
-            } else {
-              container.appendChild(img);
-            }
-          });
-        } catch (e) {
-          console.error('Error parsing deferred slides for ' + id, e);
-        }
-      }
-      
-      var slides = container.querySelectorAll('.slideshow-slide');
-      if (!slides.length) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var current = 0;
-      setInterval(function() {
-        // Re-query slides in case they loaded late
-        slides = container.querySelectorAll('.slideshow-slide');
-        slides[current].classList.remove('slideshow-slide--active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('slideshow-slide--active');
-      }, interval);
-    }
-    initSlideshow('assembly-slideshow', 3000);
-    initSlideshow('sorrel-slideshow', 3500);
-    initSlideshow('sorrel-slideshow', 3500);
-
     // ── Page transitions ─────────────────────────────────────────
     (function () {
       var overlay = document.getElementById('page-transition');
@@ -690,5 +568,7 @@
   <!-- Smooth Scrolling -->
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script src="js/smooth-scroll.js" defer></script>
+  <!-- Horizontal Scroll-Jacking Slider -->
+  <script src="js/horizontal-slider.js" defer></script>
 </body>
 </html>
