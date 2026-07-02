@@ -125,15 +125,69 @@
     var ripple = null;
     var TRANSITION_MS = 1100;
 
-    // Computed fresh on every interaction — not cached from an async
-    // IntersectionObserver callback, which can lag behind a fast,
-    // continuous Lenis smooth-scroll and miss the engagement window
-    // entirely (the section is only "engaged" for a brief scroll range).
-    function isEngaged() {
-      var rect = section.getBoundingClientRect();
-      var tolerance = 40;
-      return rect.top <= tolerance && rect.bottom >= window.innerHeight - tolerance;
+    var isSliding = false;
+    var snapping = false;
+
+    // Check if slider is already aligned on load
+    var initialRect = section.getBoundingClientRect();
+    if (Math.abs(initialRect.top) <= 5) {
+      isSliding = true;
     }
+
+    function checkSnap() {
+      var rect = section.getBoundingClientRect();
+      
+      // If already perfectly aligned, make sure sliding is engaged
+      if (Math.abs(rect.top) <= 5) {
+        isSliding = true;
+        return;
+      }
+
+      if (isSliding || snapping || animating) return;
+
+      // 1. Entering from the top (scrolling down)
+      if (rect.top > 5 && rect.top < 100) {
+        snapping = true;
+        if (window.lenis) {
+          window.lenis.scrollTo(section, {
+            immediate: false,
+            duration: 0.6,
+            onComplete: function () {
+              snapping = false;
+              isSliding = true;
+              goTo(0);
+            }
+          });
+        } else {
+          window.scrollTo({ top: window.scrollY + rect.top, behavior: "smooth" });
+          isSliding = true;
+          goTo(0);
+          snapping = false;
+        }
+      }
+      // 2. Entering from the bottom (scrolling up)
+      else if (rect.top < -5 && rect.top > -100) {
+        snapping = true;
+        if (window.lenis) {
+          window.lenis.scrollTo(section, {
+            immediate: false,
+            duration: 0.6,
+            onComplete: function () {
+              snapping = false;
+              isSliding = true;
+              goTo(count - 1);
+            }
+          });
+        } else {
+          window.scrollTo({ top: window.scrollY + rect.top, behavior: "smooth" });
+          isSliding = true;
+          goTo(count - 1);
+          snapping = false;
+        }
+      }
+    }
+
+    window.addEventListener("scroll", checkSnap, { passive: true });
 
     function updateChrome() {
       captions.forEach(function (cap, i) { cap.classList.toggle("is-active", i === index); });
@@ -224,6 +278,18 @@
       });
     });
 
+    // Make the entire slider stage clickable to navigate to the active case study
+    var stage = section.querySelector(".hz-slider__stage");
+    if (stage) {
+      stage.style.cursor = "pointer";
+      stage.addEventListener("click", function (e) {
+        var activeLink = section.querySelector(".hz-slide-caption.is-active .hz-slide-caption__link");
+        if (activeLink && !animating) {
+          activeLink.click();
+        }
+      });
+    }
+
     // ── Wheel scroll-jacking ────────────────────────────────────
     // Only the specific wheel events that should advance a slide are
     // swallowed (preventDefault + stopImmediatePropagation, so Lenis's
@@ -233,7 +299,7 @@
     var WHEEL_THRESHOLD = 10;
 
     window.addEventListener("wheel", function (e) {
-      if (!isEngaged()) return;
+      if (!isSliding) return;
       if (Math.abs(e.deltaY) < WHEEL_THRESHOLD) return;
 
       var goingForward = e.deltaY > 0;
@@ -243,16 +309,17 @@
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!animating) goTo(goingForward ? index + 1 : index - 1);
+      } else {
+        // Exiting the slider, allow normal scroll
+        isSliding = false;
       }
-      // At an edge slide: don't intercept — let the event reach Lenis
-      // so the page keeps scrolling normally past the section.
     }, { passive: false, capture: true });
 
     // ── Drag / touch swipe ──────────────────────────────────────
     var dragStartX = null;
 
     section.addEventListener("pointerdown", function (e) {
-      if (!isEngaged()) return;
+      if (!isSliding) return;
       dragStartX = e.clientX;
     });
 
@@ -267,7 +334,7 @@
 
     // ── Keyboard ──────────────────────────────────────────────────
     window.addEventListener("keydown", function (e) {
-      if (!isEngaged()) return;
+      if (!isSliding) return;
       if (e.key === "ArrowRight") goTo(index + 1);
       if (e.key === "ArrowLeft") goTo(index - 1);
     });

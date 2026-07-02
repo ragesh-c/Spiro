@@ -4,7 +4,7 @@
   // Prevent multiple initializations
   if (document.getElementById("spiro-cursor-follower")) return;
 
-  // Injected HTML for the follower containing SVG eyes
+  // Injected HTML for the follower containing SVG eyes and a text label
   const followerHtml = `
     <div id="spiro-cursor-follower" style="display: none;">
       <svg viewBox="0 0 100 60" style="width: 80%; height: 80%; pointer-events: none;">
@@ -24,6 +24,7 @@
           <circle cx="65.5" cy="27.5" r="2.2" fill="#ffffff" />
         </g>
       </svg>
+      <span class="spiro-cursor-label" style="display: none; pointer-events: none;"></span>
     </div>
   `;
 
@@ -74,6 +75,42 @@
       isVisible = false;
       isMoving = false;
       follower.classList.remove("is-moving");
+    });
+
+    document.addEventListener("mouseover", function (e) {
+      var target = e.target;
+      if (!target) return;
+      var slider = target.closest(".hz-slider");
+      var isNav = target.closest(".hz-slider__nav") || target.closest(".hz-slider__dots");
+      var thumb = target.closest(".thumb-slide");
+      
+      if ((slider && !isNav) || thumb) {
+        var label = follower.querySelector(".spiro-cursor-label");
+        if (label) {
+          label.textContent = "View case study \u2192";
+        }
+        follower.classList.add("is-pill");
+      }
+    });
+
+    document.addEventListener("mouseout", function (e) {
+      var target = e.target;
+      if (!target) return;
+      var related = e.relatedTarget;
+      
+      var slider = target.closest(".hz-slider");
+      var relatedSlider = related ? related.closest(".hz-slider") : null;
+      var relatedIsNav = related ? (related.closest(".hz-slider__nav") || related.closest(".hz-slider__dots")) : null;
+      
+      var thumb = target.closest(".thumb-slide");
+      var relatedThumb = related ? related.closest(".thumb-slide") : null;
+      
+      if (slider && (!relatedSlider || relatedIsNav)) {
+        follower.classList.remove("is-pill");
+      }
+      if (thumb && !relatedThumb) {
+        follower.classList.remove("is-pill");
+      }
     });
 
     // Main animation loop
