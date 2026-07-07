@@ -812,26 +812,14 @@
 }
 
 #spiro-cursor-follower svg {
-  width: 80%;
-  height: 80%;
-  pointer-events: none;
-  opacity: 0; /* Hide eyes when idle */
-  transform: scale(0.5);
-  transition: 
-    opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1),
-    transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  display: none !important;
 }
 
 /* Moving State */
 #spiro-cursor-follower.is-moving {
-  width: 66px;
-  height: 66px;
-  border-color: transparent; /* Morph circle border away */
-}
-
-#spiro-cursor-follower.is-moving svg {
-  opacity: 1; /* Fade in eyes */
-  transform: scale(1);
+  width: 36px;
+  height: 36px;
+  border-color: var(--orange);
 }
 
 /* Ensure no visual conflicts on mobile where touch inputs are used */
