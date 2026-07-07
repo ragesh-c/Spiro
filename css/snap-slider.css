@@ -151,12 +151,18 @@
 .snap-slide-caption .slide-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-size: clamp(2.5rem, 8.5vw, 8.5rem);
   text-transform: uppercase;
+  color: #fff;
+  line-height: 0.9;
   letter-spacing: -0.03em;
-  line-height: 0.95;
-  margin-bottom: 12px;
   overflow: hidden;
+}
+
+.snap-slide-caption .slide-title a {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: auto;
 }
 
 .snap-slide-caption .slide-title span {
