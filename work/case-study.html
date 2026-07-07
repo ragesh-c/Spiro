@@ -92,10 +92,11 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background: #000000;
-      color: #f5f1ea;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
     .cs-visually-hidden {
       position: absolute; width: 1px; height: 1px;
@@ -606,7 +607,13 @@
       "gallery": gallery[].asset->url,
       videoUrl,
       summary,
-      body,
+      body[] {
+        ...,
+        _type == "image" => {
+          ...,
+          "url": asset->url
+        }
+      },
       results,
       publishedAt
     }`;
@@ -617,15 +624,74 @@
 
     function renderBody(body) {
       if (!body || !Array.isArray(body)) return '';
-      return body.map(function(block) {
-        if (block._type !== 'block') return '';
-        const text = (block.children || []).map(function(c) { return c.text || ''; }).join('');
-        const style = block.style || 'normal';
-        if (style === 'h2') return `<h2 class="cs-content__heading" data-typewriter>${text}</h2>`;
-        if (style === 'h3') return `<h3 class="cs-content__subheading">${text}</h3>`;
-        if (!text.trim()) return '';
-        return `<p>${text}</p>`;
-      }).join('');
+      var inList = false;
+      var html = '';
+      body.forEach(function(block) {
+        if (block._type === 'image' && block.url) {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          html += '<div class="cs-content__image-wrap"><img src="' + block.url + '" alt="' + (block.alt || '') + '" loading="lazy"></div>';
+          return;
+        }
+
+        if (block._type !== 'block') return;
+
+        var text = (block.children || []).map(function(c) {
+          var t = c.text || '';
+          if (c.marks && c.marks.indexOf('strong') > -1) {
+            t = '<strong>' + t + '</strong>';
+          }
+          if (c.marks && c.marks.indexOf('em') > -1) {
+            t = '<em>' + t + '</em>';
+          }
+          return t;
+        }).join('');
+
+        // Parse placeholder images
+        if (text.indexOf('[Image Placeholder:') === 0) {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          var placeholderText = text.replace('[Image Placeholder:', '').replace(']', '').trim();
+          html += '<div class="cs-content__placeholder-image">' +
+                    '<div class="cs-content__placeholder-icon">' +
+                      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+                    '</div>' +
+                    '<div class="cs-content__placeholder-text">' + placeholderText + '</div>' +
+                  '</div>';
+          return;
+        }
+
+        var style = block.style || 'normal';
+        var isListItem = block.listItem === 'bullet';
+        
+        if (isListItem) {
+          if (!inList) {
+            html += '<ul class="cs-content__list">';
+            inList = true;
+          }
+          html += '<li>' + text + '</li>';
+        } else {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          if (style === 'h2') {
+            html += '<h2 class="cs-content__heading" data-typewriter>' + text + '</h2>';
+          } else if (style === 'h3') {
+            html += '<h3 class="cs-content__subheading">' + text + '</h3>';
+          } else if (text.trim()) {
+            html += '<p>' + text + '</p>';
+          }
+        }
+      });
+      if (inList) {
+        html += '</ul>';
+      }
+      return html;
     }
 
     function renderResults(results) {
@@ -654,9 +720,29 @@
       return items.join('<br>');
     }
 
-    function renderGallery(gallery) {
-      if (!gallery || !gallery.length) return '';
-      const items = gallery.map(function(src) {
+    function renderGallery(gallery, slug) {
+      var images = gallery;
+      if (!images || !images.length) {
+        if (slug === 'the-morning-ritual') {
+          images = [
+            '/assets/img/web/Assembly/DSC04534-Edit-scaled.jpg',
+            '/assets/img/web/Assembly/DSC05314-Edit.webp',
+            '/assets/img/web/Assembly/DSC05319-Edit.webp',
+            '/assets/img/web/Assembly/DSC05334-Edit.webp'
+          ];
+        } else if (slug === 'Sorrel-restaurant') {
+          images = [
+            '/assets/img/web/Sorrel/DSC01196-Edit.webp',
+            '/assets/img/web/Sorrel/DSC01211-Edit.webp',
+            '/assets/img/web/Sorrel/DSC01490-Edit.webp',
+            '/assets/img/web/Sorrel/DSC01529.webp',
+            '/assets/img/web/Sorrel/DSC01570-Edit.webp',
+            '/assets/img/web/Sorrel/DSC01588-final.webp'
+          ];
+        }
+      }
+      if (!images || !images.length) return '';
+      const items = images.map(function(src) {
         return `<div class="cs-gallery__item"><img src="${src}" alt="" loading="lazy"></div>`;
       }).join('');
       return `
@@ -704,25 +790,45 @@
     }
 
     function initGalleryDrag() {
+      const gallery = document.querySelector('.cs-gallery');
       const track = document.querySelector('.cs-gallery__track');
+      const hint = document.querySelector('.cs-gallery__drag-hint');
       if (!track) return;
+      
       let isDown = false;
       let startX = 0;
       let scrollLeft = 0;
-      track.addEventListener('pointerdown', function (e) {
-        isDown = true;
-        track.classList.add('is-dragging');
-        startX = e.clientX;
-        scrollLeft = track.scrollLeft;
-      });
-      window.addEventListener('pointermove', function (e) {
-        if (!isDown) return;
-        track.scrollLeft = scrollLeft - (e.clientX - startX);
-      });
-      window.addEventListener('pointerup', function () {
-        isDown = false;
-        track.classList.remove('is-dragging');
-      });
+      
+      if (gallery && hint) {
+        gallery.addEventListener('pointermove', function(e) {
+          const rect = gallery.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          hint.style.left = x + 'px';
+          hint.style.top = y + 'px';
+        });
+        
+        track.addEventListener('pointerdown', function (e) {
+          isDown = true;
+          track.classList.add('is-dragging');
+          hint.classList.add('is-grabbing');
+          startX = e.clientX;
+          scrollLeft = track.scrollLeft;
+        });
+        
+        window.addEventListener('pointermove', function (e) {
+          if (!isDown) return;
+          track.scrollLeft = scrollLeft - (e.clientX - startX);
+        });
+        
+        window.addEventListener('pointerup', function () {
+          if (isDown) {
+            isDown = false;
+            track.classList.remove('is-dragging');
+            hint.classList.remove('is-grabbing');
+          }
+        });
+      }
     }
 
     function renderComingSoon() {
@@ -794,6 +900,14 @@
     }
 
     function renderDoc(doc) {
+      const titleHeaderHtml = `
+        <header class="cs-title-header">
+          <div class="cs-title-header__inner">
+            ${doc.client && doc.client.toLowerCase() !== (doc.title || '').toLowerCase() ? `<p class="cs-title-header__client">${doc.client}</p>` : ''}
+            <h1 class="cs-title-header__title">${doc.title || ''}</h1>
+          </div>
+        </header>`;
+
       const heroHtml = `
         <div class="cs-hero">
           ${doc.coverImage ? `<img src="${doc.coverImage}" alt="${doc.client || doc.title}" class="cs-hero-img">` : ''}
@@ -817,13 +931,61 @@
           </div>
         </section>`;
 
-      const bodyHtml = renderBody(doc.body);
-      const contentHtml = (bodyHtml || doc.results) ? `
+      // Split body content in half for the vertical card scroller "breather"
+      var bodyFirstHalf = '';
+      var bodySecondHalf = '';
+      var galleryHtml = renderGallery(doc.gallery, doc.slug);
+
+      if (doc.body && Array.isArray(doc.body)) {
+        var midpoint = Math.floor(doc.body.length / 2);
+        var splitIndex = midpoint;
+        
+        // Find nearest H2 block to split cleanly
+        for (var offset = 0; offset < midpoint; offset++) {
+          if (midpoint + offset < doc.body.length) {
+            var b = doc.body[midpoint + offset];
+            if (b._type === 'block' && b.style === 'h2') {
+              splitIndex = midpoint + offset;
+              break;
+            }
+          }
+          if (midpoint - offset >= 0) {
+            var b = doc.body[midpoint - offset];
+            if (b._type === 'block' && b.style === 'h2') {
+              splitIndex = midpoint - offset;
+              break;
+            }
+          }
+        }
+        
+        const firstHalfBlocks = doc.body.slice(0, splitIndex);
+        const secondHalfBlocks = doc.body.slice(splitIndex);
+        
+        bodyFirstHalf = renderBody(firstHalfBlocks);
+        bodySecondHalf = renderBody(secondHalfBlocks);
+      } else {
+        bodyFirstHalf = renderBody(doc.body);
+      }
+
+      const contentHtml = `
         <section class="cs-content-wrap">
           <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
-          <div class="cs-content">${bodyHtml}</div>
+          <div class="cs-content">${bodyFirstHalf}</div>
+        </section>
+        
+        ${galleryHtml}
+        
+        ${bodySecondHalf ? `
+        <section class="cs-content-wrap cs-content-wrap--second" style="padding-top: 96px;">
+          <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
+          <div class="cs-content">${bodySecondHalf}</div>
           ${renderResults(doc.results)}
-        </section>` : '';
+        </section>
+        ` : `
+        <section class="cs-content-wrap cs-content-wrap--results">
+          ${renderResults(doc.results)}
+        </section>
+        `}`;
 
       const embedUrl = toEmbedUrl(doc.videoUrl);
       const videoHtml = embedUrl
@@ -833,11 +995,10 @@
       updateMeta(doc);
       document.getElementById('cs-main').innerHTML = `
         <article>
-          <h1 class="cs-visually-hidden">${doc.title || ''}</h1>
+          ${titleHeaderHtml}
           ${heroHtml}
           ${briefHtml}
           ${contentHtml}
-          ${renderGallery(doc.gallery)}
           ${videoHtml}
           <div class="cs-back">
             <a href="../work.html" class="cs-back-link">&larr; Back to all work</a>
