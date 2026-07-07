@@ -900,33 +900,66 @@
     }
 
     function renderDoc(doc) {
-      const titleHeaderHtml = `
-        <header class="cs-title-header">
-          <div class="cs-title-header__inner">
-            ${doc.client && doc.client.toLowerCase() !== (doc.title || '').toLowerCase() ? `<p class="cs-title-header__client">${doc.client}</p>` : ''}
-            <h1 class="cs-title-header__title">${doc.title || ''}</h1>
+      const isDirectVideo = doc.videoUrl && (doc.videoUrl.endsWith('.mp4') || doc.videoUrl.endsWith('.webm'));
+      
+      const heroFullHtml = `
+        <header class="cs-hero-full">
+          <div class="cs-hero-full__bg">
+            ${isDirectVideo ? `
+              <video class="cs-hero-full__video" autoplay muted loop playsinline>
+                <source src="${doc.videoUrl}" type="video/mp4">
+              </video>
+            ` : `
+              ${doc.coverImage ? `<img src="${doc.coverImage}" alt="${doc.title}" class="cs-hero-full__img">` : ''}
+            `}
+            <div class="cs-hero-full__overlay"></div>
+          </div>
+          <div class="cs-hero-full__content">
+            ${doc.client && doc.client.toLowerCase() !== (doc.title || '').toLowerCase() ? `<p class="cs-hero-full__client">${doc.client}</p>` : ''}
+            <h1 class="cs-hero-full__title">${doc.title || ''}</h1>
+            <div class="cs-hero-full__scroll-hint" onclick="document.querySelector('.cs-brief').scrollIntoView({ behavior: 'smooth' })" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </div>
           </div>
         </header>`;
 
-      const heroHtml = `
-        <div class="cs-hero">
-          ${doc.coverImage ? `<img src="${doc.coverImage}" alt="${doc.client || doc.title}" class="cs-hero-img">` : ''}
-          <span class="cs-hero__dot" aria-hidden="true"></span>
-        </div>`;
+      // Convert servicePillar string or array into tag blocks
+      const servicesArray = Array.isArray(doc.servicePillar) 
+        ? doc.servicePillar 
+        : (doc.servicePillar ? [doc.servicePillar] : []);
+        
+      const tagsHtml = servicesArray.map(function(s) {
+        const display = s.replace(/-/g, ' ');
+        return `<span class="cs-tag-boxed">${display}</span>`;
+      }).join('');
 
       const briefHtml = `
         <section class="cs-brief">
-          <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
-          <div class="cs-brief__inner">
-            <div class="cs-brief__content">
-              <h2 class="cs-brief__heading">The brief.</h2>
-              ${doc.summary ? `<p class="cs-brief__text">${doc.summary}</p>` : ''}
+          <div class="cs-brief__intro-grid">
+            <div class="cs-brief__summary-col">
+              <p class="cs-brief__summary-text">${doc.summary || ''}</p>
             </div>
-            <div class="cs-brief__meta">
-              ${renderMetaRow('Client', doc.client)}
-              ${renderMetaRow('Industry', doc.industry)}
-              ${renderMetaRow('Services', renderServices(doc.servicePillar))}
-              ${renderMetaRow('Collaborators', doc.collaborators)}
+            <div class="cs-brief__tags-col">
+              <div class="cs-brief__tags-track">${tagsHtml}</div>
+            </div>
+          </div>
+          
+          <div class="cs-brief__metadata-grid">
+            <div class="cs-brief__meta-cell">
+              <span class="cs-brief__meta-label">Client</span>
+              <p class="cs-brief__meta-value">${doc.client || 'Spiro Client'}</p>
+            </div>
+            <div class="cs-brief__meta-cell">
+              <span class="cs-brief__meta-label">Industry</span>
+              <p class="cs-brief__meta-value">${doc.industry || 'Creative'}</p>
+            </div>
+            <div class="cs-brief__meta-cell">
+              <span class="cs-brief__meta-label">Collaborators</span>
+              <p class="cs-brief__meta-value">${doc.collaborators || 'Spiro Team'}</p>
+            </div>
+            <div class="cs-brief__meta-cell">
+              <span class="cs-brief__meta-label">Turn-around</span>
+              <p class="cs-brief__meta-value">${doc.duration || '7 Weeks'}</p>
             </div>
           </div>
         </section>`;
@@ -995,8 +1028,7 @@
       updateMeta(doc);
       document.getElementById('cs-main').innerHTML = `
         <article>
-          ${titleHeaderHtml}
-          ${heroHtml}
+          ${heroFullHtml}
           ${briefHtml}
           ${contentHtml}
           ${videoHtml}
