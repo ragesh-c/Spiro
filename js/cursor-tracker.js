@@ -83,8 +83,9 @@
       var slider = target.closest(".hz-slider");
       var isNav = target.closest(".hz-slider__nav") || target.closest(".hz-slider__dots");
       var thumb = target.closest(".thumb-slide");
+      var slideLink = target.closest(".slide-link");
       
-      if ((slider && !isNav) || thumb) {
+      if ((slider && !isNav) || thumb || slideLink) {
         var label = follower.querySelector(".spiro-cursor-label");
         if (label) {
           label.textContent = "View case study \u2192";
@@ -105,10 +106,16 @@
       var thumb = target.closest(".thumb-slide");
       var relatedThumb = related ? related.closest(".thumb-slide") : null;
       
+      var slideLink = target.closest(".slide-link");
+      var relatedSlideLink = related ? related.closest(".slide-link") : null;
+      
       if (slider && (!relatedSlider || relatedIsNav)) {
         follower.classList.remove("is-pill");
       }
       if (thumb && !relatedThumb) {
+        follower.classList.remove("is-pill");
+      }
+      if (slideLink && !relatedSlideLink) {
         follower.classList.remove("is-pill");
       }
     });
