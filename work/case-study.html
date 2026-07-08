@@ -1125,13 +1125,19 @@
 
       const bodyHtml = renderBody(doc.body, doc.gallery);
 
+      const galleryHtml = renderGallery(doc.gallery, doc.slug);
+
       const contentHtml = `
         <section class="cs-content-wrap">
           <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
           <div class="cs-content">${bodyHtml}</div>
-          <section class="cs-content-wrap cs-content-wrap--results" style="padding-top:64px;padding-bottom:0;">
-            ${renderResults(doc.results)}
-          </section>
+        </section>
+        
+        ${galleryHtml}
+        
+        <section class="cs-content-wrap cs-content-wrap--results" style="padding-top:64px;padding-bottom:0;">
+          <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
+          ${renderResults(doc.results)}
         </section>`;
 
       const embedUrl = toEmbedUrl(doc.videoUrl);
