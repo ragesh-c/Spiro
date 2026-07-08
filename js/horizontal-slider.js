@@ -22,11 +22,11 @@
     "  vec2 center = vec2(0.5, 0.5);",
     "  vec2 toCenter = v_uv - center;",
     "  float dist = length(toCenter);",
-    "  float ripple = sin(dist * 24.0 - u_progress * 16.0) * (1.0 - u_progress) * 0.06;",
+    "  float ripple = sin(dist * 30.0 - u_progress * 20.0) * u_progress * (1.0 - u_progress) * 0.15;",
     "  vec2 dir = toCenter / max(dist, 0.0001);",
     "  vec2 offset = dir * ripple;",
-    "  vec4 fromColor = texture2D(u_from, v_uv + offset * (1.0 - u_progress));",
-    "  vec4 toColor = texture2D(u_to, v_uv + offset * u_progress);",
+    "  vec4 fromColor = texture2D(u_from, v_uv + offset);",
+    "  vec4 toColor = texture2D(u_to, v_uv + offset);",
     "  gl_FragColor = mix(fromColor, toColor, u_progress);",
     "}"
   ].join("\n");
