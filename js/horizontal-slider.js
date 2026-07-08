@@ -129,11 +129,98 @@
     var snapping = false;
     var justExited = false;
 
+    // Filter properties
+    var activeIndices = [0, 1, 2, 3];
+    var activePointer = 0;
+
     // Check if slider is already aligned on load
     var initialRect = section.getBoundingClientRect();
     if (Math.abs(initialRect.top) <= 5) {
       isSliding = true;
     }
+
+    // Reusable placeholder element for empty categories
+    var placeholder = section.querySelector(".hz-slider__placeholder");
+    if (!placeholder) {
+      placeholder = document.createElement("div");
+      placeholder.className = "hz-slider__placeholder";
+      placeholder.style.cssText = "display:none;position:absolute;inset:0;background:var(--bg-primary);align-items:center;justify-content:center;z-index:20;font-family:var(--font-body);color:rgba(255,255,255,0.6);text-transform:uppercase;font-size:13px;letter-spacing:0.15em;flex-direction:column;gap:16px;";
+      placeholder.innerHTML = '<span>No projects in this category yet</span><button class="category-pill active" style="margin-top:8px;background:none;border:1px solid var(--orange);padding:8px 18px;border-radius:30px;color:#fff;font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">View all work</button>';
+      section.appendChild(placeholder);
+      
+      placeholder.querySelector("button").addEventListener("click", function (e) {
+        e.preventDefault();
+        var allBtn = document.querySelector('.category-pill[data-filter="all"]');
+        if (allBtn) allBtn.click();
+      });
+    }
+
+    function applyFilter(filterVal) {
+      activeIndices = [];
+      captions.forEach(function (cap, i) {
+        var subtitle = cap.querySelector(".hz-slide-caption__subtitle").textContent.toLowerCase();
+        var match = false;
+        if (filterVal === "all") {
+          match = true;
+        } else if (filterVal === "brand-film" && subtitle.includes("brand film")) {
+          match = true;
+        } else if (filterVal === "social" && subtitle.includes("social")) {
+          match = true;
+        } else if (filterVal === "photography" && subtitle.includes("photography")) {
+          match = true;
+        }
+        
+        if (match) {
+          activeIndices.push(i);
+        }
+      });
+
+      // Hide/show dot indicators based on filter
+      dots.forEach(function (dot, i) {
+        if (activeIndices.indexOf(i) !== -1) {
+          dot.style.display = "inline-block";
+        } else {
+          dot.style.display = "none";
+        }
+      });
+
+      if (activeIndices.length === 0) {
+        placeholder.style.display = "flex";
+        var stageEl = section.querySelector(".hz-slider__stage");
+        var capsEl = section.querySelector(".hz-slider__captions");
+        if (stageEl) stageEl.style.opacity = "0";
+        if (capsEl) capsEl.style.opacity = "0";
+        if (prevBtn) prevBtn.style.display = "none";
+        if (nextBtn) nextBtn.style.display = "none";
+        isSliding = false;
+      } else {
+        placeholder.style.display = "none";
+        var stageEl = section.querySelector(".hz-slider__stage");
+        var capsEl = section.querySelector(".hz-slider__captions");
+        if (stageEl) stageEl.style.opacity = "1";
+        if (capsEl) capsEl.style.opacity = "1";
+        if (prevBtn) prevBtn.style.display = "flex";
+        if (nextBtn) nextBtn.style.display = "flex";
+        
+        activePointer = 0;
+        index = activeIndices[activePointer];
+        if (ripple) {
+          ripple.draw(index, index, 0);
+        }
+        updateChrome();
+      }
+    }
+
+    // Bind category click triggers
+    var categoryButtons = document.querySelectorAll(".category-pill");
+    categoryButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        categoryButtons.forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        var filterVal = btn.getAttribute("data-filter");
+        applyFilter(filterVal);
+      });
+    });
 
     function checkSnap() {
       var rect = section.getBoundingClientRect();
@@ -149,7 +236,7 @@
         return;
       }
 
-      if (isSliding || snapping || animating || justExited) return;
+      if (isSliding || snapping || animating || justExited || activeIndices.length === 0) return;
 
       // 1. Entering from the top (scrolling down)
       if (rect.top > 5 && rect.top < 100) {
@@ -180,12 +267,12 @@
             duration: 0.6,
             onComplete: function () {
               snapping = false;
-              goTo(count - 1);
+              goTo(activeIndices.length - 1);
             }
           });
         } else {
           window.scrollTo({ top: window.scrollY + rect.top, behavior: "smooth" });
-          goTo(count - 1);
+          goTo(activeIndices.length - 1);
           snapping = false;
         }
       }
@@ -195,9 +282,12 @@
 
     function updateChrome() {
       captions.forEach(function (cap, i) { cap.classList.toggle("is-active", i === index); });
-      dots.forEach(function (dot, i) { dot.classList.toggle("is-active", i === index); });
-      if (prevBtn) prevBtn.disabled = index === 0;
-      if (nextBtn) nextBtn.disabled = index === count - 1;
+      dots.forEach(function (dot, i) {
+        var activeDotIndex = activeIndices.indexOf(i);
+        dot.classList.toggle("is-active", activeDotIndex === activePointer);
+      });
+      if (prevBtn) prevBtn.disabled = activePointer === 0;
+      if (nextBtn) nextBtn.disabled = activePointer === activeIndices.length - 1;
     }
 
     updateChrome();
@@ -250,10 +340,11 @@
     }
 
     function goTo(next) {
-      var clamped = Math.max(0, Math.min(count - 1, next));
-      if (clamped === index || animating) return;
+      var clamped = Math.max(0, Math.min(activeIndices.length - 1, next));
+      if (clamped === activePointer || animating) return;
       var from = index;
-      index = clamped;
+      activePointer = clamped;
+      index = activeIndices[activePointer];
       animating = true;
       section.classList.add("has-interacted");
       animateTransition(from, index);
@@ -261,9 +352,17 @@
       setTimeout(function () { animating = false; }, TRANSITION_MS);
     }
 
-    if (prevBtn) prevBtn.addEventListener("click", function () { goTo(index - 1); });
-    if (nextBtn) nextBtn.addEventListener("click", function () { goTo(index + 1); });
-    dots.forEach(function (dot, i) { dot.addEventListener("click", function () { goTo(i); }); });
+    if (prevBtn) prevBtn.addEventListener("click", function () { goTo(activePointer - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { goTo(activePointer + 1); });
+    
+    dots.forEach(function (dot, i) {
+      dot.addEventListener("click", function () {
+        var targetPointer = activeIndices.indexOf(i);
+        if (targetPointer !== -1) {
+          goTo(targetPointer);
+        }
+      });
+    });
 
     // ── Open a case study: shrink the hero back, then navigate ────
     // stopPropagation keeps the site-wide #page-transition fade from
@@ -319,12 +418,12 @@
       }
 
       var goingForward = e.deltaY > 0;
-      var canAdvance = goingForward ? index < count - 1 : index > 0;
+      var canAdvance = goingForward ? activePointer < activeIndices.length - 1 : activePointer > 0;
 
       if (canAdvance) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        goTo(goingForward ? index + 1 : index - 1);
+        goTo(goingForward ? activePointer + 1 : activePointer - 1);
       } else {
         // Exiting the slider, allow normal scroll
         isSliding = false;
@@ -345,15 +444,15 @@
       var delta = e.clientX - dragStartX;
       dragStartX = null;
       if (Math.abs(delta) > 80) {
-        goTo(delta < 0 ? index + 1 : index - 1);
+        goTo(delta < 0 ? activePointer + 1 : activePointer - 1);
       }
     });
 
     // ── Keyboard ──────────────────────────────────────────────────
     window.addEventListener("keydown", function (e) {
       if (!isSliding) return;
-      if (e.key === "ArrowRight") goTo(index + 1);
-      if (e.key === "ArrowLeft") goTo(index - 1);
+      if (e.key === "ArrowRight") goTo(activePointer + 1);
+      if (e.key === "ArrowLeft") goTo(activePointer - 1);
     });
   }
 
