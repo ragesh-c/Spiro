@@ -626,13 +626,17 @@
       if (!body || !Array.isArray(body)) return '';
       var inList = false;
       var html = '';
+      var imageCount = 0;
+
       body.forEach(function(block) {
         if (block._type === 'image' && block.url) {
           if (inList) {
             html += '</ul>';
             inList = false;
           }
-          html += '<div class="cs-content__image-wrap"><img src="' + block.url + '" alt="' + (block.alt || '') + '" loading="lazy"></div>';
+          imageCount++;
+          var alignClass = (imageCount % 3 === 1) ? 'align-left' : (imageCount % 3 === 2 ? 'align-right' : 'align-center');
+          html += '<div class="cs-content__image-wrap ' + alignClass + '"><img src="' + block.url + '" alt="' + (block.alt || '') + '" loading="lazy"></div>';
           return;
         }
 
@@ -649,19 +653,71 @@
           return t;
         }).join('');
 
-        // Parse placeholder images
-        if (text.indexOf('[Image Placeholder:') === 0) {
+        // Parse placeholder images and auto-enhance them
+        if (text.indexOf('[Image Placeholder:') === 0 || text.indexOf('[Image:') === 0) {
           if (inList) {
             html += '</ul>';
             inList = false;
           }
-          var placeholderText = text.replace('[Image Placeholder:', '').replace(']', '').trim();
-          html += '<div class="cs-content__placeholder-image">' +
-                    '<div class="cs-content__placeholder-icon">' +
-                      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
-                    '</div>' +
-                    '<div class="cs-content__placeholder-text">' + placeholderText + '</div>' +
-                  '</div>';
+          var placeholderText = text.replace('[Image Placeholder:', '').replace('[Image:', '').replace(']', '').trim();
+          var lowerText = placeholderText.toLowerCase();
+          
+          // 1. Check if it should be an interactive scroll gallery (series/showcase/festival)
+          if (lowerText.indexOf('series') > -1 || lowerText.indexOf('festival') > -1 || lowerText.indexOf('showcase') > -1 || lowerText.indexOf('gallery') > -1) {
+            var gallerySlides = [];
+            if (lowerText.indexOf('festival') > -1) {
+              gallerySlides = [placeholderText + ' - Tasting Area', placeholderText + ' - Main Stage', placeholderText + ' - Crowd & Atmosphere'];
+            } else if (lowerText.indexOf('portrait series') > -1 || lowerText.indexOf('portrait') > -1) {
+              gallerySlides = [placeholderText + ' - Hero Shot', placeholderText + ' - Secondary Angle', placeholderText + ' - Behind-the-scenes'];
+            } else if (lowerText.indexOf('instagram') > -1 || lowerText.indexOf('campaign') > -1) {
+              gallerySlides = [placeholderText + ' - Video Reel (9:16)', placeholderText + ' - Slide Post (1:1)', placeholderText + ' - Stories Frame'];
+            } else {
+              gallerySlides = [placeholderText + ' - Frame A', placeholderText + ' - Frame B', placeholderText + ' - Frame C'];
+            }
+
+            html += '<div class="cs-content__scroll-gallery align-center">' +
+                      '<div class="cs-content__scroll-gallery-track">';
+            gallerySlides.forEach(function(slide) {
+              var isVid = slide.toLowerCase().indexOf('video') > -1 || slide.toLowerCase().indexOf('reel') > -1 || slide.toLowerCase().indexOf('film') > -1;
+              var icon = isVid
+                ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>'
+                : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+              
+              html += '<div class="cs-content__scroll-gallery-item">' +
+                        '<div class="cs-content__placeholder-icon">' + icon + '</div>' +
+                        '<div class="cs-content__placeholder-text">' + slide + '</div>' +
+                      '</div>';
+            });
+            html += '</div>' +
+                      '<div class="cs-content__scroll-gallery-hint">' +
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M2 12h20"/></svg>' +
+                        '<span>Swipe to explore gallery</span>' +
+                      '</div>' +
+                    '</div>';
+            return;
+          }
+
+          // 2. Check if it is a video (contains film, video, motion, reel, interview)
+          var isVideo = lowerText.indexOf('video') > -1 || lowerText.indexOf('film') > -1 || lowerText.indexOf('motion') > -1 || lowerText.indexOf('reel') > -1 || lowerText.indexOf('interview') > -1 || lowerText.indexOf('production') > -1 || lowerText.indexOf('still') > -1;
+          
+          imageCount++;
+          var alignClass = (imageCount % 3 === 1) ? 'align-left' : (imageCount % 3 === 2 ? 'align-right' : 'align-center');
+          
+          if (isVideo) {
+            html += '<div class="cs-content__placeholder-video ' + alignClass + '">' +
+                      '<div class="cs-content__placeholder-icon">' +
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>' +
+                      '</div>' +
+                      '<div class="cs-content__placeholder-text">' + placeholderText + '</div>' +
+                    '</div>';
+          } else {
+            html += '<div class="cs-content__placeholder-image ' + alignClass + '">' +
+                      '<div class="cs-content__placeholder-icon">' +
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+                      '</div>' +
+                      '<div class="cs-content__placeholder-text">' + placeholderText + '</div>' +
+                    '</div>';
+          }
           return;
         }
 

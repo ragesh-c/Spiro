@@ -275,6 +275,7 @@
   line-height: 1.7;
   color: var(--text-secondary);
   transition: color 0.4s ease;
+  display: flow-root; /* Automatically clears floated children */
 }
 
 .cs-content > *:first-child {
@@ -328,6 +329,7 @@
   letter-spacing: -0.02em;
   line-height: 1.15;
   margin: 8px 0 20px;
+  clear: both; /* Clear floated assets */
 }
 
 .cs-content__heading[data-typewriter]:not(.is-typed)::after {
@@ -358,6 +360,7 @@
   color: var(--text-primary);
   margin: 32px 0 12px;
   transition: color 0.4s ease;
+  clear: both; /* Clear floated assets */
 }
 
 .cs-results-label {
@@ -634,3 +637,165 @@
     border-bottom: none !important;
   }
 }
+
+/* ── Asymmetric Float Breakouts & Scroll Galleries ────────────── */
+@media (min-width: 1200px) {
+  .cs-content__image-wrap.align-left,
+  .cs-content__placeholder-image.align-left,
+  .cs-content__placeholder-video.align-left {
+    float: left;
+    width: 440px;
+    margin: 16px 48px 28px -180px;
+  }
+  .cs-content__image-wrap.align-right,
+  .cs-content__placeholder-image.align-right,
+  .cs-content__placeholder-video.align-right {
+    float: right;
+    width: 440px;
+    margin: 16px -180px 28px 48px;
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 861px) {
+  .cs-content__image-wrap.align-left,
+  .cs-content__placeholder-image.align-left,
+  .cs-content__placeholder-video.align-left {
+    float: left;
+    width: 340px;
+    margin: 12px 32px 20px -80px;
+  }
+  .cs-content__image-wrap.align-right,
+  .cs-content__placeholder-image.align-right,
+  .cs-content__placeholder-video.align-right {
+    float: right;
+    width: 340px;
+    margin: 12px -80px 20px 32px;
+  }
+}
+
+@media (max-width: 860px) {
+  .cs-content__image-wrap.align-left,
+  .cs-content__placeholder-image.align-left,
+  .cs-content__placeholder-video.align-left,
+  .cs-content__image-wrap.align-right,
+  .cs-content__placeholder-image.align-right,
+  .cs-content__placeholder-video.align-right {
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    margin: 40px 0;
+  }
+}
+
+/* Center alignment breakouts */
+.cs-content__image-wrap.align-center,
+.cs-content__placeholder-image.align-center,
+.cs-content__placeholder-video.align-center {
+  width: 100%;
+  margin: 64px 0;
+}
+
+/* Video specific placeholders */
+.cs-content__placeholder-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  height: clamp(280px, 38vw, 420px);
+  background: var(--bg-secondary);
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  margin: 64px 0;
+  color: var(--text-muted);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.cs-content__placeholder-video:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.cs-content__placeholder-video:hover .cs-content__placeholder-icon {
+  transform: scale(1.18);
+  opacity: 1;
+}
+
+/* Horizontal scroll gallery in-body */
+.cs-content__scroll-gallery {
+  width: 100%;
+  max-width: 100%;
+  margin: 64px 0;
+  position: relative;
+}
+
+@media (min-width: 1200px) {
+  .cs-content__scroll-gallery {
+    width: calc(100% + 360px);
+    margin-left: -180px;
+  }
+}
+@media (max-width: 1199px) and (min-width: 861px) {
+  .cs-content__scroll-gallery {
+    width: calc(100% + 160px);
+    margin-left: -80px;
+  }
+}
+
+.cs-content__scroll-gallery-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 10px 0 20px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.cs-content__scroll-gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.cs-content__scroll-gallery-item {
+  flex: 0 0 320px;
+  height: 240px;
+  scroll-snap-align: start;
+  background: var(--bg-secondary);
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.cs-content__scroll-gallery-item:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.cs-content__scroll-gallery-item .cs-content__placeholder-text {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.cs-content__scroll-gallery-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
