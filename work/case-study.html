@@ -622,11 +622,66 @@
     // section — see .cs-asterisk in case-study.css.
     const ASTERISK_SVG = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 0h2v9.5l6.7-6.7 1.4 1.4L14.4 11H24v2h-9.5l6.7 6.7-1.4 1.4L13 13.4V24h-2v-9.5l-6.7 6.7-1.4-1.4L9.5 13H0v-2h9.5L2.9 4.4l1.4-1.4L11 9.5z"/></svg>';
 
-    function renderBody(body) {
+    function renderBody(body, gallery) {
       if (!body || !Array.isArray(body)) return '';
       var inList = false;
       var html = '';
       var imageCount = 0;
+      
+      // Keep a pool of gallery images to interweave between paragraphs
+      var galleryImages = Array.isArray(gallery) ? [].concat(gallery) : [];
+      var paragraphsSinceMedia = 0;
+
+      function checkAndInjectMedia() {
+        if (paragraphsSinceMedia >= 2 && galleryImages.length > 0) {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          
+          imageCount++;
+          var layoutType = imageCount % 4;
+          
+          // Layout 4 (0): Carousel / Scroll Gallery (if we have at least 2 images left)
+          if (layoutType === 0 && galleryImages.length >= 2) {
+            var slides = [galleryImages.shift(), galleryImages.shift()];
+            if (galleryImages.length > 0) {
+              slides.push(galleryImages.shift());
+            }
+            
+            html += '<div class="cs-content__scroll-gallery align-center">' +
+                      '<div class="cs-content__scroll-gallery-track">';
+            slides.forEach(function(src) {
+              html += '<div class="cs-content__scroll-gallery-item real-media">' +
+                        '<img src="' + src + '" alt="Gallery Image" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">' +
+                      '</div>';
+            });
+            html += '</div>' +
+                      '<div class="cs-content__scroll-gallery-hint">' +
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M2 12h20"/></svg>' +
+                        '<span>Swipe to explore gallery</span>' +
+                      '</div>' +
+                    '</div>';
+          } 
+          // Layout 3: Big Center Breakout Image
+          else if (layoutType === 3) {
+            var imgUrl = galleryImages.shift();
+            html += '<div class="cs-content__image-wrap align-center"><img src="' + imgUrl + '" alt="Project Image" loading="lazy"></div>';
+          }
+          // Layout 2: Float Right Image
+          else if (layoutType === 2) {
+            var imgUrl = galleryImages.shift();
+            html += '<div class="cs-content__image-wrap align-right"><img src="' + imgUrl + '" alt="Project Image" loading="lazy"></div>';
+          }
+          // Layout 1: Float Left Image
+          else {
+            var imgUrl = galleryImages.shift();
+            html += '<div class="cs-content__image-wrap align-left"><img src="' + imgUrl + '" alt="Project Image" loading="lazy"></div>';
+          }
+          
+          paragraphsSinceMedia = 0;
+        }
+      }
 
       body.forEach(function(block) {
         if (block._type === 'image' && block.url) {
@@ -637,6 +692,7 @@
           imageCount++;
           var alignClass = (imageCount % 3 === 1) ? 'align-left' : (imageCount % 3 === 2 ? 'align-right' : 'align-center');
           html += '<div class="cs-content__image-wrap ' + alignClass + '"><img src="' + block.url + '" alt="' + (block.alt || '') + '" loading="lazy"></div>';
+          paragraphsSinceMedia = 0;
           return;
         }
 
@@ -694,6 +750,7 @@
                         '<span>Swipe to explore gallery</span>' +
                       '</div>' +
                     '</div>';
+            paragraphsSinceMedia = 0;
             return;
           }
 
@@ -718,6 +775,7 @@
                       '<div class="cs-content__placeholder-text">' + placeholderText + '</div>' +
                     '</div>';
           }
+          paragraphsSinceMedia = 0;
           return;
         }
 
@@ -737,16 +795,29 @@
           }
           if (style === 'h2') {
             html += '<h2 class="cs-content__heading" data-typewriter>' + text + '</h2>';
+            paragraphsSinceMedia = 0;
           } else if (style === 'h3') {
             html += '<h3 class="cs-content__subheading">' + text + '</h3>';
+            paragraphsSinceMedia = 0;
           } else if (text.trim()) {
             html += '<p>' + text + '</p>';
+            paragraphsSinceMedia++;
+            checkAndInjectMedia();
           }
         }
       });
       if (inList) {
         html += '</ul>';
       }
+      
+      // If there are still left-over gallery images, inject them at the end of the text
+      while (galleryImages.length > 0) {
+        imageCount++;
+        var imgUrl = galleryImages.shift();
+        var alignClass = (imageCount % 3 === 1) ? 'align-left' : (imageCount % 3 === 2 ? 'align-right' : 'align-center');
+        html += '<div class="cs-content__image-wrap ' + alignClass + '"><img src="' + imgUrl + '" alt="Project Image" loading="lazy"></div>';
+      }
+
       return html;
     }
 
@@ -1020,61 +1091,39 @@
           </div>
         </section>`;
 
-      // Split body content in half for the vertical card scroller "breather"
-      var bodyFirstHalf = '';
-      var bodySecondHalf = '';
-      var galleryHtml = renderGallery(doc.gallery, doc.slug);
-
-      if (doc.body && Array.isArray(doc.body)) {
-        var midpoint = Math.floor(doc.body.length / 2);
-        var splitIndex = midpoint;
-        
-        // Find nearest H2 block to split cleanly
-        for (var offset = 0; offset < midpoint; offset++) {
-          if (midpoint + offset < doc.body.length) {
-            var b = doc.body[midpoint + offset];
-            if (b._type === 'block' && b.style === 'h2') {
-              splitIndex = midpoint + offset;
-              break;
-            }
-          }
-          if (midpoint - offset >= 0) {
-            var b = doc.body[midpoint - offset];
-            if (b._type === 'block' && b.style === 'h2') {
-              splitIndex = midpoint - offset;
-              break;
-            }
-          }
+      // Guarantee fallback images are loaded in doc.gallery for dynamic body interweaving
+      var images = doc.gallery;
+      if (!images || !images.length) {
+        if (doc.slug === 'the-morning-ritual') {
+          images = [
+            '../assets/img/web/Assembly/DSC04534-Edit-scaled.jpg',
+            '../assets/img/web/Assembly/DSC05314-Edit.webp',
+            '../assets/img/web/Assembly/DSC05319-Edit.webp',
+            '../assets/img/web/Assembly/DSC05334-Edit.webp'
+          ];
+        } else if (doc.slug === 'Sorrel-restaurant') {
+          images = [
+            '../assets/img/web/Sorrel/DSC01196-Edit.webp',
+            '../assets/img/web/Sorrel/DSC01211-Edit.webp',
+            '../assets/img/web/Sorrel/DSC01490-Edit.webp',
+            '../assets/img/web/Sorrel/DSC01529.webp',
+            '../assets/img/web/Sorrel/DSC01570-Edit.webp',
+            '../assets/img/web/Sorrel/DSC01588-final.webp'
+          ];
         }
-        
-        const firstHalfBlocks = doc.body.slice(0, splitIndex);
-        const secondHalfBlocks = doc.body.slice(splitIndex);
-        
-        bodyFirstHalf = renderBody(firstHalfBlocks);
-        bodySecondHalf = renderBody(secondHalfBlocks);
-      } else {
-        bodyFirstHalf = renderBody(doc.body);
       }
+      doc.gallery = images || [];
+
+      const bodyHtml = renderBody(doc.body, doc.gallery);
 
       const contentHtml = `
         <section class="cs-content-wrap">
           <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
-          <div class="cs-content">${bodyFirstHalf}</div>
-        </section>
-        
-        ${galleryHtml}
-        
-        ${bodySecondHalf ? `
-        <section class="cs-content-wrap cs-content-wrap--second" style="padding-top: 96px;">
-          <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
-          <div class="cs-content">${bodySecondHalf}</div>
-          ${renderResults(doc.results)}
-        </section>
-        ` : `
-        <section class="cs-content-wrap cs-content-wrap--results">
-          ${renderResults(doc.results)}
-        </section>
-        `}`;
+          <div class="cs-content">${bodyHtml}</div>
+          <section class="cs-content-wrap cs-content-wrap--results" style="padding-top:64px;padding-bottom:0;">
+            ${renderResults(doc.results)}
+          </section>
+        </section>`;
 
       const embedUrl = toEmbedUrl(doc.videoUrl);
       const videoHtml = embedUrl
