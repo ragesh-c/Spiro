@@ -145,12 +145,12 @@
       placeholder = document.createElement("div");
       placeholder.className = "hz-slider__placeholder";
       placeholder.style.cssText = "display:none;position:absolute;inset:0;background:var(--bg-primary);align-items:center;justify-content:center;z-index:20;font-family:var(--font-body);color:rgba(255,255,255,0.6);text-transform:uppercase;font-size:13px;letter-spacing:0.15em;flex-direction:column;gap:16px;";
-      placeholder.innerHTML = '<span>No projects in this category yet</span><button class="category-pill active" style="margin-top:8px;background:none;border:1px solid var(--orange);padding:8px 18px;border-radius:30px;color:#fff;font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">View all work</button>';
+      placeholder.innerHTML = '<span>No projects in this category yet</span><button class="filter-item-reset" style="margin-top:8px;background:none;border:none;border-bottom:1px solid var(--text-primary);color:var(--text-primary);font-family:var(--font-body);font-size:12px;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;padding-bottom:2px;">View all projects</button>';
       section.appendChild(placeholder);
       
       placeholder.querySelector("button").addEventListener("click", function (e) {
         e.preventDefault();
-        var allBtn = document.querySelector('.category-pill[data-filter="all"]');
+        var allBtn = document.querySelector('.filter-item[data-filter="all"]');
         if (allBtn) allBtn.click();
       });
     }
@@ -212,7 +212,7 @@
     }
 
     // Bind category click triggers
-    var categoryButtons = document.querySelectorAll(".category-pill");
+    var categoryButtons = document.querySelectorAll(".filter-item");
     categoryButtons.forEach(function (btn) {
       btn.addEventListener("click", function () {
         categoryButtons.forEach(function (b) { b.classList.remove("active"); });
