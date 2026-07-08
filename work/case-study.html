@@ -658,7 +658,7 @@
       }
 
       function checkAndInjectMedia() {
-        if (paragraphsSinceMedia >= 2 && gallery && gallery.length > 0) {
+        if (paragraphsSinceMedia >= 5 && gallery && gallery.length > 0) {
           if (inList) {
             html += '</ul>';
             inList = false;
@@ -827,14 +827,6 @@
         html += '</ul>';
       }
       
-      // If there are still left-over gallery images, inject them at the end of the text
-      while (galleryImages.length > 0) {
-        imageCount++;
-        var imgUrl = galleryImages.shift();
-        var alignClass = (imageCount % 3 === 1) ? 'align-left' : (imageCount % 3 === 2 ? 'align-right' : 'align-center');
-        html += '<div class="cs-content__image-wrap ' + alignClass + '"><img src="' + imgUrl + '" alt="Project Image" loading="lazy"></div>';
-      }
-
       return html;
     }
 
