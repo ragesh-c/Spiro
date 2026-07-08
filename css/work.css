@@ -57,29 +57,32 @@ section#work-hero {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background: transparent;
   color: rgba(255, 255, 255, 0.6);
-  font-family: var(--font-body);
+  font-family: monospace;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: normal;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: all 0.25s ease;
 }
 
 .category-pill::before {
-  content: "●";
-  font-size: 8px;
-  color: rgba(255, 255, 255, 0.3);
-  transition: color 0.3s ease;
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.35);
+  transition: background-color 0.25s ease;
 }
 
 .category-pill:hover {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -89,7 +92,7 @@ section#work-hero {
 }
 
 .category-pill.active::before {
-  color: var(--orange);
+  background-color: var(--orange);
 }
 
 @media (max-width: 768px) {
