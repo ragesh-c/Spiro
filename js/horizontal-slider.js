@@ -127,6 +127,7 @@
 
     var isSliding = false;
     var snapping = false;
+    var justExited = false;
 
     // Check if slider is already aligned on load
     var initialRect = section.getBoundingClientRect();
@@ -136,6 +137,11 @@
 
     function checkSnap() {
       var rect = section.getBoundingClientRect();
+
+      // If we are well clear of the snap zone, reset the escape flag
+      if (rect.top >= 100 || rect.top <= -100) {
+        justExited = false;
+      }
       
       // If already perfectly aligned, make sure sliding is engaged
       if (Math.abs(rect.top) <= 5) {
@@ -143,24 +149,23 @@
         return;
       }
 
-      if (isSliding || snapping || animating) return;
+      if (isSliding || snapping || animating || justExited) return;
 
       // 1. Entering from the top (scrolling down)
       if (rect.top > 5 && rect.top < 100) {
         snapping = true;
+        isSliding = true;
         if (window.lenis) {
           window.lenis.scrollTo(section, {
             immediate: false,
             duration: 0.6,
             onComplete: function () {
               snapping = false;
-              isSliding = true;
               goTo(0);
             }
           });
         } else {
           window.scrollTo({ top: window.scrollY + rect.top, behavior: "smooth" });
-          isSliding = true;
           goTo(0);
           snapping = false;
         }
@@ -168,19 +173,18 @@
       // 2. Entering from the bottom (scrolling up)
       else if (rect.top < -5 && rect.top > -100) {
         snapping = true;
+        isSliding = true;
         if (window.lenis) {
           window.lenis.scrollTo(section, {
             immediate: false,
             duration: 0.6,
             onComplete: function () {
               snapping = false;
-              isSliding = true;
               goTo(count - 1);
             }
           });
         } else {
           window.scrollTo({ top: window.scrollY + rect.top, behavior: "smooth" });
-          isSliding = true;
           goTo(count - 1);
           snapping = false;
         }
@@ -299,8 +303,20 @@
     var WHEEL_THRESHOLD = 10;
 
     window.addEventListener("wheel", function (e) {
+      if (snapping) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
+
       if (!isSliding) return;
       if (Math.abs(e.deltaY) < WHEEL_THRESHOLD) return;
+
+      if (animating) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
 
       var goingForward = e.deltaY > 0;
       var canAdvance = goingForward ? index < count - 1 : index > 0;
@@ -308,10 +324,11 @@
       if (canAdvance) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!animating) goTo(goingForward ? index + 1 : index - 1);
+        goTo(goingForward ? index + 1 : index - 1);
       } else {
         // Exiting the slider, allow normal scroll
         isSliding = false;
+        justExited = true;
       }
     }, { passive: false, capture: true });
 
