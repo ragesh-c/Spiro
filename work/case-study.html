@@ -640,10 +640,10 @@
         return galleryImages.shift() || '';
       }
 
-      // Helper to pull the next 3 images from the pool
-      function getNextThreeImages() {
+      // Helper to pull the next 6 images from the pool
+      function getNextSixImages() {
         var imgs = [];
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 6; i++) {
           if (galleryImages.length === 0 && gallery && gallery.length > 0) {
             galleryImages = [].concat(gallery);
           }
@@ -651,8 +651,8 @@
             imgs.push(galleryImages.shift());
           }
         }
-        while (imgs.length < 3) {
-          imgs.push(gallery[0] || '');
+        while (imgs.length < 6) {
+          imgs.push(gallery[imgs.length % gallery.length] || '');
         }
         return imgs;
       }
@@ -667,20 +667,18 @@
           imageCount++;
           var layoutType = imageCount % 4;
           
-          // Layout 0: Scroll Snap Gallery (using 2 images)
+          // Layout 0: Scroll Snap Gallery (using 6 images)
           if (layoutType === 0) {
-            var imgA = getNextImage();
-            var imgB = getNextImage();
+            var slides = getNextSixImages();
             
             html += '<div class="cs-content__scroll-gallery align-center">' +
-                      '<div class="cs-content__scroll-gallery-track">' +
-                        '<div class="cs-content__scroll-gallery-item is-image">' +
-                          '<img src="' + imgA + '" alt="Project Slide" loading="lazy">' +
-                        '</div>' +
-                        '<div class="cs-content__scroll-gallery-item is-image">' +
-                          '<img src="' + imgB + '" alt="Project Slide" loading="lazy">' +
-                        '</div>' +
-                      '</div>' +
+                      '<div class="cs-content__scroll-gallery-track">';
+            slides.forEach(function(src) {
+              html += '<div class="cs-content__scroll-gallery-item is-image">' +
+                        '<img src="' + src + '" alt="Project Slide" loading="lazy">' +
+                      '</div>';
+            });
+            html += '</div>' +
                       '<div class="cs-content__scroll-gallery-hint">' +
                         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M2 12h20"/></svg>' +
                         '<span>Swipe to explore</span>' +
@@ -746,23 +744,17 @@
 
           // 1. Interactive Scroll Gallery (series/showcase/festival/gallery)
           if (lowerText.indexOf('series') > -1 || lowerText.indexOf('festival') > -1 || lowerText.indexOf('showcase') > -1 || lowerText.indexOf('gallery') > -1) {
-            var slides = getNextThreeImages();
+            var slides = getNextSixImages();
 
             html += '<div class="cs-content__scroll-gallery align-center">' +
-                      '<div class="cs-content__scroll-gallery-track">' +
-                        '<div class="cs-content__scroll-gallery-item is-image">' +
-                          '<img src="' + slides[0] + '" alt="Showcase" loading="lazy">' +
-                          '<div class="cs-content__image-caption">' + placeholderText + ' (1/3)</div>' +
-                        '</div>' +
-                        '<div class="cs-content__scroll-gallery-item is-image">' +
-                          '<img src="' + slides[1] + '" alt="Showcase" loading="lazy">' +
-                          '<div class="cs-content__image-caption">' + placeholderText + ' (2/3)</div>' +
-                        '</div>' +
-                        '<div class="cs-content__scroll-gallery-item is-image">' +
-                          '<img src="' + slides[2] + '" alt="Showcase" loading="lazy">' +
-                          '<div class="cs-content__image-caption">' + placeholderText + ' (3/3)</div>' +
-                        '</div>' +
-                      '</div>' +
+                      '<div class="cs-content__scroll-gallery-track">';
+            slides.forEach(function(src, idx) {
+              html += '<div class="cs-content__scroll-gallery-item is-image">' +
+                        '<img src="' + src + '" alt="Showcase" loading="lazy">' +
+                        '<div class="cs-content__image-caption">' + placeholderText + ' (' + (idx + 1) + '/6)</div>' +
+                      '</div>';
+            });
+            html += '</div>' +
                       '<div class="cs-content__scroll-gallery-hint">' +
                         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M2 12h20"/></svg>' +
                         '<span>Swipe to explore gallery</span>' +
