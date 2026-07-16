@@ -165,4 +165,50 @@
   } else {
     init();
   }
+
+  // ── Active UX Click Ripple Effect ─────────────────────────────────
+  document.addEventListener("click", function (e) {
+    var button = e.target.closest("button, a, .cp-pill-option, [role='button']");
+    if (!button) return;
+
+    // Check if the element already has a ripple running to prevent double runs
+    if (button.querySelector(".spiro-ux-ripple")) {
+      // Allow multiple ripples by not returning, or return to throttle
+    }
+
+    var rect = button.getBoundingClientRect();
+    var ripple = document.createElement("span");
+    ripple.className = "spiro-ux-ripple";
+
+    var size = Math.max(rect.width, rect.height) * 2.2;
+    ripple.style.width = ripple.style.height = size + "px";
+
+    var x = e.clientX - rect.left - size / 2;
+    var y = e.clientY - rect.top - size / 2;
+    ripple.style.left = x + "px";
+    ripple.style.top = y + "px";
+
+    var computedStyle = window.getComputedStyle(button);
+    var originalPosition = computedStyle.position;
+    var originalOverflow = computedStyle.overflow;
+
+    if (originalPosition === "static") {
+      button.style.position = "relative";
+    }
+    if (originalOverflow !== "hidden") {
+      button.style.overflow = "hidden";
+    }
+
+    button.appendChild(ripple);
+
+    ripple.addEventListener("animationend", function () {
+      ripple.remove();
+      if (originalPosition === "static") {
+        button.style.position = "";
+      }
+      if (originalOverflow !== "hidden") {
+        button.style.overflow = "";
+      }
+    });
+  });
 })();

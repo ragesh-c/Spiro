@@ -404,8 +404,15 @@
       return;
     }
 
-    if (e.target.closest('#cp-submit')) {
-      handleSubmit();
+    var submitBtn = e.target.closest('#cp-submit');
+    if (submitBtn) {
+      submitBtn.classList.remove('badge-ripple');
+      void submitBtn.offsetWidth; // force reflow
+      submitBtn.classList.add('badge-ripple');
+      setTimeout(function () {
+        submitBtn.classList.remove('badge-ripple');
+        handleSubmit();
+      }, 350); // slight delay to show the flash and gold strokeGlow radiating
     }
   });
 
@@ -414,6 +421,15 @@
   document.getElementById('cp-budget-pills').addEventListener('click', function (e) {
     var pill = e.target.closest('.cp-pill-option');
     if (!pill) return;
+
+    // Trigger active flash & radiating gold stroke
+    pill.classList.remove('badge-ripple');
+    void pill.offsetWidth; // force reflow
+    pill.classList.add('badge-ripple');
+    setTimeout(function () {
+      pill.classList.remove('badge-ripple');
+    }, 1200);
+
     document.querySelectorAll('.cp-pill-option').forEach(function (p) { p.classList.remove('is-selected'); });
     pill.classList.add('is-selected');
     budgetSelected = pill.dataset.value;

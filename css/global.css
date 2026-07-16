@@ -17,7 +17,7 @@
       --text-muted:     rgba(245, 241, 234, 0.35);
       --divider:        rgba(245, 241, 234, 0.08);
       --overlay:        rgba(26, 26, 26, 0.82);
-      --nav-bg:         transparent;
+      --nav-bg:         rgba(26, 26, 26, 0.65);
       --nav-link:       rgba(245, 241, 234, 0.75);
       --nav-link-hover: #f5f1ea;
       --nav-wordmark:   #f5f1ea;
@@ -25,6 +25,24 @@
       --footer-bg:      #000000;
       --tagline-bg:     #1a1a1a;
       --tagline-text:   rgba(245, 241, 234, 0.45);
+
+      /* Glassmorphism Tokens */
+      --glass-border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02) 35% 65%, rgba(255, 255, 255, 0.15));
+      --glass-glow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+      --contact-panel-bg: rgba(36, 36, 36, 0.75);
+      --pill-bg: rgba(46, 46, 46, 0.6);
+      --pill-bg-hover: rgba(56, 56, 56, 0.8);
+      --pill-bg-selected: rgba(245, 172, 69, 0.15);
+      --pill-border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02) 35% 65%, rgba(255, 255, 255, 0.12));
+      --pill-border-selected: linear-gradient(135deg, #f5ac45, #c03628);
+
+      /* Shimmer variables */
+      --shimmer-grad: linear-gradient(100deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.3) 60%, rgba(255, 255, 255, 0.3) 100%);
+      --shimmer-color-fallback: rgba(245, 241, 234, 0.45);
+      
+      /* Active UX Ripple color */
+      --ripple-color: rgba(245, 172, 69, 0.85);
     }
 
     [data-theme="light"] {
@@ -36,7 +54,7 @@
       --text-muted:     rgba(26, 26, 26, 0.40);
       --divider:        rgba(26, 26, 26, 0.10);
       --overlay:        rgba(26, 26, 26, 0.75);
-      --nav-bg:         transparent;
+      --nav-bg:         rgba(255, 255, 235, 0.65);
       --nav-link:       rgba(26, 26, 26, 0.65);
       --nav-link-hover: #1a1a1a;
       --nav-wordmark:   #1a1a1a;
@@ -44,6 +62,24 @@
       --footer-bg:      #1a1a1a;
       --tagline-bg:     #ffffeb;
       --tagline-text:   rgba(26, 26, 26, 0.45);
+
+      /* Glassmorphism Tokens */
+      --glass-border-gradient: linear-gradient(135deg, rgba(26, 26, 26, 0.08), rgba(26, 26, 26, 0.01) 35% 65%, rgba(26, 26, 26, 0.08));
+      --glass-glow: inset 0 1px 0 rgba(26, 26, 26, 0.04);
+      --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      --contact-panel-bg: rgba(240, 240, 222, 0.75);
+      --pill-bg: rgba(228, 228, 208, 0.6);
+      --pill-bg-hover: rgba(218, 218, 198, 0.8);
+      --pill-bg-selected: rgba(245, 172, 69, 0.15);
+      --pill-border-gradient: linear-gradient(135deg, rgba(26, 26, 26, 0.08), rgba(26, 26, 26, 0.01) 35% 65%, rgba(26, 26, 26, 0.08));
+      --pill-border-selected: linear-gradient(135deg, #f5ac45, #c03628);
+
+      /* Shimmer variables */
+      --shimmer-grad: linear-gradient(100deg, rgba(26, 26, 26, 0.3) 0%, rgba(26, 26, 26, 0.3) 40%, rgba(26, 26, 26, 1) 50%, rgba(26, 26, 26, 0.3) 60%, rgba(26, 26, 26, 0.3) 100%);
+      --shimmer-color-fallback: rgba(26, 26, 26, 0.45);
+      
+      /* Active UX Ripple color */
+      --ripple-color: rgba(245, 172, 69, 0.7);
     }
 
 
@@ -199,6 +235,22 @@
       padding: 0 var(--space-side);
       z-index: 99;
       background: var(--nav-bg);
+      backdrop-filter: blur(16px) saturate(120%);
+      -webkit-backdrop-filter: blur(16px) saturate(120%);
+      box-shadow: var(--glass-shadow), var(--glass-glow);
+    }
+
+    .nav::after {
+      content: "";
+      border-radius: inherit;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      padding: 1px; /* border thickness */
+      background: var(--glass-border-gradient);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
     }
 
     /* Wordmark */
@@ -443,18 +495,32 @@
     .cal-sheet.open { pointer-events: all; visibility: visible; }
     .cal-sheet__backdrop {
       position: absolute; inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.4);
       opacity: 0;
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     }
     .cal-sheet__panel {
       position: absolute; top: 0; right: 0; bottom: 0;
       width: 100%;
-      background: var(--bg-primary);
-      border-left: 1px solid var(--divider);
+      background: var(--contact-panel-bg);
+      backdrop-filter: blur(24px) saturate(120%);
+      -webkit-backdrop-filter: blur(24px) saturate(120%);
       transform: translateX(100%);
       display: flex; flex-direction: column;
       overflow-y: auto;
+      box-shadow: -8px 0 32px rgba(0, 0, 0, 0.25);
+    }
+    .cal-sheet__panel::after {
+      content: "";
+      border-radius: inherit;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      padding-left: 1px; /* Left edge gradient border only */
+      background: var(--glass-border-gradient);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
     }
     .cal-sheet__head {
       display: flex; justify-content: space-between; align-items: flex-start;
@@ -855,5 +921,69 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+/* ════════════════════════════════════════════════════════════ */
+/* METALLIC SHIMMER TEXT EFFECT                                  */
+/* ════════════════════════════════════════════════════════════ */
+.shimmer-text,
+.cal-sheet__heading,
+.hero__headline,
+.work-hero-heading,
+.services-hero__title,
+.about-hero__heading {
+  color: var(--shimmer-color-fallback);
+  -webkit-text-fill-color: transparent;
+  background-image: var(--shimmer-grad);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer-animation 10s linear infinite;
+}
+
+@keyframes shimmer-animation {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════ */
+/* ACTIVE UX RIPPLE FEEDBACK                                    */
+/* ════════════════════════════════════════════════════════════ */
+.spiro-ux-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: spiro-ripple-animation 0.7s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
+  border: 2px solid var(--ripple-color);
+  background: rgba(245, 172, 69, 0.02);
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 0 12px var(--ripple-color);
+  box-sizing: border-box;
+}
+
+.spiro-ux-ripple::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ripple-color);
+  opacity: 0.7;
+  box-sizing: border-box;
+}
+
+@keyframes spiro-ripple-animation {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
 }
 
