@@ -942,6 +942,160 @@
       }
     }
 
+    /* ── Standalone Project CTA Banner ────────────────────────────── */
+    .partner-cta-banner {
+      width: 100%;
+      min-height: 190px;
+      padding: 56px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--divider);
+      box-sizing: border-box;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .partner-cta-banner__glass {
+      position: absolute;
+      inset: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px) saturate(120%);
+      -webkit-backdrop-filter: blur(16px) saturate(120%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .partner-cta-banner__glass::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      background: var(--glass-border-gradient);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .partner-cta-banner__content {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      z-index: 2;
+    }
+
+    .partner-cta-banner__left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .partner-cta-banner__eyebrow {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+    }
+
+    .partner-cta-banner__heading {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.8rem, 2.5vw, 2.2rem);
+      line-height: 1.2;
+      color: var(--text-primary);
+      transition: transform 0.4s ease;
+    }
+
+    .partner-cta-banner__subline {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+
+    .partner-cta-banner__right {
+      display: flex;
+      align-items: center;
+    }
+
+    .partner-cta-banner__btn {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #1a1a1a;
+      background: var(--orange);
+      padding: 14px 28px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 4px 14px rgba(245, 172, 69, 0.25);
+    }
+
+    .partner-cta-banner__btn svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Hover interactions */
+    .partner-cta-banner:hover .partner-cta-banner__glass,
+    .partner-cta-banner:hover .partner-cta-banner__glass::after {
+      opacity: 1;
+    }
+
+    .partner-cta-banner:hover .partner-cta-banner__heading {
+      color: var(--shimmer-color-fallback);
+      -webkit-text-fill-color: transparent;
+      background-image: var(--shimmer-grad);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shimmer-animation 10s linear infinite;
+    }
+
+    .partner-cta-banner:hover .partner-cta-banner__btn {
+      transform: scale(1.03);
+      background: #ffffff;
+      color: #1a1a1a;
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Switch button colors for light theme */
+    [data-theme="light"] .partner-cta-banner:hover .partner-cta-banner__btn {
+      background: #1a1a1a;
+      color: #ffffeb;
+      box-shadow: 0 6px 20px rgba(26, 26, 26, 0.15);
+    }
+
+    .partner-cta-banner:hover .partner-cta-banner__btn svg {
+      transform: translateX(3px);
+    }
+
+    /* Responsive states */
+    @media (max-width: 768px) {
+      .partner-cta-banner {
+        padding: 40px 24px;
+      }
+      .partner-cta-banner__content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+    }
+
 
 
 @media (max-width: 767px) {
