@@ -723,22 +723,21 @@
     }
 
 
-    /* ── Partner Bento Grid Section ────────────────────────────────── */
-    .partner-grid-section {
+    /* ── Behind the Scenes (BTS) Bento Grid Section ────────────────── */
+    .bts-grid-section {
       background: var(--bg-primary);
       position: relative;
       border-top: 1px solid var(--divider);
     }
 
-    .partner-grid {
+    .bts-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px; /* Flush grid separated by 1px grid gap */
-      background: var(--divider); /* Divider color shows through gap */
+      gap: 0px; /* Flush borders */
       border-bottom: 1px solid var(--divider);
     }
 
-    .partner-cell {
+    .bts-cell {
       min-height: 260px;
       padding: 48px 40px;
       display: flex;
@@ -746,19 +745,30 @@
       justify-content: space-between;
       position: relative;
       overflow: hidden;
+      border-right: 1px solid var(--divider);
+      border-bottom: 1px solid var(--divider);
       box-sizing: border-box;
-      background: var(--bg-primary); /* Cover grid container background */
-      transition: background 0.4s ease;
+      background: transparent;
+    }
+
+    /* Remove right border on every third item in the grid */
+    .bts-grid > *:nth-child(3n) {
+      border-right: none;
+    }
+
+    /* Remove bottom border on the last row */
+    .bts-grid > *:nth-child(n+4) {
+      border-bottom: none;
     }
 
     /* Column spanning on header block */
-    .partner-cell--header {
+    .bts-cell--header {
       grid-column: span 2;
       justify-content: center;
       min-height: 260px;
     }
 
-    .partner-cell__eyebrow {
+    .bts-cell__eyebrow {
       font-family: var(--font-body);
       font-weight: 400;
       font-size: 12px;
@@ -768,7 +778,7 @@
       margin-bottom: 20px;
     }
 
-    .partner-cell__heading {
+    .bts-cell__heading {
       font-family: var(--font-display);
       font-weight: 600;
       font-size: clamp(2rem, 3vw, 2.5rem);
@@ -778,7 +788,7 @@
       margin-bottom: 16px;
     }
 
-    .partner-cell__subline {
+    .bts-cell__subline {
       font-family: var(--font-body);
       font-weight: 400;
       font-size: 16px;
@@ -787,21 +797,66 @@
       max-width: 85%;
     }
 
-    /* Partner interactive cells */
-    .partner-cell--brand,
-    .partner-cell--cta {
+    /* Process Step Cards */
+    .bts-cell--step {
       cursor: pointer;
-      transition: color 0.4s ease;
     }
 
-    .partner-cell__top {
+    .bts-cell__bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+    }
+
+    /* Dark theme overlay tint by default */
+    .bts-cell__bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 26, 26, 0.85); /* dark so text is readable through blur */
+      transition: background 0.4s ease;
+      z-index: 1;
+    }
+
+    /* Light theme overlay tint */
+    [data-theme="light"] .bts-cell__bg::before {
+      background: rgba(255, 255, 235, 0.9);
+    }
+
+    /* Frost layer overlay */
+    .bts-cell__glass {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
+      transition: opacity 0.5s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Mask composite gradient border around cell */
+    .bts-cell__glass::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      background: var(--glass-border-gradient);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .bts-cell__top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 2;
     }
 
-    .partner-cell__num {
+    .bts-cell__num {
       font-family: 'Courier New', Courier, monospace;
       font-size: 12px;
       font-weight: 700;
@@ -809,7 +864,7 @@
       letter-spacing: 0.05em;
     }
 
-    .partner-cell__tag {
+    .bts-cell__tag {
       font-family: var(--font-body);
       font-size: 10px;
       font-weight: 600;
@@ -819,108 +874,95 @@
       opacity: 0.85;
     }
 
-    .partner-cell__middle {
+    .bts-cell__middle {
       z-index: 2;
       margin: 24px 0;
     }
 
-    .partner-cell__brand-name {
+    .bts-cell__title {
       font-family: var(--font-display);
       font-weight: 500;
       font-size: clamp(1.4rem, 2vw, 1.7rem);
       color: var(--text-primary);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
     }
 
-    .partner-cell__bottom {
+    .bts-cell__bottom {
       z-index: 2;
       transform: translateY(8px);
       opacity: 0;
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
     }
 
-    .partner-cell__project {
+    .bts-cell__desc {
       font-family: var(--font-body);
       font-size: 13px;
       color: var(--text-secondary);
     }
 
-    /* Tactile Glass Background Overlay */
-    .partner-cell__glass {
-      position: absolute;
-      inset: 0;
-      background: var(--nav-bg);
-      backdrop-filter: blur(12px) saturate(120%);
-      -webkit-backdrop-filter: blur(12px) saturate(120%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: 1;
-      pointer-events: none;
+    /* Hover interactions: Fade out frost overlay & reveal sharp background */
+    .bts-cell--step:hover .bts-cell__glass {
+      opacity: 0; /* reveals the sharp photo! */
     }
 
-    /* Tactile Glass Border highlight using mask composite */
-    .partner-cell__glass::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      padding: 1px;
-      background: var(--glass-border-gradient);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity 0.4s ease;
+    .bts-cell--step:hover .bts-cell__bg {
+      transform: scale(1.05); /* smooth zoom on the background photo */
     }
 
-    /* Hover actions */
-    .partner-cell:hover .partner-cell__glass,
-    .partner-cell:hover .partner-cell__glass::after {
-      opacity: 1;
+    /* Fades the dimming overlay slightly to bring out image details */
+    .bts-cell--step:hover .bts-cell__bg::before {
+      background: rgba(26, 26, 26, 0.72);
     }
 
-    .partner-cell:hover .partner-cell__brand-name {
+    [data-theme="light"] .bts-cell--step:hover .bts-cell__bg::before {
+      background: rgba(255, 255, 235, 0.78);
+    }
+
+    .bts-cell--step:hover .bts-cell__title {
       transform: translateY(-6px);
+      color: var(--orange); /* highlight title in orange on hover */
     }
 
-    .partner-cell:hover .partner-cell__bottom {
+    .bts-cell--step:hover .bts-cell__bottom {
       transform: translateY(0);
       opacity: 1;
     }
 
-    .partner-cell--cta:hover .partner-cell__brand-name {
-      color: var(--orange);
-    }
-
     /* Responsive overrides */
     @media (max-width: 991px) {
-      .partner-grid {
+      .bts-grid {
         grid-template-columns: repeat(2, 1fr);
       }
       
-      .partner-cell--header {
-        grid-column: span 2;
+      .bts-grid > * {
+        border-right: 1px solid var(--divider) !important;
+        border-bottom: 1px solid var(--divider) !important;
       }
 
-      /* Make the last cell span across 2 columns to fill any empty gaps */
-      .partner-grid > *:last-child {
+      .bts-grid > *:nth-child(2n) {
+        border-right: none !important;
+      }
+
+      .bts-cell--header {
         grid-column: span 2;
       }
     }
 
     @media (max-width: 640px) {
-      .partner-grid {
+      .bts-grid {
         grid-template-columns: 1fr;
       }
 
-      .partner-cell--header {
+      .bts-grid > * {
+        border-right: none !important;
+        border-bottom: 1px solid var(--divider) !important;
+      }
+
+      .bts-cell--header {
         grid-column: span 1;
       }
 
-      .partner-grid > *:last-child {
-        grid-column: span 1;
-      }
-
-      .partner-cell {
+      .bts-cell {
         padding: 32px 24px;
         min-height: 210px;
       }
