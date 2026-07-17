@@ -958,6 +958,43 @@
       cursor: pointer;
     }
 
+    .partner-cta-banner__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('../assets/img/contact-sheet-bg.png');
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+    }
+
+    /* Dark theme overlay tint */
+    .partner-cta-banner__bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 26, 26, 0.82);
+      transition: background 0.4s ease;
+      z-index: 1;
+    }
+
+    /* Light theme overlay tint */
+    [data-theme="light"] .partner-cta-banner__bg::before {
+      background: rgba(255, 255, 235, 0.88);
+    }
+
+    .partner-cta-banner:hover .partner-cta-banner__bg {
+      transform: scale(1.04);
+    }
+
+    .partner-cta-banner:hover .partner-cta-banner__bg::before {
+      background: rgba(26, 26, 26, 0.72);
+    }
+
+    [data-theme="light"] .partner-cta-banner:hover .partner-cta-banner__bg::before {
+      background: rgba(255, 255, 235, 0.78);
+    }
+
     .partner-cta-banner__glass {
       position: absolute;
       inset: 0;
