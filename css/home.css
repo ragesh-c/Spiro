@@ -945,8 +945,8 @@
     /* ── Standalone Project CTA Banner ────────────────────────────── */
     .partner-cta-banner {
       width: 100%;
-      min-height: 280px;
-      padding: 80px 64px;
+      min-height: 400px;
+      padding: 100px 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
