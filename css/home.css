@@ -733,7 +733,8 @@
     .partner-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0px; /* Flush grid separated by cell borders */
+      gap: 1px; /* Flush grid separated by 1px grid gap */
+      background: var(--divider); /* Divider color shows through gap */
       border-bottom: 1px solid var(--divider);
     }
 
@@ -745,21 +746,9 @@
       justify-content: space-between;
       position: relative;
       overflow: hidden;
-      border-right: 1px solid var(--divider);
-      border-bottom: 1px solid var(--divider);
       box-sizing: border-box;
-      background: transparent;
+      background: var(--bg-primary); /* Cover grid container background */
       transition: background 0.4s ease;
-    }
-
-    /* Remove right border on every third item in the grid */
-    .partner-grid > *:nth-child(3n) {
-      border-right: none;
-    }
-
-    /* Remove bottom border on the last row */
-    .partner-grid > *:nth-child(n+4) {
-      border-bottom: none;
     }
 
     /* Column spanning on header block */
@@ -908,16 +897,12 @@
         grid-template-columns: repeat(2, 1fr);
       }
       
-      .partner-grid > * {
-        border-right: 1px solid var(--divider) !important;
-        border-bottom: 1px solid var(--divider) !important;
-      }
-
-      .partner-grid > *:nth-child(2n) {
-        border-right: none !important;
-      }
-
       .partner-cell--header {
+        grid-column: span 2;
+      }
+
+      /* Make the last cell span across 2 columns to fill any empty gaps */
+      .partner-grid > *:last-child {
         grid-column: span 2;
       }
     }
@@ -927,12 +912,11 @@
         grid-template-columns: 1fr;
       }
 
-      .partner-grid > * {
-        border-right: none !important;
-        border-bottom: 1px solid var(--divider) !important;
+      .partner-cell--header {
+        grid-column: span 1;
       }
 
-      .partner-cell--header {
+      .partner-grid > *:last-child {
         grid-column: span 1;
       }
 
