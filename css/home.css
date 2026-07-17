@@ -987,7 +987,7 @@
     .partner-cta-banner__bg {
       position: absolute;
       inset: 0;
-      background-image: url('../assets/img/contact-sheet-bg.png');
+      background-image: url('/assets/img/contact-sheet-bg.png');
       background-size: cover;
       background-position: center;
       transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
