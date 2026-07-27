@@ -38,7 +38,7 @@
     }
     @media (max-width: 900px) {
       .about-hero__inner { grid-template-columns: 1fr; gap: 40px; }
-      .about-hero { padding: 140px 24px 80px; }
+      .about-hero { padding: 140px var(--space-side) 80px; }
     }
 
     /* ════════════════════════════════════════════════════════════ */
@@ -90,7 +90,7 @@
     }
     @media (max-width: 768px) {
       .about-trust__photo { aspect-ratio: 4/3; }
-      .about-trust__strip { padding: 36px 24px; gap: 32px; }
+      .about-trust__strip { padding: 36px var(--space-side); gap: 32px; }
     }
 
     /* ════════════════════════════════════════════════════════════ */
@@ -149,7 +149,7 @@
       color: rgba(26,26,26,0.72); line-height: 1.75;
     }
     @media (max-width: 900px) {
-      .about-why { padding: 64px 24px 80px; }
+      .about-why { padding: 64px var(--space-side) 80px; }
       .about-why__grid { grid-template-columns: 1fr; gap: 48px; }
       .about-why__heading { margin-bottom: 48px; }
     }
@@ -186,5 +186,5 @@
       background: var(--orange); border-color: var(--orange); color: #1a1a1a;
     }
     @media (max-width: 768px) {
-      .about-cta { padding: 80px 24px; }
+      .about-cta { padding: 80px var(--space-side); }
     }

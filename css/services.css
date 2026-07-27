@@ -223,7 +223,7 @@
 
 @media (max-width: 991px) {
   #expertise {
-    padding: 0 24px 80px;
+    padding: 0 var(--space-side) 80px;
   }
   .expertise-card {
     top: 80px;
@@ -255,7 +255,7 @@ section#start-a-project {
 
 @media (max-width: 768px) {
   section#start-a-project {
-    padding: 80px 24px;
+    padding: 80px var(--space-side);
   }
 }
 

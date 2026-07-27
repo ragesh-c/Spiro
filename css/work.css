@@ -100,7 +100,7 @@ section#work-hero {
 
 @media (max-width: 768px) {
   section#work-hero {
-    padding: 120px 24px 40px;
+    padding: 120px var(--space-side) 40px;
   }
   .work-hero-heading {
     font-size: clamp(34px, 10vw, 52px);
@@ -380,7 +380,7 @@ section#work-grid {
   min-height: auto;
   flex-direction: column;
   margin-top: 0 !important;
-  cursor: none;
+  cursor: pointer;
 }
 
 .work-grid-inner.is-grid .work-card:hover {

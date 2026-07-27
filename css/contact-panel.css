@@ -546,8 +546,8 @@
 
 /* ── Mobile tweaks ─────────────────────────────────────────────── */
 @media (max-width: 520px) {
-  .cp-header { padding: 20px 24px 18px; }
-  .cp-body   { padding: 28px 24px 40px; }
+  .cp-header { padding: 20px var(--space-side) 18px; }
+  .cp-body   { padding: 28px var(--space-side) 40px; }
   .cp-checkbox-grid { grid-template-columns: 1fr; }
 }
 

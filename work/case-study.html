@@ -405,84 +405,7 @@
       }
     }
 
-    /* ════════════════════════════════════════════════════════════ */
-    /* PROXIMITY-SCALED SCROLL RULER                                */
-    /* ════════════════════════════════════════════════════════════ */
-    .cs-scroll-ruler {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 6px 14px;
-      background: rgba(26, 26, 26, 0.45);
-      backdrop-filter: blur(16px) saturate(120%);
-      -webkit-backdrop-filter: blur(16px) saturate(120%);
-      border-radius: 100px;
-      border: 1px solid var(--divider);
-      z-index: 99;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-      user-select: none;
-      pointer-events: none;
-    }
 
-    [data-theme="light"] .cs-scroll-ruler {
-      background: rgba(255, 255, 235, 0.45);
-    }
-
-    .cs-scroll-ruler__num {
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-      min-width: 28px;
-    }
-    
-    .cs-scroll-ruler__num:first-child {
-      text-align: right;
-    }
-
-    .cs-scroll-ruler__track-wrap {
-      position: relative;
-      width: 180px; /* viewport of the ruler ticks */
-      height: 24px;
-      overflow: hidden;
-    }
-
-    .cs-scroll-ruler__pointer {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 6px;
-      background: var(--orange, #f5ac45);
-      z-index: 3;
-      border-radius: 2px;
-      box-shadow: 0 0 6px var(--orange);
-    }
-
-    .cs-scroll-ruler__track {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 24px;
-      width: 100%;
-      will-change: transform;
-    }
-
-    .cs-scroll-ruler__tick {
-      position: absolute;
-      bottom: 2px;
-      width: 1.5px;
-      height: 14px;
-      background: var(--text-primary);
-      border-radius: 1px;
-      transform-origin: bottom center;
-    }
   </style>
 </head>
 <body>
@@ -783,7 +706,7 @@
   <script type="module">
     import { client } from '../js/sanity.js';
 
-    const QUERY = `*[_type == "work" && slug.current == $slug][0] {
+    const QUERY = `*[_type in ["caseStudy", "work"] && slug.current == $slug][0] {
       title,
       client,
       "slug": slug.current,
@@ -1163,9 +1086,102 @@
             <a href="../work.html" style="font-family:var(--font-body);font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;">&larr; Back to all work</a>
           </div>
         </div>`;
-    }
+    const sorrelSummaryText = 'Sorrel approached us with a distinct communication challenge: founder Steve Drake was stepping away from his role as Chef Patron, while remaining the restaurant’s owner, and Alex Payne was joining to lead the kitchen.<br><br>Our mission was to send that message across.';
+
+    const sorrelAct1Body = [
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Act I — The Challenge' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'This was more than a personnel announcement. Sorrel had always been closely associated with Steve since he opened the place, so communicating the transition required care and attention. We needed to make it clear that Steve was not leaving the business, while giving Alex enough space to introduce his own ideas and plans for the restaurant.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Sorrel/steve-clapper.png',
+        alt: 'Steve Drake on set with slate clapperboard'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'We developed a three-month campaign around several key messages:'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'What Sorrel meant to Steve' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Why his new position was right for him and the restaurant' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Who Alex was and what he brought to the role' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'How Alex planned to develop Sorrel’s food and future' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'How the restaurant’s legacy would continue through a new creative chapter' }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Sorrel/steve-interview.png',
+        alt: 'Steve Drake interview'
+      }
+    ];
+
+    const sorrelFallbackDoc = {
+      title: 'A New Chapter',
+      client: 'Sorrel Restaurant',
+      heroClient: 'SORREL',
+      industry: 'Fine Dining / Hospitality',
+      summary: sorrelSummaryText,
+      servicePillar: ['Campaign design and execution', 'Brand Film', 'Photography', 'Art Direction'],
+      collaborators: null,
+      duration: null,
+      slug: 'Sorrel-restaurant',
+      body: sorrelAct1Body,
+      coverImage: '../assets/img/web/Sorrel/DSC01196-Edit.webp',
+      gallery: [
+        '../assets/img/web/Sorrel/DSC01196-Edit.webp',
+        '../assets/img/web/Sorrel/DSC01211-Edit.webp',
+        '../assets/img/web/Sorrel/DSC01490-Edit.webp',
+        '../assets/img/web/Sorrel/DSC01529.webp',
+        '../assets/img/web/Sorrel/DSC01570-Edit.webp',
+        '../assets/img/web/Sorrel/DSC01588-final.webp'
+      ]
+    };
 
     function updateMeta(doc) {
+      const urlSlug = (new URLSearchParams(window.location.search).get('slug') || '').toLowerCase();
+      const docSlugStr = (typeof doc.slug === 'string' ? doc.slug : (doc.slug && doc.slug.current) || '').toLowerCase();
+      if (urlSlug.includes('sorrel') || docSlugStr.includes('sorrel') || (doc.title && doc.title.toLowerCase().includes('sorrel'))) {
+        doc.client = 'SORREL';
+        doc.title = 'A New Chapter';
+      }
+
       const pageTitle = `${doc.title} — Spiro Creatives`;
       const desc = doc.summary || `${doc.client || doc.title} case study — brand film & photography by Spiro Creatives.`;
       const img = doc.coverImage || 'https://spirocreatives.com/assets/img/og-image.jpg';
@@ -1223,6 +1239,22 @@
     }
 
     function renderDoc(doc) {
+      const urlSlug = (new URLSearchParams(window.location.search).get('slug') || '').toLowerCase();
+      const docSlugStr = (typeof doc.slug === 'string' ? doc.slug : (doc.slug && doc.slug.current) || '').toLowerCase();
+      const docTitleStr = (doc.title || '').toLowerCase();
+
+      if (urlSlug.includes('sorrel') || docSlugStr.includes('sorrel') || docTitleStr.includes('sorrel')) {
+        doc.client = 'Sorrel Restaurant';
+        doc.heroClient = 'SORREL';
+        doc.industry = 'Fine Dining / Hospitality';
+        doc.title = 'A New Chapter';
+        doc.summary = sorrelSummaryText;
+        doc.collaborators = null;
+        doc.duration = null;
+        doc.servicePillar = ['Campaign design and execution', 'Brand Film', 'Photography', 'Art Direction'];
+        doc.body = sorrelAct1Body;
+      }
+
       const isDirectVideo = doc.videoUrl && (doc.videoUrl.endsWith('.mp4') || doc.videoUrl.endsWith('.webm'));
       
       const heroFullHtml = `
@@ -1238,7 +1270,7 @@
             <div class="cs-hero-full__overlay"></div>
           </div>
           <div class="cs-hero-full__content">
-            ${doc.client && doc.client.toLowerCase() !== (doc.title || '').toLowerCase() ? `<p class="cs-hero-full__client">${doc.client}</p>` : ''}
+            ${(doc.heroClient || doc.client) ? `<p class="cs-hero-full__client">${doc.heroClient || doc.client}</p>` : ''}
             <h1 class="cs-hero-full__title">${doc.title || ''}</h1>
             <div class="cs-hero-full__scroll-hint" onclick="document.querySelector('.cs-brief').scrollIntoView({ behavior: 'smooth' })" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
@@ -1276,14 +1308,16 @@
               <span class="cs-brief__meta-label">Industry</span>
               <p class="cs-brief__meta-value">${doc.industry || 'Creative'}</p>
             </div>
+            ${doc.collaborators ? `
             <div class="cs-brief__meta-cell">
               <span class="cs-brief__meta-label">Collaborators</span>
-              <p class="cs-brief__meta-value">${doc.collaborators || 'Spiro Team'}</p>
-            </div>
+              <p class="cs-brief__meta-value">${doc.collaborators}</p>
+            </div>` : ''}
+            ${doc.duration ? `
             <div class="cs-brief__meta-cell">
               <span class="cs-brief__meta-label">Turn-around</span>
-              <p class="cs-brief__meta-value">${doc.duration || '7 Weeks'}</p>
-            </div>
+              <p class="cs-brief__meta-value">${doc.duration}</p>
+            </div>` : ''}
           </div>
         </section>`;
 
@@ -1333,6 +1367,8 @@
         : '';
 
       updateMeta(doc);
+      var loadingEl = document.getElementById('cs-loading');
+      if (loadingEl) loadingEl.remove();
       document.getElementById('cs-main').innerHTML = `
         <article>
           ${heroFullHtml}
@@ -1358,20 +1394,52 @@
       });
     }
 
-    const slug = new URLSearchParams(window.location.search).get('slug');
+    const assemblyFallbackDoc = {
+      title: 'The Morning Ritual',
+      client: 'Assembly Coffee',
+      heroClient: 'ASSEMBLY COFFEE',
+      industry: 'Specialty Coffee & Hospitality',
+      summary: 'Brand film and editorial photography capturing the craftsmanship and morning rituals behind Assembly Coffee.',
+      servicePillar: ['Brand Film', 'Photography', 'Art Direction'],
+      duration: '4 Weeks',
+      collaborators: 'Spiro Team',
+      slug: 'the-morning-ritual',
+      coverImage: '../assets/img/web/Assembly/DSC04534-Edit-scaled.jpg',
+      gallery: [
+        '../assets/img/web/Assembly/DSC04534-Edit-scaled.jpg',
+        '../assets/img/web/Assembly/DSC05314-Edit.webp',
+        '../assets/img/web/Assembly/DSC05319-Edit.webp',
+        '../assets/img/web/Assembly/DSC05334-Edit.webp'
+      ]
+    };
+
+    function getFallbackDoc(slugStr) {
+      const s = (slugStr || '').toLowerCase();
+      if (s.includes('sorrel')) return sorrelFallbackDoc;
+      if (s.includes('assembly') || s.includes('morning')) return assemblyFallbackDoc;
+      return null;
+    }
 
     if (!slug || slug === 'coming-soon') {
       renderComingSoon();
     } else {
       try {
-        const doc = await client.fetch(QUERY, { slug });
+        let doc = await client.fetch(QUERY, { slug });
+        if (!doc) {
+          doc = getFallbackDoc(slug);
+        }
         if (doc) {
           renderDoc(doc);
         } else {
           renderComingSoon();
         }
       } catch (err) {
-        renderComingSoon();
+        let doc = getFallbackDoc(slug);
+        if (doc) {
+          renderDoc(doc);
+        } else {
+          renderComingSoon();
+        }
       }
     }
   </script>
@@ -1379,76 +1447,6 @@
   <!-- Global Cursor Tracker & Ripple Feedback -->
   <script src="../js/cursor-tracker.js" defer></script>
 
-  <!-- Proximity-Scaled Scroll Ruler Overlay -->
-  <div class="cs-scroll-ruler" aria-hidden="true">
-    <span class="cs-scroll-ruler__num">0%</span>
-    <div class="cs-scroll-ruler__track-wrap">
-      <div class="cs-scroll-ruler__pointer"></div>
-      <div class="cs-scroll-ruler__track" id="cs-ruler-track"></div>
-    </div>
-    <span class="cs-scroll-ruler__num">100%</span>
-  </div>
 
-  <script>
-    (function () {
-      const track = document.getElementById("cs-ruler-track");
-      if (!track) return;
-
-      const tickCount = 31;
-      const tickSpacing = 8; // pixels between ticks
-      const centerPoint = 90; // center of track wrap (180 / 2)
-      const maxTrackShift = (tickCount - 1) * tickSpacing; // 30 * 8 = 240px
-
-      const ticks = [];
-      for (let i = 0; i < tickCount; i++) {
-        const tick = document.createElement("div");
-        tick.className = "cs-scroll-ruler__tick";
-        tick.style.left = (i * tickSpacing) + "px";
-        track.appendChild(tick);
-        ticks.push(tick);
-      }
-
-      function updateRuler() {
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = scrollHeight > 0 ? Math.min(1, Math.max(0, scrollTop / scrollHeight)) : 0;
-
-        // Update text percentages
-        document.querySelectorAll(".cs-scroll-ruler__num").forEach(function (num, idx) {
-          if (idx === 0) {
-            num.textContent = Math.round(progress * 100) + "%";
-          }
-        });
-
-        // Translate the ruler track
-        const tx = centerPoint - progress * maxTrackShift;
-        track.style.transform = "translate3d(" + tx + "px, 0, 0)";
-
-        // Apply proximity scaling and opacity dynamically to each tick
-        for (let i = 0; i < tickCount; i++) {
-          const tickX = tx + (i * tickSpacing);
-          const d = Math.abs(tickX - centerPoint);
-          const maxDist = 55; // range of scaling effect
-
-          const ratio = Math.max(0, 1 - d / maxDist); // 1.0 at center pointer, 0.0 at edges
-          const scaleY = 0.8 + ratio * 1.5;
-          const opacity = 0.15 + ratio * 0.85;
-
-          ticks[i].style.transform = "scaleY(" + scaleY + ")";
-          ticks[i].style.opacity = opacity;
-
-          if (ratio > 0.55) {
-            ticks[i].style.backgroundColor = "var(--orange)";
-          } else {
-            ticks[i].style.backgroundColor = "var(--text-primary)";
-          }
-        }
-      }
-
-      window.addEventListener("scroll", updateRuler, { passive: true });
-      window.addEventListener("resize", updateRuler);
-      updateRuler(); // initial call
-    })();
-  </script>
 </body>
 </html>

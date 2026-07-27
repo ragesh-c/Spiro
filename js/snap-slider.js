@@ -8,8 +8,13 @@
     const heroHeadline = document.querySelector(".hero__headline");
 
     if (heroSection && heroVideoBg) {
-      // Reveal the showreel card only after a 2s delay
-      gsap.to(heroVideoBg, { opacity: 1, duration: 0.8, delay: 2, ease: "power2.out" });
+      const videoEl = heroVideoBg.querySelector('video');
+      if (videoEl) {
+        videoEl.muted = true;
+        videoEl.play().catch(() => {});
+      }
+      // Reveal the showreel card smoothly on page load
+      gsap.to(heroVideoBg, { opacity: 1, duration: 0.8, delay: 0.3, ease: "power2.out" });
 
       // Autoplay glitch-out on load
       if (heroYearTag) {
@@ -237,34 +242,7 @@
       );
     });
 
-    // Interactive custom cursor behavior on hovering thumbnails
-    const tracker = document.getElementById("spiro-cursor-follower");
-    if (tracker) {
-      snapThumbs.forEach((thumb) => {
-        thumb.addEventListener("mouseenter", () => {
-          // Add custom zoom / scaling look on the follower
-          tracker.style.width = "88px";
-          tracker.style.height = "88px";
-          tracker.style.backgroundColor = "rgba(245, 172, 69, 0.95)";
-          // Squeeze pupils
-          const leftP = document.getElementById("spiro-pupil-l");
-          const rightP = document.getElementById("spiro-pupil-r");
-          if (leftP) leftP.style.transform = "scale(1.2)";
-          if (rightP) rightP.style.transform = "scale(1.2)";
-        });
 
-        thumb.addEventListener("mouseleave", () => {
-          // Restore original sizes
-          tracker.style.width = "66px";
-          tracker.style.height = "66px";
-          tracker.style.backgroundColor = "transparent";
-          const leftP = document.getElementById("spiro-pupil-l");
-          const rightP = document.getElementById("spiro-pupil-r");
-          if (leftP) leftP.style.transform = "none";
-          if (rightP) rightP.style.transform = "none";
-        });
-      });
-    }
   }
 
   // Safely initialize GSAP after load
