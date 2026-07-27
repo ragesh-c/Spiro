@@ -1764,10 +1764,15 @@
 
     function updateMeta(doc) {
       const urlSlug = (new URLSearchParams(window.location.search).get('slug') || '').toLowerCase();
-      const docSlugStr = (typeof doc.slug === 'string' ? doc.slug : (doc.slug && doc.slug.current) || '').toLowerCase();
-      if (urlSlug.includes('sorrel') || docSlugStr.includes('sorrel') || (doc.title && doc.title.toLowerCase().includes('sorrel'))) {
-        doc.client = 'SORREL';
+      if (urlSlug.includes('sorrel')) {
+        doc.client = 'Sorrel Restaurant';
         doc.title = 'A New Chapter';
+      } else if (urlSlug.includes('clubhouse')) {
+        doc.client = 'Clubhouse Personal Training';
+        doc.title = 'Authentic Performance';
+      } else if (urlSlug.includes('cezara')) {
+        doc.client = 'Cezara Hertanu';
+        doc.title = 'Movement in Focus';
       }
 
       const pageTitle = `${doc.title} — Spiro Creatives`;
@@ -1831,10 +1836,8 @@
 
     function renderDoc(doc) {
       const urlSlug = (new URLSearchParams(window.location.search).get('slug') || '').toLowerCase();
-      const docSlugStr = (typeof doc.slug === 'string' ? doc.slug : (doc.slug && doc.slug.current) || '').toLowerCase();
-      const docTitleStr = (doc.title || '').toLowerCase();
 
-      if (urlSlug.includes('sorrel') || docSlugStr.includes('sorrel') || docTitleStr.includes('sorrel')) {
+      if (urlSlug.includes('sorrel')) {
         doc.client = 'Sorrel Restaurant';
         doc.heroClient = 'SORREL';
         doc.industry = 'Fine Dining / Hospitality';
@@ -1847,9 +1850,7 @@
         doc.body = sorrelAct1Body;
         doc.teaserVideoUrl = 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share';
         doc.videoUrl = 'https://youtu.be/eK3sGpjHrqQ';
-      }
-
-      if (urlSlug.includes('clubhouse') || docSlugStr.includes('clubhouse') || docTitleStr.includes('clubhouse')) {
+      } else if (urlSlug.includes('clubhouse')) {
         doc.client = 'Clubhouse Personal Training';
         doc.heroClient = 'CLUBHOUSE PT';
         doc.industry = 'Fitness / Personal Training';
@@ -1862,9 +1863,7 @@
         doc.body = clubhouseBody;
         doc.videoUrl = 'https://youtu.be/919rKzvJoxE';
         doc.teaserVideoUrl = null;
-      }
-
-      if (urlSlug.includes('cezara') || docSlugStr.includes('cezara') || docTitleStr.includes('cezara')) {
+      } else if (urlSlug.includes('cezara')) {
         doc.client = 'Cezara Hertanu';
         doc.heroClient = 'CEZARA HERTANU';
         doc.industry = 'Dance / Multidisciplinary Art';
@@ -1875,6 +1874,7 @@
         doc.results = null;
         doc.servicePillar = ['Photography', 'Showreel', 'Art Direction', 'Visual Identity'];
         doc.body = cezaraBody;
+        doc.coverImage = '../assets/img/web/Cezara/HSM00503-scaled.jpg';
         doc.videoUrl = null;
         doc.teaserVideoUrl = null;
       }
