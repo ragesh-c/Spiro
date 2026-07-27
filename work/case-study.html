@@ -1651,16 +1651,6 @@
           text: 'Cezara Hertanu is a multidisciplinary artist with a particular focus on dance. As she prepared to seek new dance partners and pursue further competition opportunities, she needed a strong portfolio that could communicate her versatility, technical ability and identity as a performer.'
         }]
       },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-field.jpg',
-        alt: 'Cezara Hertanu outdoor dance movement in flower field'
-      },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-dark.jpg',
-        alt: 'Cezara Hertanu low key studio pose with raised arms'
-      },
 
       // ── Our Approach ──────────────────────────────────────────
       {
@@ -1677,37 +1667,12 @@
         }]
       },
       {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-arch-sun.jpg',
-        alt: 'Cezara Hertanu sunlit archway dance posture with shadow'
-      },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-pose-1.jpg',
-        alt: 'Cezara Hertanu stone pillar pose with shadow'
-      },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-bw-portrait.png',
-        alt: 'Cezara Hertanu B&W editorial portrait'
-      },
-      {
         _type: 'block',
         style: 'normal',
         children: [{
           _type: 'span',
           text: 'Through considered lighting, movement and visual direction, the imagery presented not only her technical range, but also the personality, confidence and artistry behind her performances.'
         }]
-      },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-studio.png',
-        alt: 'Cezara Hertanu studio spotlight performance'
-      },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-pose-4.jpg',
-        alt: 'Cezara Hertanu golden hour shadow portrait'
       },
 
       // ── The Outcome ──────────────────────────────────────────
@@ -1723,16 +1688,6 @@
           _type: 'span',
           text: 'Together, the photography gave Cezara a cohesive and versatile portfolio designed to support her next steps as a dancer and multidisciplinary artist.'
         }]
-      },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-pose-5.png',
-        alt: 'Cezara Hertanu B&W low angle sky portrait'
-      },
-      {
-        _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-candid.png',
-        alt: 'Cezara Hertanu candid behind-the-scenes moment'
       }
     ];
 
@@ -1754,13 +1709,16 @@
 
     function updateMeta(doc) {
       const urlSlug = (new URLSearchParams(window.location.search).get('slug') || '').toLowerCase();
-      if (urlSlug.includes('sorrel')) {
+      const docSlugStr = (typeof doc.slug === 'string' ? doc.slug : (doc.slug && doc.slug.current) || '').toLowerCase();
+      const targetSlug = urlSlug || docSlugStr;
+
+      if (targetSlug.includes('sorrel')) {
         doc.client = 'Sorrel Restaurant';
         doc.title = 'A New Chapter';
-      } else if (urlSlug.includes('clubhouse')) {
+      } else if (targetSlug.includes('clubhouse')) {
         doc.client = 'Clubhouse Personal Training';
         doc.title = 'Authentic Performance';
-      } else if (urlSlug.includes('cezara')) {
+      } else if (targetSlug.includes('cezara')) {
         doc.client = 'Cezara Hertanu';
         doc.title = 'Movement in Focus';
       }
@@ -1826,8 +1784,10 @@
 
     function renderDoc(doc) {
       const urlSlug = (new URLSearchParams(window.location.search).get('slug') || '').toLowerCase();
+      const docSlugStr = (typeof doc.slug === 'string' ? doc.slug : (doc.slug && doc.slug.current) || '').toLowerCase();
+      const targetSlug = urlSlug || docSlugStr;
 
-      if (urlSlug.includes('sorrel')) {
+      if (targetSlug.includes('sorrel')) {
         doc.client = 'Sorrel Restaurant';
         doc.heroClient = 'SORREL';
         doc.industry = 'Fine Dining / Hospitality';
@@ -1840,7 +1800,7 @@
         doc.body = sorrelAct1Body;
         doc.teaserVideoUrl = 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share';
         doc.videoUrl = 'https://youtu.be/eK3sGpjHrqQ';
-      } else if (urlSlug.includes('clubhouse')) {
+      } else if (targetSlug.includes('clubhouse')) {
         doc.client = 'Clubhouse Personal Training';
         doc.heroClient = 'CLUBHOUSE PT';
         doc.industry = 'Fitness / Personal Training';
@@ -1853,7 +1813,7 @@
         doc.body = clubhouseBody;
         doc.videoUrl = 'https://youtu.be/919rKzvJoxE';
         doc.teaserVideoUrl = null;
-      } else if (urlSlug.includes('cezara')) {
+      } else if (targetSlug.includes('cezara')) {
         doc.client = 'Cezara Hertanu';
         doc.heroClient = 'CEZARA HERTANU';
         doc.industry = 'Dance / Multidisciplinary Art';
