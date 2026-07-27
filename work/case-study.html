@@ -712,7 +712,7 @@
   </script>
 
   <!-- ── Sanity fetch ───────────────────────────────────────────── -->
-  <script type="module">
+  <script>
     const QUERY = `*[_type in ["caseStudy", "work"] && slug.current == $slug][0] {
       title,
       client,
@@ -1432,25 +1432,22 @@
     if (!slug || slug === 'coming-soon') {
       renderComingSoon();
     } else {
-      let doc = null;
-      try {
-        const sanityModule = await import('../js/sanity.js');
-        if (sanityModule && sanityModule.client) {
-          doc = await sanityModule.client.fetch(QUERY, { slug });
-        }
-      } catch (err) {
-        console.warn('Sanity client fetch failed or offline, rendering local fallback:', err);
-      }
-
-      if (!doc) {
-        doc = getFallbackDoc(slug);
-      }
-
+      var doc = getFallbackDoc(slug);
       if (doc) {
         renderDoc(doc);
       } else {
         renderComingSoon();
       }
+
+      try {
+        import('../js/sanity.js').then(function(sanityModule) {
+          if (sanityModule && sanityModule.client) {
+            sanityModule.client.fetch(QUERY, { slug }).then(function(cmsDoc) {
+              if (cmsDoc) renderDoc(cmsDoc);
+            }).catch(function() {});
+          }
+        }).catch(function() {});
+      } catch (e) {}
     }
   </script>
 
