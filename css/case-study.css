@@ -900,7 +900,7 @@
   background: var(--orange);
   border-color: var(--orange);
   transform: translate(-50%, -50%) scale(1.1);
-  box-shadow: 0 0 24px rgba(245, 172, 69, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Press & Media Coverage Grid ───────────────────────────── */
@@ -938,8 +938,8 @@
 
 .cs-press-card:hover {
   transform: translateY(-6px);
-  border-color: var(--orange);
-  box-shadow: 0 24px 50px rgba(245, 172, 69, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .cs-press-card__media {
