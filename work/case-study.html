@@ -2020,10 +2020,10 @@
 
     function getFallbackDoc(slugStr) {
       const s = (slugStr || '').toLowerCase();
-      if (s.includes('sorrel')) return sorrelFallbackDoc;
-      if (s.includes('clubhouse')) return clubhouseFallbackDoc;
-      if (s.includes('cezara')) return cezaraFallbackDoc;
-      if (s.includes('assembly') || s.includes('morning')) return assemblyFallbackDoc;
+      if (s.includes('sorrel')) return JSON.parse(JSON.stringify(sorrelFallbackDoc));
+      if (s.includes('clubhouse')) return JSON.parse(JSON.stringify(clubhouseFallbackDoc));
+      if (s.includes('cezara')) return JSON.parse(JSON.stringify(cezaraFallbackDoc));
+      if (s.includes('assembly') || s.includes('morning')) return JSON.parse(JSON.stringify(assemblyFallbackDoc));
       return null;
     }
 
