@@ -883,6 +883,45 @@
           return;
         }
 
+        if (block._type === 'video' && block.url) {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          var isReel = block.isReel || block.url.toLowerCase().includes('reel');
+          var wrapStyle = isReel 
+            ? 'margin:40px auto;max-width:300px;width:100%;'
+            : 'margin:48px auto;max-width:800px;width:100%;';
+          var videoStyle = isReel
+            ? 'width:100%;height:520px;max-height:75vh;border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,0.5);display:block;object-fit:cover;background:#0c0f11;'
+            : 'width:100%;border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.4);display:block;background:#0c0f11;';
+
+          html += '<div class="cs-video-wrap align-center" style="' + wrapStyle + '">' +
+                    '<video controls preload="metadata" style="' + videoStyle + '">' +
+                      '<source src="' + block.url + '" type="video/mp4">' +
+                      '<source src="' + block.url + '" type="video/quicktime">' +
+                      'Your browser does not support HTML5 video.' +
+                    '</video>' +
+                    (block.caption ? '<p style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:12px;text-align:center;letter-spacing:0.05em;">' + block.caption + '</p>' : '') +
+                  '</div>';
+          paragraphsSinceMedia = 0;
+          return;
+        }
+
+        if (block._type === 'videoPlaceholder') {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          html += '<div class="cs-video-placeholder align-center" style="margin:48px 0;padding:60px 24px;border:1px dashed rgba(245,172,69,0.4);border-radius:16px;background:rgba(255,255,255,0.02);text-align:center;">' +
+                    '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>' +
+                    '<p style="font-family:var(--font-body);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">Video Content Slot</p>' +
+                    '<p style="font-family:var(--font-body);font-size:13px;color:rgba(255,255,255,0.5);">' + (block.label || 'Video asset placeholder to be uploaded') + '</p>' +
+                  '</div>';
+          paragraphsSinceMedia = 0;
+          return;
+        }
+
         if (block._type === 'image' && block.url) {
           if (inList) {
             html += '</ul>';
@@ -1461,6 +1500,240 @@
       gallery: null
     };
 
+    const clubhouseSummaryText = 'Clubhouse Personal Training needed a new library of high-quality visual content for its website, organic social channels and paid advertising across Meta. The content had to reflect the quality of the Clubhouse brand while appealing to its specific customer base.';
+
+    const clubhouseBody = [
+      // ── The Challenge ──────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'The Challenge' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Clubhouse Personal Training needed a new library of high-quality visual content for its website, organic social channels and paid advertising across Meta. The content had to reflect the quality of the Clubhouse brand while appealing to its specific customer base.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'More importantly, it needed to communicate what makes Clubhouse different: a group personal training model that combines expert, individual attention with the motivation and energy of training alongside others. The challenge was to explain this experience while keeping the content authentic, without relying on staged exercises or scripted interactions.'
+        }]
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/clubhouse/Clubhouse_Blitz_Reel_V002.mov',
+        caption: 'Clubhouse Blitz Training Reel'
+      },
+
+      // ── Our Approach ──────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Our Approach' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Across four production sessions, we photographed real classes led by different Clubhouse trainers. Alongside producing an extensive collection of professional images, we captured short video sequences of trainers working naturally with their clients.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Nothing was staged. We worked discreetly around live sessions, anticipating interactions and finding visually strong moments without disrupting the trainers or affecting the flow of the workouts. Our experience filming fast-moving events allowed us to capture these moments as they happened while maintaining the polished, considered aesthetic the Clubhouse brand required.'
+        }]
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/clubhouse/clubhouse_testimonial_1_AUG_Liss_Long_V002.mov',
+        caption: 'Clubhouse Member Testimonial Film'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'We also produced a series of testimonial films featuring real Clubhouse members. Their interviews were combined with footage of their training sessions, allowing prospective clients to hear honest experiences while seeing the training environment for themselves.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Our work extended to covering several Clubhouse events and producing a guided walkthrough film with one of its trainers. The video introduced the different areas of the gym and followed the journey a new member could expect, from arriving at the space to taking part in their first session.'
+        }]
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/clubhouse/Clubhouse_downstairs_Reel_V001.mov',
+        caption: 'Clubhouse Gym Walkthrough & Facilities'
+      },
+
+      // ── The Outcome ──────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'The Outcome' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The project gave Clubhouse a versatile library of photography and video content that could be used across its website, social media and paid advertising campaigns.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The client testimonials became particularly effective marketing assets because they were grounded in genuine experiences. They helped build trust, showed the real relationships between trainers and members, and clearly explained the group personal training model Clubhouse wanted to communicate.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Together, the photography, testimonials, event coverage and walkthrough film presented a consistent and authentic picture of the Clubhouse experience, giving prospective members a better understanding of the space, the training and the community before stepping through the door.'
+        }]
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/clubhouse/Clubhouse_Piggy_2min_V004.mp4',
+        caption: 'Clubhouse Member Journey & Overview Film'
+      }
+    ];
+
+    const clubhouseFallbackDoc = {
+      title: 'Authentic Performance',
+      client: 'Clubhouse Personal Training',
+      heroClient: 'CLUBHOUSE PT',
+      industry: 'Fitness / Personal Training',
+      summary: clubhouseSummaryText,
+      servicePillar: ['Video Production', 'Color Grading', 'Photography', 'Event Coverage', 'Branding'],
+      collaborators: null,
+      duration: null,
+      results: null,
+      videoUrl: 'https://youtu.be/919rKzvJoxE',
+      slug: 'clubhouse-pt',
+      body: clubhouseBody,
+      coverImage: '../assets/img/web/Clubhouse/HSM04202-scaled.jpg',
+      gallery: null
+    };
+
+    const cezaraSummaryText = 'Cezara Hertanu is a multidisciplinary artist with a particular focus on dance. As she prepared to seek new dance partners and pursue further competition opportunities, she needed a strong portfolio that could communicate her versatility, technical ability and identity as a performer.';
+
+    const cezaraBody = [
+      // ── Movement in Focus ─────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Movement in Focus' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Cezara Hertanu is a multidisciplinary artist with a particular focus on dance. As she prepared to seek new dance partners and pursue further competition opportunities, she needed a strong portfolio that could communicate her versatility, technical ability and identity as a performer.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-field-dance.jpg',
+        alt: 'Cezara Hertanu performing outdoor dance in nature'
+      },
+
+      // ── Our Approach ──────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Our Approach' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'We designed a single, focused production session to create a comprehensive library of visual content. The photoshoot produced more than 150 professionally edited images, capturing a variety of movements, expressions and styles. The photographs were created for flexible use across social media, professional portfolios and outreach to potential dance partners.'
+        }]
+      },
+      {
+        _type: 'carousel',
+        images: [
+          '../assets/img/web/Cezara/cezara-bw-portrait.png',
+          '../assets/img/web/Cezara/cezara-bw-sky.jpg'
+        ]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Through considered lighting, movement and visual direction, the imagery presented not only her technical range, but also the personality, confidence and artistry behind her performances.'
+        }]
+      },
+      {
+        _type: 'carousel',
+        images: [
+          '../assets/img/web/Cezara/cezara-arch-sun.jpg',
+          '../assets/img/web/Cezara/cezara-pillar-shadow.jpg',
+          '../assets/img/web/Cezara/cezara-studio-dance.png'
+        ]
+      },
+
+      // ── The Outcome ──────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'The Outcome' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Together, the photography gave Cezara a cohesive and versatile portfolio designed to support her next steps as a dancer and multidisciplinary artist.'
+        }]
+      },
+      {
+        _type: 'carousel',
+        images: [
+          '../assets/img/web/Cezara/cezara-golden-shadow.jpg',
+          '../assets/img/web/Cezara/cezara-bw-candid.png'
+        ]
+      }
+    ];
+
+    const cezaraFallbackDoc = {
+      title: 'Movement in Focus',
+      client: 'Cezara Hertanu',
+      heroClient: 'CEZARA HERTANU',
+      industry: 'Dance / Multidisciplinary Art',
+      summary: cezaraSummaryText,
+      servicePillar: ['Photography', 'Art Direction', 'Visual Identity'],
+      collaborators: null,
+      duration: null,
+      results: null,
+      slug: 'cezara-hertanu',
+      body: cezaraBody,
+      coverImage: '../assets/img/web/Cezara/cezara-arch-sun.jpg',
+      gallery: null
+    };
+
     function updateMeta(doc) {
       const urlSlug = (new URLSearchParams(window.location.search).get('slug') || '').toLowerCase();
       const docSlugStr = (typeof doc.slug === 'string' ? doc.slug : (doc.slug && doc.slug.current) || '').toLowerCase();
@@ -1546,6 +1819,36 @@
         doc.body = sorrelAct1Body;
         doc.teaserVideoUrl = 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share';
         doc.videoUrl = 'https://youtu.be/eK3sGpjHrqQ';
+      }
+
+      if (urlSlug.includes('clubhouse') || docSlugStr.includes('clubhouse') || docTitleStr.includes('clubhouse')) {
+        doc.client = 'Clubhouse Personal Training';
+        doc.heroClient = 'CLUBHOUSE PT';
+        doc.industry = 'Fitness / Personal Training';
+        doc.title = 'Authentic Performance';
+        doc.summary = clubhouseSummaryText;
+        doc.collaborators = null;
+        doc.duration = null;
+        doc.results = null;
+        doc.servicePillar = ['Video Production', 'Color Grading', 'Photography', 'Event Coverage', 'Branding'];
+        doc.body = clubhouseBody;
+        doc.videoUrl = 'https://youtu.be/919rKzvJoxE';
+        doc.teaserVideoUrl = null;
+      }
+
+      if (urlSlug.includes('cezara') || docSlugStr.includes('cezara') || docTitleStr.includes('cezara')) {
+        doc.client = 'Cezara Hertanu';
+        doc.heroClient = 'CEZARA HERTANU';
+        doc.industry = 'Dance / Multidisciplinary Art';
+        doc.title = 'Movement in Focus';
+        doc.summary = cezaraSummaryText;
+        doc.collaborators = null;
+        doc.duration = null;
+        doc.results = null;
+        doc.servicePillar = ['Photography', 'Showreel', 'Art Direction', 'Visual Identity'];
+        doc.body = cezaraBody;
+        doc.videoUrl = null;
+        doc.teaserVideoUrl = null;
       }
 
       const isDirectVideo = doc.videoUrl && (doc.videoUrl.endsWith('.mp4') || doc.videoUrl.endsWith('.webm'));
@@ -1690,6 +1993,8 @@
     function getFallbackDoc(slugStr) {
       const s = (slugStr || '').toLowerCase();
       if (s.includes('sorrel')) return sorrelFallbackDoc;
+      if (s.includes('clubhouse')) return clubhouseFallbackDoc;
+      if (s.includes('cezara')) return cezaraFallbackDoc;
       if (s.includes('assembly') || s.includes('morning')) return assemblyFallbackDoc;
       return null;
     }
