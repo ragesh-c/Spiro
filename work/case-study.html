@@ -834,7 +834,7 @@
             var allImages = block.images.concat(block.images);
             allImages.forEach(function(src, idx) {
               html += '<div class="cs-ticker-item">' +
-                        '<img src="' + src + '" alt="Sorrel Ticker Image ' + (idx + 1) + '" loading="lazy">' +
+                        '<img src="' + src + '" alt="Gallery Ticker Image ' + (idx + 1) + '" loading="lazy">' +
                       '</div>';
             });
             html += '</div></div>';
@@ -843,7 +843,7 @@
                       '<div class="cs-content__scroll-gallery-track">';
             block.images.forEach(function(src, idx) {
               html += '<div class="cs-content__scroll-gallery-item is-image">' +
-                        '<img src="' + src + '" alt="Sorrel Carousel Image ' + (idx + 1) + '" loading="lazy">' +
+                        '<img src="' + src + '" alt="Gallery Image ' + (idx + 1) + '" loading="lazy">' +
                       '</div>';
             });
             html += '</div>' +
@@ -1672,11 +1672,14 @@
         }]
       },
       {
-        _type: 'carousel',
-        images: [
-          '../assets/img/web/Cezara/cezara-bw-portrait.png',
-          '../assets/img/web/Cezara/cezara-bw-sky.jpg'
-        ]
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-bw-portrait.png',
+        alt: 'Cezara Hertanu B&W editorial portrait'
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-arch-sun.jpg',
+        alt: 'Cezara Hertanu sunlit archway pose with shadow'
       },
       {
         _type: 'block',
@@ -1687,12 +1690,14 @@
         }]
       },
       {
-        _type: 'carousel',
-        images: [
-          '../assets/img/web/Cezara/cezara-arch-sun.jpg',
-          '../assets/img/web/Cezara/cezara-pillar-shadow.jpg',
-          '../assets/img/web/Cezara/cezara-studio-dance.png'
-        ]
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-pillar-shadow.jpg',
+        alt: 'Cezara Hertanu stone pillar dance pose'
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-studio-dance.png',
+        alt: 'Cezara Hertanu studio spotlight performance'
       },
 
       // ── The Outcome ──────────────────────────────────────────
@@ -1710,11 +1715,19 @@
         }]
       },
       {
-        _type: 'carousel',
-        images: [
-          '../assets/img/web/Cezara/cezara-golden-shadow.jpg',
-          '../assets/img/web/Cezara/cezara-bw-candid.png'
-        ]
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-golden-shadow.jpg',
+        alt: 'Cezara Hertanu golden hour portrait'
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-bw-sky.jpg',
+        alt: 'Cezara Hertanu B&W sky portrait'
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-bw-candid.png',
+        alt: 'Cezara Hertanu candid behind-the-scenes moment'
       }
     ];
 
@@ -1730,7 +1743,7 @@
       results: null,
       slug: 'cezara-hertanu',
       body: cezaraBody,
-      coverImage: '../assets/img/web/Cezara/cezara-arch-sun.jpg',
+      coverImage: '../assets/img/web/Cezara/HSM00503-scaled.jpg',
       gallery: null
     };
 
