@@ -1132,6 +1132,32 @@
       }
     }
 
+    function initAutoScrollCarousels() {
+      const tracks = document.querySelectorAll('.cs-content__scroll-gallery-track, .cs-gallery__track');
+      tracks.forEach(function(track) {
+        let isHovered = false;
+        let isDragging = false;
+        
+        track.addEventListener('mouseenter', function() { isHovered = true; });
+        track.addEventListener('mouseleave', function() { isHovered = false; });
+        track.addEventListener('pointerdown', function() { isDragging = true; });
+        window.addEventListener('pointerup', function() { isDragging = false; });
+        
+        setInterval(function() {
+          if (isHovered || isDragging) return;
+          const firstItem = track.querySelector('.cs-content__scroll-gallery-item, .cs-gallery__item');
+          const itemWidth = firstItem ? firstItem.offsetWidth + 24 : 350;
+          const maxScroll = track.scrollWidth - track.clientWidth;
+          
+          if (track.scrollLeft >= maxScroll - 10) {
+            track.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            track.scrollBy({ left: itemWidth, behavior: 'smooth' });
+          }
+        }, 3200);
+      });
+    }
+
     function renderComingSoon() {
       document.getElementById('cs-loading').remove();
       document.getElementById('cs-main').innerHTML = `
@@ -1397,7 +1423,11 @@
           '../assets/img/web/Sorrel/sorrel-macro-leaf.png',
           '../assets/img/web/Sorrel/sorrel-macro-gel.png',
           '../assets/img/web/Sorrel/sorrel-macro-pastry.png',
-          '../assets/img/web/Sorrel/sorrel-macro-flowers.png'
+          '../assets/img/web/Sorrel/sorrel-macro-flowers.png',
+          '../assets/img/web/Sorrel/sorrel-dish-ring.jpg',
+          '../assets/img/web/Sorrel/sorrel-macro-tart.png',
+          '../assets/img/web/Sorrel/sorrel-scallop-caviar.jpg',
+          '../assets/img/web/Sorrel/sorrel-scallop-wide.png'
         ]
       }
     ];
@@ -1633,6 +1663,7 @@
 
       initTypewriters();
       initGalleryDrag();
+      initAutoScrollCarousels();
 
       // Reveal on the next frame so the initial shrunk state actually
       // paints before transitioning (continues the work slider's
