@@ -845,6 +845,32 @@
           return;
         }
 
+        if (block._type === 'pressGrid' && Array.isArray(block.articles)) {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          html += '<div class="cs-press-grid">';
+          block.articles.forEach(function(art) {
+            html += '<a href="' + art.url + '" target="_blank" rel="noopener noreferrer" class="cs-press-card">' +
+                      '<div class="cs-press-card__media">' +
+                        '<img src="' + art.thumbnail + '" alt="' + art.publication + ' — ' + art.title + '" loading="lazy">' +
+                        '<span class="cs-press-card__badge">' + art.publication + '</span>' +
+                      '</div>' +
+                      '<div class="cs-press-card__body">' +
+                        '<div class="cs-press-card__meta">' +
+                          '<span class="cs-press-card__source">' + art.publication + '</span>' +
+                          '<svg class="cs-press-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>' +
+                        '</div>' +
+                        '<h3 class="cs-press-card__title">' + art.title + '</h3>' +
+                      '</div>' +
+                    '</a>';
+          });
+          html += '</div>';
+          paragraphsSinceMedia = 0;
+          return;
+        }
+
         if (block._type === 'image' && block.url) {
           if (inList) {
             html += '</ul>';
@@ -1293,6 +1319,52 @@
           _type: 'span',
           text: 'In this process we also shot photos of the new menu items as well as portraits of both steve and alex to be used on their PR kit.'
         }]
+      },
+
+      // ── Act III ──────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Act III — Serving the dish' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'By combining interview-led storytelling, food imagery, portraits and press assets, the campaign communicated both continuity and change: Steve remained connected to the restaurant he had created, while Alex was introduced as the chef leading its next stage.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The appointment was subsequently featured across publications including:'
+        }]
+      },
+      {
+        _type: 'pressGrid',
+        articles: [
+          {
+            publication: 'The Caterer',
+            title: 'Alex Payne to take over from Steve Drake as Chef Patron at Sorrel',
+            url: 'https://www.thecaterer.com/news/alex-payne-to-take-over-from-steve-drake-as-chef-patron-at-sorrel',
+            thumbnail: '../assets/img/web/Sorrel/alex-kitchen.png'
+          },
+          {
+            publication: 'Michelin Guide',
+            title: 'Sorrel — Dorking — A Michelin Guide Restaurant',
+            url: 'https://guide.michelin.com/gb/en/surrey/dorking/restaurant/sorrel545459',
+            thumbnail: '../assets/img/web/Sorrel/DSC01196-Edit.webp'
+          },
+          {
+            publication: 'The Staff Canteen',
+            title: 'Alex Payne appointed Chef Patron at Michelin-starred Sorrel',
+            url: 'https://www.thestaffcanteen.com/News/alex-payne-appointed-chef-patron-at-michelin-starred-sorrel#/',
+            thumbnail: '../assets/img/web/Sorrel/DSC01588-final.webp'
+          }
+        ]
       }
     ];
 
