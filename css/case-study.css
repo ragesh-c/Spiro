@@ -421,12 +421,14 @@
 
 .cs-gallery__item {
   flex: 0 0 auto;
-  width: clamp(280px, 30vw, 420px);
-  height: clamp(420px, 45vw, 630px);
-  border-radius: 12px;
+  width: clamp(380px, 42vw, 680px);
+  height: clamp(480px, 52vw, 750px);
+  border-radius: 16px;
   overflow: hidden;
   position: relative;
   user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
 }
 
 .cs-gallery__item img {
@@ -526,17 +528,29 @@
 }
 /* ── Content Image & Placeholders (Breathers) ─────────────────── */
 .cs-content__image-wrap {
-  width: 100%;
-  margin: 64px 0;
-  border-radius: 12px;
+  width: 100% !important;
+  max-width: 100% !important;
+  float: none !important;
+  clear: both !important;
+  margin: 72px 0 !important;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.cs-content__image-wrap:hover {
+  transform: scale(1.008);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
 .cs-content__image-wrap img {
   width: 100%;
   height: auto;
   display: block;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 .cs-content__placeholder-image {
