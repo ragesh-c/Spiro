@@ -1512,6 +1512,9 @@
       if (!url) return null;
       // Already an embed URL
       if (url.includes('youtube.com/embed/')) return url;
+      // YouTube Shorts: youtube.com/shorts/ID
+      const shorts = url.match(/youtube\.com\/shorts\/([^?&]+)/);
+      if (shorts) return `https://www.youtube.com/embed/${shorts[1]}`;
       // youtu.be/ID
       const short = url.match(/youtu\.be\/([^?&]+)/);
       if (short) return `https://www.youtube.com/embed/${short[1]}`;
@@ -1539,6 +1542,8 @@
         doc.duration = null;
         doc.servicePillar = ['Campaign design and execution', 'Brand Film', 'Photography', 'Art Direction'];
         doc.body = sorrelAct1Body;
+        doc.teaserVideoUrl = 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share';
+        doc.videoUrl = 'https://vimeo.com/1057416447';
       }
 
       const isDirectVideo = doc.videoUrl && (doc.videoUrl.endsWith('.mp4') || doc.videoUrl.endsWith('.webm'));
@@ -1607,32 +1612,7 @@
           </div>
         </section>`;
 
-      // Guarantee fallback images are loaded in doc.gallery for dynamic body interweaving
-      var images = doc.gallery;
-      if (!images || !images.length) {
-        if (doc.slug === 'the-morning-ritual') {
-          images = [
-            '../assets/img/web/Assembly/DSC04534-Edit-scaled.jpg',
-            '../assets/img/web/Assembly/DSC05314-Edit.webp',
-            '../assets/img/web/Assembly/DSC05319-Edit.webp',
-            '../assets/img/web/Assembly/DSC05334-Edit.webp'
-          ];
-        } else if (doc.slug === 'Sorrel-restaurant') {
-          images = [
-            '../assets/img/web/Sorrel/DSC01196-Edit.webp',
-            '../assets/img/web/Sorrel/DSC01211-Edit.webp',
-            '../assets/img/web/Sorrel/DSC01490-Edit.webp',
-            '../assets/img/web/Sorrel/DSC01529.webp',
-            '../assets/img/web/Sorrel/DSC01570-Edit.webp',
-            '../assets/img/web/Sorrel/DSC01588-final.webp'
-          ];
-        }
-      }
-      doc.gallery = images || [];
-
-      const bodyHtml = renderBody(doc.body, doc.gallery);
-
-      const galleryHtml = renderGallery(doc.gallery, doc.slug);
+      const bodyHtml = renderBody(doc.body, []);
 
       const contentHtml = `
         <section class="cs-content-wrap">
@@ -1640,16 +1620,19 @@
           <div class="cs-content">${bodyHtml}</div>
         </section>
         
-        ${galleryHtml}
-        
         <section class="cs-content-wrap cs-content-wrap--results" style="padding-top:64px;padding-bottom:0;">
           <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
           ${renderResults(doc.results)}
         </section>`;
 
-      const embedUrl = toEmbedUrl(doc.videoUrl);
-      const videoHtml = embedUrl
-        ? `<div class="cs-video-full"><iframe src="${embedUrl}" style="width:100%;aspect-ratio:16/9;border:none;display:block;" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>`
+      const teaserEmbed = toEmbedUrl(doc.teaserVideoUrl || (urlSlug.includes('sorrel') ? 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share' : null));
+      const teaserHtml = teaserEmbed
+        ? `<div class="cs-teaser-video-wrap"><iframe src="${teaserEmbed}" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>`
+        : '';
+
+      const fullEmbed = toEmbedUrl(doc.videoUrl);
+      const videoHtml = fullEmbed
+        ? `<div class="cs-video-full"><iframe src="${fullEmbed}" style="width:100%;aspect-ratio:16/9;border:none;display:block;" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>`
         : '';
 
       updateMeta(doc);
@@ -1659,8 +1642,9 @@
         <article>
           ${heroFullHtml}
           ${briefHtml}
-          ${videoHtml}
+          ${teaserHtml}
           ${contentHtml}
+          ${videoHtml}
           <div class="cs-back">
             <a href="../work.html" class="cs-back-link">&larr; Back to all work</a>
           </div>
