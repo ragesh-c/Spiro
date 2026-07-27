@@ -1953,7 +1953,7 @@
           <div class="cs-content">${bodyHtml}</div>
         </section>
         
-        ${(doc.results && doc.results.length) ? `
+        ${(!urlSlug.includes('cezara') && !urlSlug.includes('clubhouse') && doc.results && doc.results.length) ? `
         <section class="cs-content-wrap cs-content-wrap--results" style="padding-top:64px;padding-bottom:0;">
           <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
           ${renderResults(doc.results)}
