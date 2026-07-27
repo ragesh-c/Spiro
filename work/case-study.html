@@ -928,7 +928,7 @@
             inList = false;
           }
           imageCount++;
-          var alignClass = (imageCount % 3 === 1) ? 'align-left' : (imageCount % 3 === 2 ? 'align-right' : 'align-center');
+          var alignClass = block.full ? 'align-full' : ((imageCount % 3 === 1) ? 'align-left' : (imageCount % 3 === 2 ? 'align-right' : 'align-center'));
           html += '<div class="cs-content__image-wrap ' + alignClass + '"><img src="' + block.url + '" alt="' + (block.alt || '') + '" loading="lazy"></div>';
           paragraphsSinceMedia = 0;
           return;
@@ -1653,8 +1653,8 @@
       },
       {
         _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-field.jpg',
-        alt: 'Cezara Hertanu outdoor dance movement in flower field'
+        url: '../assets/img/web/Cezara/cezara-pose-2.jpg',
+        alt: 'Cezara Hertanu B&W editorial portrait glancing back'
       },
 
       // ── Our Approach ──────────────────────────────────────────
@@ -1673,13 +1673,15 @@
       },
       {
         _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-arch-sun.jpg',
-        alt: 'Cezara Hertanu sunlit archway dance posture with shadow'
+        url: '../assets/img/web/Cezara/cezara-pose-1.jpg',
+        alt: 'Cezara Hertanu outdoor dance movement in flower field',
+        full: true
       },
       {
         _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-bw-portrait.png',
-        alt: 'Cezara Hertanu B&W editorial portrait'
+        url: '../assets/img/web/Cezara/cezara-pose-3.jpg',
+        alt: 'Cezara Hertanu backlit archway jump silhouette',
+        full: true
       },
       {
         _type: 'block',
@@ -1691,8 +1693,9 @@
       },
       {
         _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-studio.png',
-        alt: 'Cezara Hertanu studio spotlight performance'
+        url: '../assets/img/web/Cezara/cezara-pose-6.jpg',
+        alt: 'Cezara Hertanu tall studio portrait against open sky',
+        full: true
       },
 
       // ── The Outcome ──────────────────────────────────────────
@@ -1700,6 +1703,11 @@
         _type: 'block',
         style: 'h2',
         children: [{ _type: 'span', text: 'The Outcome' }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-dark.jpg',
+        alt: 'Cezara Hertanu dramatic low-light portrait with raised hand'
       },
       {
         _type: 'block',
@@ -1711,17 +1719,27 @@
       },
       {
         _type: 'image',
-        url: '../assets/img/web/Cezara/cezara-candid.png',
-        alt: 'Cezara Hertanu candid behind-the-scenes moment'
+        url: '../assets/img/web/Cezara/cezara-pose-5.png',
+        alt: 'Cezara Hertanu stage performance under blue spotlight',
+        full: true
       },
       {
-        _type: 'carousel',
-        images: [
-          '../assets/img/web/Cezara/cezara-pose-5.png',
-          '../assets/img/web/Cezara/cezara-pose-4.jpg',
-          '../assets/img/web/Cezara/cezara-dark.jpg',
-          '../assets/img/web/Cezara/cezara-pose-1.jpg'
-        ]
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-pose-4.jpg',
+        alt: 'Cezara Hertanu candid behind-the-scenes moment',
+        full: true
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-pose-8.jpg',
+        alt: 'Cezara Hertanu half-lit close-up portrait',
+        full: true
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Cezara/cezara-pose-7.jpg',
+        alt: 'Cezara Hertanu golden-hour archway pose beside greenery',
+        full: true
       }
     ];
 

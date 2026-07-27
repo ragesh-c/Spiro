@@ -1,3 +1,9 @@
+/* Prevent the 100vw full-bleed breakouts below from adding a horizontal scrollbar */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* ── Case Study Hero ────────────────────────────────────────── */
 /* A shorter, inset banner (not full-bleed) with a decorative dot,
    matching the reference layout rather than the old full-viewport
@@ -692,6 +698,22 @@
 .cs-content__placeholder-video.align-center {
   width: 100%;
   margin: 64px 0;
+}
+
+/* Full-bleed breakout: edge-to-edge, ignores the article's reading column */
+.cs-content__image-wrap.align-full {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  border-radius: 0;
+}
+
+.cs-content__image-wrap.align-full img {
+  border-radius: 0;
 }
 
 /* Video specific placeholders */
