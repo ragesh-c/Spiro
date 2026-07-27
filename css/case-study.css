@@ -1026,5 +1026,77 @@
   color: var(--orange);
 }
 
+/* ── Infinite Ticker Gallery ───────────────────────────── */
+.cs-ticker-gallery {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 72px;
+  margin-bottom: 72px;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.cs-ticker-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: csTickerScroll 35s linear infinite;
+}
+
+.cs-ticker-gallery:hover .cs-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes csTickerScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.cs-ticker-item {
+  flex: 0 0 340px;
+  height: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+.cs-ticker-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-ticker-item:hover img {
+  transform: scale(1.06);
+}
+
+@media (max-width: 860px) {
+  .cs-ticker-item {
+    flex: 0 0 280px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 580px) {
+  .cs-ticker-item {
+    flex: 0 0 230px;
+    height: 340px;
+  }
+}
+
 
 

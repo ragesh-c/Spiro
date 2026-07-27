@@ -828,19 +828,31 @@
             html += '</ul>';
             inList = false;
           }
-          html += '<div class="cs-content__scroll-gallery align-center">' +
-                    '<div class="cs-content__scroll-gallery-track">';
-          block.images.forEach(function(src, idx) {
-            html += '<div class="cs-content__scroll-gallery-item is-image">' +
-                      '<img src="' + src + '" alt="Sorrel Carousel Image ' + (idx + 1) + '" loading="lazy">' +
+          if (block.isTicker || block.images.length >= 5) {
+            html += '<div class="cs-ticker-gallery">' +
+                      '<div class="cs-ticker-track">';
+            var allImages = block.images.concat(block.images);
+            allImages.forEach(function(src, idx) {
+              html += '<div class="cs-ticker-item">' +
+                        '<img src="' + src + '" alt="Sorrel Ticker Image ' + (idx + 1) + '" loading="lazy">' +
+                      '</div>';
+            });
+            html += '</div></div>';
+          } else {
+            html += '<div class="cs-content__scroll-gallery align-center">' +
+                      '<div class="cs-content__scroll-gallery-track">';
+            block.images.forEach(function(src, idx) {
+              html += '<div class="cs-content__scroll-gallery-item is-image">' +
+                        '<img src="' + src + '" alt="Sorrel Carousel Image ' + (idx + 1) + '" loading="lazy">' +
+                      '</div>';
+            });
+            html += '</div>' +
+                      '<div class="cs-content__scroll-gallery-hint">' +
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M2 12h20"/></svg>' +
+                        '<span>Swipe to explore gallery</span>' +
+                      '</div>' +
                     '</div>';
-          });
-          html += '</div>' +
-                    '<div class="cs-content__scroll-gallery-hint">' +
-                      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M2 12h20"/></svg>' +
-                      '<span>Swipe to explore gallery</span>' +
-                    '</div>' +
-                  '</div>';
+          }
           paragraphsSinceMedia = 0;
           return;
         }
