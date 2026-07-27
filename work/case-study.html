@@ -683,6 +683,15 @@
     (function () {
       var overlay = document.getElementById('page-transition');
       if (!overlay) return;
+
+      function resetOverlay() {
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+      }
+
+      resetOverlay();
+      window.addEventListener('pageshow', resetOverlay);
+
       document.addEventListener('click', function (e) {
         var link = e.target.closest('a[href]');
         if (!link) return;
