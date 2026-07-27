@@ -1949,7 +1949,7 @@
           ${renderResults(doc.results)}
         </section>` : ''}`;
 
-      const teaserEmbed = toEmbedUrl(doc.teaserVideoUrl || (urlSlug.includes('sorrel') ? 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share' : null));
+      const teaserEmbed = toEmbedUrl(doc.teaserVideoUrl);
       const teaserHtml = teaserEmbed
         ? `<div class="cs-teaser-video-wrap"><iframe src="${teaserEmbed}" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>`
         : '';
@@ -2031,9 +2031,14 @@
 
       try {
         import('../js/sanity.js').then(function(sanityModule) {
-          if (sanityModule && sanityModule.client) {
+          if (sanityModule && sanityModule.client && slug) {
             sanityModule.client.fetch(QUERY, { slug }).then(function(cmsDoc) {
-              if (cmsDoc) renderDoc(cmsDoc);
+              if (cmsDoc && cmsDoc.body) {
+                const cmsSlug = (typeof cmsDoc.slug === 'string' ? cmsDoc.slug : (cmsDoc.slug && cmsDoc.slug.current) || '').toLowerCase();
+                if (cmsSlug && cmsSlug === slug.toLowerCase()) {
+                  renderDoc(cmsDoc);
+                }
+              }
             }).catch(function() {});
           }
         }).catch(function() {});
