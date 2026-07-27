@@ -1526,11 +1526,11 @@
         doc.summary = sorrelSummaryText;
         doc.collaborators = null;
         doc.duration = null;
+        doc.results = null;
         doc.servicePillar = ['Campaign design and execution', 'Brand Film', 'Photography', 'Art Direction'];
         doc.body = sorrelAct1Body;
         doc.teaserVideoUrl = 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share';
         doc.videoUrl = 'https://vimeo.com/1057416447';
-        doc.results = null;
       }
 
       const isDirectVideo = doc.videoUrl && (doc.videoUrl.endsWith('.mp4') || doc.videoUrl.endsWith('.webm'));
@@ -1601,18 +1601,17 @@
 
       const bodyHtml = renderBody(doc.body, []);
 
-      const resultsHtml = (doc.results && doc.results.length) ? `
-        <section class="cs-content-wrap cs-content-wrap--results" style="padding-top:64px;padding-bottom:0;">
-          <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
-          ${renderResults(doc.results)}
-        </section>` : '';
-
       const contentHtml = `
         <section class="cs-content-wrap">
           <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
           <div class="cs-content">${bodyHtml}</div>
         </section>
-        ${resultsHtml}`;
+        
+        ${(doc.results && doc.results.length) ? `
+        <section class="cs-content-wrap cs-content-wrap--results" style="padding-top:64px;padding-bottom:0;">
+          <span class="cs-asterisk" aria-hidden="true">${ASTERISK_SVG}</span>
+          ${renderResults(doc.results)}
+        </section>` : ''}`;
 
       const teaserEmbed = toEmbedUrl(doc.teaserVideoUrl || (urlSlug.includes('sorrel') ? 'https://youtube.com/shorts/7y7B9qtMJ84?feature=share' : null));
       const teaserHtml = teaserEmbed
