@@ -1429,6 +1429,8 @@
       return null;
     }
 
+    const slug = new URLSearchParams(window.location.search).get('slug');
+
     if (!slug || slug === 'coming-soon') {
       renderComingSoon();
     } else {
