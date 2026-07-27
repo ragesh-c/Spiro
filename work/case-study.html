@@ -823,6 +823,28 @@
       }
 
       body.forEach(function(block) {
+        if (block._type === 'carousel' && Array.isArray(block.images)) {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          html += '<div class="cs-content__scroll-gallery align-center">' +
+                    '<div class="cs-content__scroll-gallery-track">';
+          block.images.forEach(function(src, idx) {
+            html += '<div class="cs-content__scroll-gallery-item is-image">' +
+                      '<img src="' + src + '" alt="Sorrel Carousel Image ' + (idx + 1) + '" loading="lazy">' +
+                    '</div>';
+          });
+          html += '</div>' +
+                    '<div class="cs-content__scroll-gallery-hint">' +
+                      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M2 12h20"/></svg>' +
+                      '<span>Swipe to explore gallery</span>' +
+                    '</div>' +
+                  '</div>';
+          paragraphsSinceMedia = 0;
+          return;
+        }
+
         if (block._type === 'image' && block.url) {
           if (inList) {
             html += '</ul>';
@@ -1098,6 +1120,7 @@
     const sorrelSummaryText = 'Sorrel approached us with a distinct communication challenge: founder Steve Drake was stepping away from his role as Chef Patron, while remaining the restaurant’s owner, and Alex Payne was joining to lead the kitchen.<br><br>Our mission was to send that message across.';
 
     const sorrelAct1Body = [
+      // ── Act I ──────────────────────────────────────────
       {
         _type: 'block',
         style: 'h2',
@@ -1158,6 +1181,45 @@
         _type: 'image',
         url: '../assets/img/web/Sorrel/steve-interview.png',
         alt: 'Steve Drake interview'
+      },
+
+      // ── Act II ──────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Act II — Chopping the chives' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'At the centre of the campaign was a cinematic interview film featuring both Steve and Alex. Sorrel’s team has an exceptionally high standard for detail and presentation, so the onboarding process was central to the project.'
+        }]
+      },
+      {
+        _type: 'carousel',
+        images: [
+          '../assets/img/web/Sorrel/alex-kitchen.png',
+          '../assets/img/web/Sorrel/steve-closeup.png',
+          '../assets/img/web/Sorrel/alex-plating.png'
+        ]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Rather than treating the announcement as a formal press statement, we built the film around their individual perspectives. Steve reflected on Sorrel’s journey and his decision to change roles, while Alex discussed joining the restaurant, respecting what had already been built and bringing his own direction to the kitchen.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The interviews were combined with footage of the restaurant; the prepping, plating and serving new dishes Alex had begun introducing to the menu.'
+        }]
       }
     ];
 
