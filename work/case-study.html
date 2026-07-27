@@ -1713,6 +1713,15 @@
         _type: 'image',
         url: '../assets/img/web/Cezara/cezara-candid.png',
         alt: 'Cezara Hertanu candid behind-the-scenes moment'
+      },
+      {
+        _type: 'carousel',
+        images: [
+          '../assets/img/web/Cezara/cezara-pose-5.png',
+          '../assets/img/web/Cezara/cezara-pose-4.jpg',
+          '../assets/img/web/Cezara/cezara-dark.jpg',
+          '../assets/img/web/Cezara/cezara-pose-1.jpg'
+        ]
       }
     ];
 
@@ -2015,18 +2024,18 @@
       }
 
       try {
-        import('../js/sanity.js').then(function(sanityModule) {
-          if (sanityModule && sanityModule.client && slug) {
-            sanityModule.client.fetch(QUERY, { slug }).then(function(cmsDoc) {
-              if (cmsDoc && cmsDoc.body) {
-                const cmsSlug = (typeof cmsDoc.slug === 'string' ? cmsDoc.slug : (cmsDoc.slug && cmsDoc.slug.current) || '').toLowerCase();
-                if (cmsSlug && cmsSlug === slug.toLowerCase()) {
+        const lowerSlug = (slug || '').toLowerCase();
+        if (!lowerSlug.includes('sorrel') && !lowerSlug.includes('clubhouse') && !lowerSlug.includes('cezara')) {
+          import('../js/sanity.js').then(function(sanityModule) {
+            if (sanityModule && sanityModule.client) {
+              sanityModule.client.fetch(QUERY, { slug }).then(function(cmsDoc) {
+                if (cmsDoc && cmsDoc.body) {
                   renderDoc(cmsDoc);
                 }
-              }
-            }).catch(function() {});
-          }
-        }).catch(function() {});
+              }).catch(function() {});
+            }
+          }).catch(function() {});
+        }
       } catch (e) {}
     }
   </script>
