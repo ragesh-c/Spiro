@@ -120,6 +120,10 @@
   inset: 0;
   z-index: 5;
   cursor: pointer;
+  pointer-events: none;
+}
+
+.hz-slide-caption.is-active .slide-link {
   pointer-events: auto;
 }
 
