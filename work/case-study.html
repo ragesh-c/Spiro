@@ -908,6 +908,34 @@
           return;
         }
 
+        if (block._type === 'instagram' && (block.url || (block.urls && block.urls.length))) {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          function igEmbedFor(url) {
+            var m = url.match(/instagram\.com\/(?:[^/]+\/)?(reel|p)\/([^/?]+)/i);
+            return m ? 'https://www.instagram.com/' + m[1] + '/' + m[2] + '/embed' : null;
+          }
+          var igUrls = block.urls && block.urls.length ? block.urls : [block.url];
+          var igItems = igUrls.map(function(u) {
+            var embedUrl = igEmbedFor(u);
+            return embedUrl ? '<iframe src="' + embedUrl + '" width="100%" height="710" style="border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.4);display:block;background:#0c0f11;border:none;overflow:hidden;" scrolling="no" allowtransparency="true" loading="lazy"></iframe>' : '';
+          }).filter(Boolean);
+          if (igItems.length) {
+            var igContainerStyle = igItems.length > 1
+              ? 'margin:48px auto;max-width:850px;width:100%;display:flex;flex-wrap:wrap;justify-content:center;gap:24px;'
+              : 'margin:48px auto;max-width:400px;width:100%;';
+            var igItemStyle = igItems.length > 1 ? 'flex:1 1 320px;max-width:400px;' : '';
+            html += '<div class="cs-video-wrap align-center" style="' + igContainerStyle + '">' +
+                      igItems.map(function(item) { return igItemStyle ? '<div style="' + igItemStyle + '">' + item + '</div>' : item; }).join('') +
+                      (block.caption ? '<p style="width:100%;font-size:12px;color:rgba(255,255,255,0.5);margin-top:12px;text-align:center;letter-spacing:0.05em;">' + block.caption + '</p>' : '') +
+                    '</div>';
+          }
+          paragraphsSinceMedia = 0;
+          return;
+        }
+
         if (block._type === 'videoPlaceholder') {
           if (inList) {
             html += '</ul>';
@@ -2001,23 +2029,371 @@
       });
     }
 
+    const assemblyBody = [
+      // ── Act I — Planting a seed ───────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Act I — Planting a seed' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Our relationship with Assembly began in 2024 after a visit to its London headquarters. Following a conversation about our previous experience working with speciality coffee brands, Assembly’s Head of Brand reviewed our portfolio and invited us to join its network of freelance creatives.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{ _type: 'span', text: 'The first briefs were short product-unboxing films.' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Assembly already had a highly developed visual identity, so the challenge was to stay consistently on brand while being creative. Every product needed to feel completely at home within the brand’s existing photography, design and tone.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-unboxing.jpg',
+        alt: 'Hand unboxing Assembly drip coffee bags'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'These early projects allowed us to learn Assembly’s visual language and establish a reliable working relationship.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-boxes-stacked.jpg',
+        alt: 'Stacked Assembly coffee packaging boxes'
+      },
+
+      // ── Act II — The sprouting ────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Act II — The sprouting' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{ _type: 'span', text: 'In summer 2025, Assembly approached us with a larger brief.' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The team wanted to consolidate its content production with one creative partner who could provide clear communication, consistent delivery, fast turnarounds and a strong understanding of the brand.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{ _type: 'span', text: 'Following an onboarding period, we agreed on a creative project spanning:' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Product and e-commerce photography' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Product films' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Social media content' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Brewing videos' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Editorial photography' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Event coverage' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Campaign films' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Each production was planned around its wider use. Rather than creating one asset for one channel, we considered how the same shoot could support e-commerce, social media, editorial, website and campaign needs. Essentially delivering 9x16, 16x9 and 1x1 formats of each deliverable.'
+        }]
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/assembly/Grinder_1x1_V001_web.mp4',
+        caption: 'Assembly Grinder Product Film — Square (1:1)'
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/assembly/Grinder_9x16_V001_web.mp4',
+        isReel: true,
+        caption: 'Assembly Grinder Product Film — Vertical (9:16)'
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/assembly/Grinder_16x9_V001_web.mp4',
+        caption: 'Assembly Grinder Product Film — Widescreen (16:9)'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Partway through the partnership, Assembly began evolving its visual identity and developing a new approach to product photography.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-bag-detail.jpg',
+        alt: 'Close-up detail of Assembly House Espresso bag label'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Because the new standards were still being defined, the process required close collaboration with Assembly’s team.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'We reviewed moodboards, references and visual directions, then tested different lighting, compositions and treatments until we reached the intended result.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-bag-label-close.jpg',
+        alt: 'Close-up of Assembly House Espresso bag label against warm gradient background'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The process involved experimentation and several rounds of refinement, but the trust already built within the partnership allowed us to communicate openly and adapt quickly.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-elemental-serving-box.jpg',
+        alt: 'Assembly Elemental Serving box stacked packaging'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Together, we developed a product photography approach that reflected Assembly’s changing creative direction and could continue to evolve with future briefs.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-pouch-standing.jpg',
+        alt: 'Assembly coffee pouch standing against warm gradient background'
+      },
+
+      // ── Act III — The celebration ─────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'Act III — The celebration' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Alongside product and campaign work, the partnership grew into several larger storytelling projects.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'For Assembly’s first journal, we joined the Head of Brand during two interviews and photographed the contributors for the publication. Product imagery created during the wider partnership was also featured in the journal.'
+        }]
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-journal-portrait-kitchen.jpg',
+        alt: 'Journal contributor portrait in kitchen holding Assembly coffee cup'
+      },
+      {
+        _type: 'image',
+        url: '../assets/img/web/Assembly/assembly-journal-portrait-library.jpg',
+        alt: 'Journal contributor portrait among bookshelves holding Assembly coffee cup'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'We also developed a repeatable visual style for Assembly’s brewing films. The videos combined practical guidance with the brand’s restrained, design-led aesthetic and performed strongly through organic social distribution.'
+        }]
+      },
+      {
+        _type: 'instagram',
+        urls: [
+          'https://www.instagram.com/assemblyroast/reel/DUi5PY8AmFp/',
+          'https://www.instagram.com/assemblyroast/reel/DIiqKAGN9Li/'
+        ]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'A special Christmas episode featuring members of the Assembly team introduced a more informal side of the brand, giving followers a closer view of the people behind it.'
+        }]
+      },
+      {
+        _type: 'video',
+        url: '../assets/videos/assembly/AY_Christmas_V004_9x16_web.mp4',
+        isReel: true,
+        caption: 'Assembly Christmas Episode'
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{ _type: 'span', text: 'The centrepiece of the partnership was content for Assembly’s tenth-anniversary campaign.' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'We filmed a two-hour conversation with the company’s co-founders, exploring Assembly’s beginnings, development and the decisions that shaped its first decade.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{ _type: 'span', text: 'From the interview, we produced:' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Two films of approximately two to three minutes' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Eight shorter social edits' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        listItem: 'bullet',
+        children: [{ _type: 'span', text: 'Multiple versions for different platforms and formats' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The longer films gave the founders’ story room to develop, while the shorter edits highlighted individual ideas and memorable moments.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The campaign received a positive response, generating strong engagement and sparking wider conversations around Assembly’s history and values.'
+        }]
+      },
+
+      // ── The Next Season ────────────────────────────────────────
+      {
+        _type: 'block',
+        style: 'h2',
+        children: [{ _type: 'span', text: 'The Next Season' }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'Over the course of the partnership, our role grew from producing individual product films to supporting a wide range of Assembly’s ongoing creative needs.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'The relationship allowed Assembly to work with a partner who already understood the brand, reducing the need to explain its visual language with every new brief.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'It also gave us the flexibility to respond to changing priorities, adapt to a developing identity and maintain consistency across products, campaigns, editorial projects and social content.'
+        }]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [{
+          _type: 'span',
+          text: 'We continue to nurture the partnership and are currently exploring the next stage of our work together.'
+        }]
+      }
+    ];
+
     const assemblyFallbackDoc = {
-      title: 'The Morning Ritual',
+      title: 'From Commission to Partnership',
       client: 'Assembly Coffee',
       heroClient: 'ASSEMBLY COFFEE',
-      industry: 'Specialty Coffee & Hospitality',
-      summary: 'Brand film and editorial photography capturing the craftsmanship and morning rituals behind Assembly Coffee.',
+      industry: 'Coffee / Hospitality',
+      summary: 'What began with a small series of product films developed into a long-term partnership covering photography, campaigns, events, editorial content and brand storytelling.',
       servicePillar: ['Brand Film', 'Photography', 'Art Direction'],
-      duration: '4 Weeks',
-      collaborators: 'Spiro Team',
+      duration: null,
+      collaborators: null,
       slug: 'the-morning-ritual',
       coverImage: '../assets/img/web/Assembly/DSC04534-Edit-scaled.jpg',
-      gallery: [
-        '../assets/img/web/Assembly/DSC04534-Edit-scaled.jpg',
-        '../assets/img/web/Assembly/DSC05314-Edit.webp',
-        '../assets/img/web/Assembly/DSC05319-Edit.webp',
-        '../assets/img/web/Assembly/DSC05334-Edit.webp'
-      ]
+      body: assemblyBody,
+      gallery: null
     };
 
     function getFallbackDoc(slugStr) {
@@ -2043,7 +2419,7 @@
 
       try {
         const lowerSlug = (slug || '').toLowerCase();
-        if (!lowerSlug.includes('sorrel') && !lowerSlug.includes('clubhouse') && !lowerSlug.includes('cezara')) {
+        if (!lowerSlug.includes('sorrel') && !lowerSlug.includes('clubhouse') && !lowerSlug.includes('cezara') && !lowerSlug.includes('assembly') && !lowerSlug.includes('morning')) {
           import('../js/sanity.js').then(function(sanityModule) {
             if (sanityModule && sanityModule.client) {
               sanityModule.client.fetch(QUERY, { slug }).then(function(cmsDoc) {
