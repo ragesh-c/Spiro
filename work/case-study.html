@@ -889,15 +889,16 @@
             inList = false;
           }
           var isReel = block.isReel || block.url.toLowerCase().includes('reel');
-          var wrapStyle = isReel 
+          var wrapStyle = isReel
             ? 'margin:40px auto;max-width:300px;width:100%;'
             : 'margin:48px auto;max-width:800px;width:100%;';
           var videoStyle = isReel
             ? 'width:100%;height:520px;max-height:75vh;border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,0.5);display:block;object-fit:cover;background:#0c0f11;'
             : 'width:100%;border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.4);display:block;background:#0c0f11;';
+          var posterUrl = block.poster || block.url.replace(/\.(mp4|mov|webm)$/i, '-poster.jpg');
 
           html += '<div class="cs-video-wrap align-center" style="' + wrapStyle + '">' +
-                    '<video controls preload="metadata" style="' + videoStyle + '">' +
+                    '<video controls preload="metadata" poster="' + posterUrl + '" style="' + videoStyle + '">' +
                       '<source src="' + block.url + '" type="video/mp4">' +
                       '<source src="' + block.url + '" type="video/quicktime">' +
                       'Your browser does not support HTML5 video.' +
@@ -1915,7 +1916,7 @@
         <header class="cs-hero-full">
           <div class="cs-hero-full__bg">
             ${isDirectVideo ? `
-              <video class="cs-hero-full__video" autoplay muted loop playsinline>
+              <video class="cs-hero-full__video" autoplay muted loop playsinline${doc.coverImage ? ` poster="${doc.coverImage}"` : ''}>
                 <source src="${doc.videoUrl}" type="video/mp4">
               </video>
             ` : `
