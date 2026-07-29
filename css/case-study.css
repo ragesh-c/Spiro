@@ -1074,6 +1074,10 @@ html, body {
   animation-play-state: paused;
 }
 
+.cs-ticker-gallery--no-pause:hover .cs-ticker-track {
+  animation-play-state: running;
+}
+
 @keyframes csTickerScroll {
   0% {
     transform: translateX(0);

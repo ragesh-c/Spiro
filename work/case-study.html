@@ -828,7 +828,8 @@
             inList = false;
           }
           if (block.isTicker || block.images.length >= 5) {
-            html += '<div class="cs-ticker-gallery">' +
+            var tickerClass = 'cs-ticker-gallery' + (block.noPauseOnHover ? ' cs-ticker-gallery--no-pause' : '');
+            html += '<div class="' + tickerClass + '">' +
                       '<div class="cs-ticker-track">';
             var allImages = block.images.concat(block.images);
             allImages.forEach(function(src, idx) {
@@ -2050,6 +2051,11 @@
         children: [{ _type: 'span', text: 'The first briefs were short product-unboxing films.' }]
       },
       {
+        _type: 'video',
+        url: '../assets/videos/assembly/henry_bonilla_V001.mov',
+        caption: 'Assembly Product-Unboxing Film'
+      },
+      {
         _type: 'block',
         style: 'normal',
         children: [{
@@ -2378,6 +2384,24 @@
           _type: 'span',
           text: 'We continue to nurture the partnership and are currently exploring the next stage of our work together.'
         }]
+      },
+      {
+        _type: 'carousel',
+        isTicker: true,
+        noPauseOnHover: true,
+        images: [
+          '../assets/img/web/Assembly/ticker/Ay_Cal_56-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/Ay_Cal_142-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04051-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04037-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04002-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC03896-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04411-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04421-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04506-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04517-Edit.jpg',
+          '../assets/img/web/Assembly/ticker/DSC04137-Edit.jpg'
+        ]
       }
     ];
 

@@ -739,6 +739,44 @@
       filter: brightness(1) contrast(1.08);
     }
 
+    /* Below this width the fanned/rotated card layout no longer fits its
+       container and pushes the page into horizontal scroll, so it swaps
+       to a static 2-column grid instead. */
+    @media (max-width: 991px) {
+      .spiro-difference__image {
+        height: auto;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .bts-card,
+      .bts-card--1,
+      .bts-card--2,
+      .bts-card--3,
+      .bts-card--4 {
+        position: static;
+        width: 100%;
+        transform: none;
+      }
+
+      .spiro-difference__image:hover .bts-card {
+        opacity: 1;
+      }
+
+      .spiro-difference__image .bts-card:hover {
+        transform: none !important;
+        z-index: 1 !important;
+      }
+    }
+
+    @media (max-width: 991px) and (hover: hover) {
+      .spiro-difference__image .bts-card:hover {
+        transform: translateY(-6px) !important;
+      }
+    }
+
     @media (max-width: 767px) {
       .spiro-difference {
         padding: 80px 0;
@@ -751,11 +789,7 @@
       .spiro-difference__copy {
         font-size: 22px;
       }
-      .spiro-difference__image {
-        min-height: 200px;
-      }
     }
-
 
     /* ── Behind the Scenes (BTS) Bento Grid Section ────────────────── */
     .bts-grid-section {
